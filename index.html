@@ -85,13 +85,6 @@
     .hero {
       opacity: 1 !important;
       visibility: visible !important;
-      min-height: 100vh;
-      display: flex !important;
-    }
-    
-    .hero__content {
-      opacity: 1 !important;
-      visibility: visible !important;
       display: block !important;
     }
     
@@ -247,38 +240,40 @@
   <main id="content" tabindex="-1">
   <!-- Hero Section -->
   <section class="hero" id="home">
-    <div class="hero__background">
-      <div class="hero__grid"></div>
-      <div class="hero__particles"></div>
-    </div>
-    
-    <div class="hero__content">
-      <div class="hero__avatar">
-        <img src="images/Nicolo.jpeg" alt="Nicolo DiFerdinando" class="hero__avatar-image" width="200" height="200" decoding="async" fetchpriority="high">
-      </div>
-      
-      <h1 class="hero__title">
-        Hi, I'm <span class="hero__title-gradient">Nicolo</span>
-      </h1>
-      
-      <p class="hero__subtitle">
-        welcome to a snapshot of my life
-      </p>
-      
-      <div class="hero__actions">
-        <a href="#about" class="btn btn--primary" data-magnetic>
-          <span>Explore My Work</span>
-          <i class="fas fa-arrow-down"></i>
+    <div class="container hero__split">
+      <div class="hero__main">
+        <p class="hero__eyebrow">SOFTWARE &middot; DATA &middot; SECURITY</p>
+        <a class="hero__status" href="#experience">
+          <img src="images/pc.webp" alt="PeopleConnect" class="hero__status-logo" width="18" height="18">
+          <span>Incoming @ PeopleConnect</span>
         </a>
-        <a href="#contact" class="btn btn--secondary" data-magnetic>
-          <span>Get In Touch</span>
-          <i class="fas fa-envelope"></i>
-        </a>
+        <h1 class="hero__title">Nicolo<br>DiFerdinando</h1>
+        <p class="hero__bio">
+          Industrial engineering grad building software, data pipelines, and security automation.
+          I make internal tools that take repetitive work off people's plates, design data systems,
+          and ship AI agents with Python and LangChain.
+        </p>
+        <div class="hero__actions">
+          <a href="#projects" class="btn btn--primary" data-magnetic><span>View work</span></a>
+          <a href="#contact" class="btn btn--secondary" data-magnetic><span>Get in touch</span></a>
+          <a href="/resume.pdf" class="btn btn--ghost" download="Nicolo_DiFerdinando_Resume.pdf"><span>Resume</span><i class="fas fa-arrow-down"></i></a>
+        </div>
       </div>
+      <aside class="hero__aside">
+        <div class="hero__photo">
+          <img src="images/Nicolo.jpeg" alt="Nicolo DiFerdinando" width="420" height="520" decoding="async" fetchpriority="high">
+        </div>
+        <dl class="hero__chip">
+          <div><dt>LOC</dt><dd>San Diego, CA</dd></div>
+          <div><dt>FOCUS</dt><dd>AI &middot; Data &middot; Security</dd></div>
+        </dl>
+      </aside>
     </div>
-    
-    <div class="hero__scroll">
-      <i class="fas fa-chevron-down hero__scroll-icon"></i>
+    <div class="container focus-tiles">
+      <a class="focus-tile" href="#projects"><i class="fas fa-robot"></i><span>AI &amp; Agents</span></a>
+      <a class="focus-tile" href="#experience"><i class="fas fa-database"></i><span>Data Engineering</span></a>
+      <a class="focus-tile" href="#experience"><i class="fas fa-shield-halved"></i><span>Security Automation</span></a>
+      <a class="focus-tile" href="#projects"><i class="fas fa-server"></i><span>Infrastructure</span></a>
     </div>
   </section>
   
