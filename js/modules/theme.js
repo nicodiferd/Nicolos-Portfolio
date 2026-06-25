@@ -8,7 +8,7 @@ export class ThemeManager {
     this.themeSelectors = document.querySelectorAll('[data-theme-selector]');
     this.root = document.documentElement;
     this.storageKey = 'preferredTheme';
-    this.defaultTheme = 'system';
+    this.defaultTheme = 'light';
     
     this.themes = {
       system: { name: 'System', class: '' },

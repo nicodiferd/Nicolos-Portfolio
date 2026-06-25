@@ -31,11 +31,16 @@ This repo has no test runner and is a static site, so each task ends with a veri
    if grep -rn "$em" index.html bandit.html homelab.html flora.html zedi.html styles js 2>/dev/null; then echo "FAIL: em-dash found"; else echo "PASS: no em-dashes"; fi
 
    # Guard B: every local image/href referenced in HTML exists on disk
+   # (strips ?cache-buster and #fragment, resolves web-root / to repo-relative, skips resume.pdf which is served via _redirects)
    for f in index.html bandit.html homelab.html flora.html zedi.html; do
      [ -f "$f" ] || continue
      grep -Eoh '(src|href)="[^"]+"' "$f" | sed -E 's/.*="//; s/"//' \
-       | grep -Ev '^(https?:|mailto:|tel:|#|data:|/resume.pdf)' \
-       | while read -r p; do p="${p%%#*}"; [ -z "$p" ] && continue; [ -f "$p" ] || echo "MISSING in $f: $p"; done
+       | grep -Ev '^(https?:|mailto:|tel:|#|data:)' \
+       | while read -r p; do
+           p="${p%%#*}"; p="${p%%\?*}"; [ -z "$p" ] && continue
+           p="${p#/}"; [ "$p" = "resume.pdf" ] && continue
+           [ -f "$p" ] || echo "MISSING in $f: $p"
+         done
    done
    echo "asset check done"
    ```
