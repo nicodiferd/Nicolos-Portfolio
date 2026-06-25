@@ -277,65 +277,106 @@
     </div>
   </section>
   
-  <!-- About Section -->
-  <section class="about section" id="about" data-section-divider>
+  <!-- Profile Section -->
+  <section class="ds-section ds-section--alt" id="profile">
     <div class="container">
-      <div class="about__container">
-        <div class="about__content">
-          <h2 class="gradient-text">About Me</h2>
-          <p>
-            I'm Nicolo, 23, from Newport Beach, California. I'm studying Industrial Engineering at Cal Poly San Luis Obispo. During my time here at Cal Poly I've co-founded a startup (Bandit), Was president and risk manager for Kappa Sigma Fraternity (2nd Year), Co-President of the Cal Poly Club Baseball Team (5th Year), completed 3 internships, and still found time to build things that I truly enjoy doing.
-          </p>
-          <p>
-            I'm currently finishing up my 5th year at Cal Poly and planning to move to San Diego after I graduate in June 2026. The homelab journey will continue in my new location-> <a href="homelab.html">homelab page</a>.
-          </p>
-          <p>
-            I like building things: automation for repetitive tasks, personal tools and iOS apps, infrastructure, knowledge bases, startups, always exploring new things and staying ahead of the curve. Industrial Engineering major by degree, problem solver by default.
-          </p>
+      <p class="ds-section__num">01 / PROFILE</p>
+      <div class="ds-section__lead">
+        <h2 class="ds-statement">I build the boring stuff so people do not have to: internal tools, data pipelines, and agents that quietly handle the repetitive work.</h2>
+        <p class="ds-body">
+          Industrial engineering graduate with experience across software engineering, data engineering, and
+          cybersecurity automation. Focused on building internal tools that streamline workflows, designing data
+          pipelines and database systems, automating reporting, and building agents with LangChain and Python.
+        </p>
+        <div class="chips">
+          <span class="chip">Internal Tooling</span>
+          <span class="chip">Data Engineering</span>
+          <span class="chip">Security Automation</span>
+          <span class="chip">AI Agents</span>
         </div>
+      </div>
+    </div>
+  </section>
 
-          <div class="about__skills">
-            <div class="about__skill">
-              <i class="fas fa-robot about__skill-icon"></i>
-              <span>AI Agents</span>
-            </div>
-            <div class="about__skill">
-              <i class="fas fa-shield-alt about__skill-icon"></i>
-              <span>Cybersecurity</span>
-            </div>
-            <div class="about__skill">
-              <i class="fas fa-mobile-alt about__skill-icon"></i>
-              <span>iOS / Full Stack</span>
-            </div>
-            <div class="about__skill">
-              <i class="fas fa-server about__skill-icon"></i>
-              <span>Infrastructure / DevOps</span>
-            </div>
-            <div class="about__skill">
-              <i class="fas fa-chart-bar about__skill-icon"></i>
-              <span>Data Analytics</span>
-            </div>
-            <div class="about__skill">
-              <i class="fas fa-rocket about__skill-icon"></i>
-              <span>Startups</span>
-            </div>
+  <!-- Experience Section -->
+  <section class="ds-section" id="experience">
+    <div class="container">
+      <p class="ds-section__num">02 / EXPERIENCE</p>
+      <div class="ds-rows">
+
+        <article class="ds-row">
+          <div class="ds-row__meta">
+            <span class="ds-row__date">AUG 2026 &ndash; PRESENT</span>
+            <span class="chip chip--accent">Incoming</span>
           </div>
-        </div>
-        
-        <div class="about__stats" data-aos="fade-left">
-          <div class="stat">
-            <div class="stat__number" data-counter="6" data-suffix="+">0+</div>
-            <div class="stat__label">Projects</div>
+          <div class="ds-row__body">
+            <h3 class="ds-row__title">AI-Driven Solutions Analyst</h3>
+            <p class="ds-row__org">PeopleConnect</p>
+            <ul class="ds-row__points">
+              <li>Build and deploy LLM-powered tools and Python scripts (OpenAI, Claude, Zapier, Airflow) to automate high-impact workflows across Growth and Operations.</li>
+              <li>Partner with Marketing and Finance on forecasting and campaign optimization using ML and prompt-engineered systems across Snowflake, dbt, and Sigma.</li>
+              <li>Translate business problems into AI-driven solutions and run structured experiments measuring time saved, revenue lift, and cost efficiency.</li>
+            </ul>
           </div>
-          <div class="stat">
-            <div class="stat__number" data-counter="8" data-suffix="+">0+</div>
-            <div class="stat__label">Achievements</div>
+        </article>
+
+        <article class="ds-row">
+          <div class="ds-row__meta">
+            <span class="ds-row__date">OCT 2025 &ndash; JUN 2026</span>
           </div>
-          <div class="stat">
-            <div class="stat__number" data-counter="23">0</div>
-            <div class="stat__label">Years Old</div>
+          <div class="ds-row__body">
+            <h3 class="ds-row__title">Business Intelligence Intern</h3>
+            <p class="ds-row__org">PeopleConnect</p>
+            <ul class="ds-row__points">
+              <li>Built interactive dashboards in Sigma, Tableau, and Snowflake serving 50+ stakeholders across Growth, Operations, and Finance.</li>
+              <li>Developed and monitored dbt data pipelines with CI/CD, and built a semantic layer service exposing governed metrics through MCP connectors (Claude, ChatGPT, Slack).</li>
+              <li>Helped migrate enterprise reporting from Tableau to Sigma, cutting delivery overhead.</li>
+            </ul>
           </div>
-        </div>
+        </article>
+
+        <article class="ds-row">
+          <div class="ds-row__meta">
+            <span class="ds-row__date">JUN 2025 &ndash; SEP 2025</span>
+          </div>
+          <div class="ds-row__body">
+            <h3 class="ds-row__title">Cybersecurity &amp; IT Intern</h3>
+            <p class="ds-row__org">PeopleConnect</p>
+            <ul class="ds-row__points">
+              <li>Built bash automation for audit reporting and completed a SOC 2 audit in 4 weeks against a projected 10.</li>
+              <li>Deployed vulnerability scanning across 200+ endpoints and wrote reusable scripts to reduce risk surface.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="ds-row">
+          <div class="ds-row__meta">
+            <span class="ds-row__date">APR 2024 &ndash; JUN 2025</span>
+          </div>
+          <div class="ds-row__body">
+            <h3 class="ds-row__title">Assistant Student SOC Analyst</h3>
+            <p class="ds-row__org">Cal Poly ITS</p>
+            <ul class="ds-row__points">
+              <li>Built a Python Slack app automating SOC workflows by integrating Splunk SOAR playbooks with Slack Bolt REST APIs for real-time incident response.</li>
+              <li>Analyzed and responded to 50+ weekly security incidents (suspicious logins, phishing, anomalous traffic) in Splunk Enterprise, collaborating with IT on remediation.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="ds-row">
+          <div class="ds-row__meta">
+            <span class="ds-row__date">SUMMER 2022</span>
+          </div>
+          <div class="ds-row__body">
+            <h3 class="ds-row__title">CyberSecurity Intern</h3>
+            <p class="ds-row__org">loanDepot</p>
+            <ul class="ds-row__points">
+              <li>Designed and deployed phishing simulation campaigns to train employees on social engineering threats.</li>
+              <li>Gained hands-on exposure to incident response, compliance auditing, and security architecture.</li>
+            </ul>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>

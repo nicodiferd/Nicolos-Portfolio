@@ -3,15 +3,16 @@
    =================================== */
 
 /* Base Styles */
-@import 'base/variables.css?v=light-audit-6';
-@import 'base/base.css?v=light-audit-6';
+@import 'base/variables.css?v=redesign-1';
+@import 'base/base.css?v=redesign-1';
 
 /* Components */
-@import 'components/navigation.css?v=light-audit-6';
-@import 'components/hero.css?v=light-audit-6';
-@import 'components/card.css?v=light-audit-6';
-@import 'components/effects.css?v=light-audit-6';
-@import 'components/notifications.css?v=light-audit-6';
+@import 'components/navigation.css?v=redesign-1';
+@import 'components/hero.css?v=redesign-1';
+@import 'components/card.css?v=redesign-1';
+@import 'components/effects.css?v=redesign-1';
+@import 'components/notifications.css?v=redesign-1';
+@import 'components/sections.css?v=redesign-1';
 
 /* Page Specific Styles */
 .about {
