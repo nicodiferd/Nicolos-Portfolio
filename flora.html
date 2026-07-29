@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Flora: senior capstone with Bloomfilter improving HCI for AI-agent integration in project-management tools. Best in Lab winner at Cal Poly.">
+  <title>Flora | Nicolo DiFerdinando</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Early theme to prevent flash -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('preferredTheme') || 'light';
+        var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        var system = isLight ? 'light' : 'dark';
+        var theme = saved === 'system' ? system : saved;
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        } else {
+          document.documentElement.classList.remove('light');
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles/main.css?v=redesign-1">
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <!-- Top bar -->
+  <header class="detail-top">
+    <div class="container detail-top__bar">
+      <a class="detail-back" href="index.html#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
+      <select class="theme-selector" data-theme-selector aria-label="Theme selector">
+        <option value="system">System</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+  </header>
+
+  <main id="content" tabindex="-1">
+  <section class="detail">
+    <div class="container">
+      <p class="ds-section__num">PROJECT / FLORA</p>
+      <h1 class="detail__title">Flora</h1>
+      <p class="detail__lead">
+        Year-long senior capstone with Bloomfilter, improving HCI for AI-agent integration
+        inside project-management tools. Winner of Best in Lab at Cal Poly.
+      </p>
+      <div class="chips">
+        <span class="chip chip--accent">Best in Lab</span>
+        <span class="chip">HCI</span>
+        <span class="chip">AI Agents</span>
+        <span class="chip">Research</span>
+        <span class="chip">Enterprise</span>
+      </div>
+
+      <!-- TODO: replace PLACEHOLDER-flora.png with a real project image -->
+      <figure class="detail__hero">
+        <img src="images/PLACEHOLDER-flora.png" alt="Flora, senior capstone with Bloomfilter" width="1336" height="835">
+      </figure>
+
+      <!-- FLORA: refine copy (NDA-adjacent, kept high level) -->
+      <div class="detail__body">
+        <h2>Overview</h2>
+        <p>
+          Flora was my senior capstone at Cal Poly, a year-long project with
+          <a href="https://www.bloomfilter.ai" target="_blank" rel="noopener noreferrer">Bloomfilter</a>,
+          mentored by Dr. Awwad. The brief: as AI agents move into enterprise project-management
+          software, the interface layer between humans and those agents is where adoption succeeds or fails.
+          We spent the year researching and designing that layer.
+        </p>
+
+        <h2>The problem</h2>
+        <p>
+          AI tooling is moving faster than the interfaces people use it through. Project managers do not want
+          another dashboard; they want assistance inside the tools they already live in, with enough
+          transparency to trust what the agent is doing. Most of the work was figuring out where assistance
+          helps, where it gets ignored, and where it actively erodes trust.
+        </p>
+
+        <h2>What I worked on</h2>
+        <ul>
+          <li>User research with project managers on how they actually adopt (or quietly abandon) AI features.</li>
+          <li>HCI design for agent interactions inside existing PM software, focused on trust and transparency.</li>
+          <li>Prototyping and iterating on a project-manager assistant that lives inside the PM tool rather than beside it.</li>
+        </ul>
+
+        <h2>Outcome</h2>
+        <p>
+          Our team capped the year by winning Best in Lab at the senior project expo. Much of the detail
+          is under NDA, so this page stays high level. More to share when I can.
+        </p>
+      </div>
+
+      <nav class="detail__nav">
+        <a href="index.html#projects"><i class="fas fa-arrow-left"></i> All projects</a>
+        <a href="homelab.html">Next: HomeLab <i class="fas fa-arrow-right"></i></a>
+      </nav>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__container">
+      <p class="footer__text">NICOLO DIFERDINANDO / CAL POLY SLO '26 &middot; SAN DIEGO, CA</p>
+      <div class="footer__socials">
+        <a href="https://github.com/nicodiferd" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/nicolo-diferdinando/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:nicodiferd@gmail.com" class="footer__social" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js?v=redesign-1"></script>
+</body>
+</html>
