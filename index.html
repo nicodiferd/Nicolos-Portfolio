@@ -247,9 +247,9 @@
   <!-- Profile Section -->
   <section class="ds-section ds-section--alt" id="profile">
     <div class="container">
-      <p class="ds-section__num">01 / PROFILE</p>
+      <h2 class="ds-section__num">01 / PROFILE</h2>
       <div class="ds-section__lead">
-        <h2 class="ds-statement">I build the boring stuff so people do not have to: internal tools, data pipelines, and agents that quietly handle the repetitive work.</h2>
+        <p class="ds-statement">I build the boring stuff so people do not have to: internal tools, data pipelines, and agents that quietly handle the repetitive work.</p>
         <p class="ds-body">
           Industrial engineering graduate with experience across software engineering, data engineering, and
           cybersecurity automation. Focused on building internal tools that streamline workflows, designing data
@@ -268,7 +268,7 @@
   <!-- Experience Section -->
   <section class="ds-section" id="experience">
     <div class="container">
-      <p class="ds-section__num">02 / EXPERIENCE</p>
+      <h2 class="ds-section__num">02 / EXPERIENCE</h2>
       <div class="ds-rows">
 
         <article class="ds-row">
@@ -351,7 +351,7 @@
   <!-- Projects Section -->
   <section class="ds-section ds-section--alt" id="projects">
     <div class="container">
-      <p class="ds-section__num">03 / PROJECTS</p>
+      <h2 class="ds-section__num">03 / PROJECTS</h2>
       <div class="proj-grid">
 
         <!-- Flora (TODO: replace PLACEHOLDER-flora.png with real image) -->
@@ -469,7 +469,7 @@
   <!-- Stack Section -->
   <section class="ds-section" id="stack">
     <div class="container">
-      <p class="ds-section__num">04 / STACK</p>
+      <h2 class="ds-section__num">04 / STACK</h2>
       <div class="stack">
         <div class="stack-row"><p class="stack-row__label">LANGUAGES</p><p class="stack-row__val">Python, SQL, Rust, TypeScript, JavaScript, Swift / SwiftUI, Bash, YAML, HTML / CSS</p></div>
         <div class="stack-row"><p class="stack-row__label">AI &amp; DATA</p><p class="stack-row__val">LangChain, PyTorch, OpenAI, Claude, MCP, Snowflake, dbt, Tableau, Sigma, ClickHouse, Grafana</p></div>
@@ -484,7 +484,7 @@
   <!-- Leadership Section -->
   <section class="ds-section ds-section--alt" id="leadership">
     <div class="container">
-      <p class="ds-section__num">05 / LEADERSHIP</p>
+      <h2 class="ds-section__num">05 / LEADERSHIP</h2>
       <div class="ds-rows">
         <!-- LEADERSHIP COPY: drafted from the graduation post, Nicolo to refine -->
         <article class="ds-row">
@@ -515,7 +515,7 @@
   <!-- Education Section -->
   <section class="ds-section" id="education">
     <div class="container">
-      <p class="ds-section__num">06 / EDUCATION</p>
+      <h2 class="ds-section__num">06 / EDUCATION</h2>
       <div class="ds-rows">
         <article class="ds-row">
           <div class="ds-row__meta"><span class="ds-row__date">SEP 2021 &ndash; JUN 2026</span><span class="chip chip--accent">Graduated</span></div>
@@ -535,10 +535,10 @@
   <!-- Contact Section -->
   <section class="ds-section section--ink" id="contact">
     <div class="container">
-      <p class="ds-section__num">07 / CONTACT</p>
+      <h2 class="ds-section__num">07 / CONTACT</h2>
       <div class="contact-grid">
         <div class="contact-grid__intro">
-          <h2 class="ds-statement">Have an idea, a project, or just want to talk shop?</h2>
+          <p class="ds-statement">Have an idea, a project, or just want to talk shop?</p>
           <p class="ds-body">I am always down to connect. Reach out and I will get back to you.</p>
           <div class="contact-actions">
             <a class="btn btn--primary" href="mailto:nicodiferd@gmail.com">nicodiferd@gmail.com</a>
@@ -547,9 +547,9 @@
           </div>
         </div>
         <form action="https://formspree.io/f/xovjlpne" method="POST" class="contact__form" data-ajax>
-          <div class="form__group"><input type="text" name="name" class="form__input" placeholder=" " autocomplete="name" required><label class="form__label">Your Name</label></div>
-          <div class="form__group"><input type="email" name="email" class="form__input" placeholder=" " autocomplete="email" required><label class="form__label">Your Email</label></div>
-          <div class="form__group"><textarea name="message" rows="5" class="form__textarea" placeholder=" " required></textarea><label class="form__label">Your Message</label></div>
+          <div class="form__group"><input type="text" name="name" id="contact-name" class="form__input" placeholder=" " autocomplete="name" required><label class="form__label" for="contact-name">Your Name</label></div>
+          <div class="form__group"><input type="email" name="email" id="contact-email" class="form__input" placeholder=" " autocomplete="email" required><label class="form__label" for="contact-email">Your Email</label></div>
+          <div class="form__group"><textarea name="message" id="contact-message" rows="5" class="form__textarea" placeholder=" " required></textarea><label class="form__label" for="contact-message">Your Message</label></div>
           <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn--primary form__submit">Send Message</button>
         </form>

@@ -86,6 +86,8 @@
 .detail__hero img {
   width: 100%;
   height: auto;
+  max-height: 70vh;
+  object-fit: cover;
   display: block;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);

@@ -14,6 +14,7 @@
 
 .ds-section__num {
   font-family: var(--font-mono);
+  font-weight: var(--font-normal);
   font-size: var(--text-sm);
   letter-spacing: 0.12em;
   color: var(--color-primary);
