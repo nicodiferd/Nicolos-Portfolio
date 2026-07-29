@@ -110,7 +110,7 @@ class App {
   
   setupPageTransitions() {
     // Smooth fade between pages
-    const links = document.querySelectorAll('a:not([href^="#"]):not([href^="http"]):not([target="_blank"])');
+    const links = document.querySelectorAll('a:not([href^="#"]):not([href^="http"]):not([target="_blank"]):not([download])');
     
     links.forEach(link => {
       link.addEventListener('click', (e) => {

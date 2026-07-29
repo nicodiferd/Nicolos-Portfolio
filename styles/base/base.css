@@ -187,17 +187,18 @@ pre {
 .skip-link {
   position: absolute;
   left: 8px;
-  top: -40px;
+  top: 8px;
+  transform: translateY(-250%);
   background: var(--color-primary);
   color: white;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
   z-index: var(--z-fixed);
-  transition: top var(--transition-fast);
+  transition: transform var(--transition-fast);
 }
 
 .skip-link:focus {
-  top: 8px;
+  transform: translateY(0);
 }
 
 /* Animations */
