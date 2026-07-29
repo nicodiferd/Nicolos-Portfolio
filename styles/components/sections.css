@@ -192,6 +192,34 @@
   color: var(--color-text-primary);
 }
 
+/* Contact layout (inside .section--ink) */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.section--ink .contact__form {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+}
+
 /* Responsive */
 @media (max-width: 760px) {
   .ds-section {

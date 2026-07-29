@@ -222,7 +222,10 @@
 }
 
 .footer__text {
-  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
   margin-bottom: var(--space-4);
   margin-left: auto;
   margin-right: auto;
