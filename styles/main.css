@@ -13,6 +13,7 @@
 @import 'components/effects.css?v=redesign-1';
 @import 'components/notifications.css?v=redesign-1';
 @import 'components/sections.css?v=redesign-1';
+@import 'components/detail.css?v=redesign-1';
 
 /* Page Specific Styles */
 .about {

@@ -13,7 +13,7 @@
   <script>
     (function() {
       try {
-        var saved = localStorage.getItem('preferredTheme') || 'system';
+        var saved = localStorage.getItem('preferredTheme') || 'light';
         var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
         var system = isLight ? 'light' : 'dark';
         var theme = saved === 'system' ? system : saved;
@@ -30,76 +30,16 @@
   </script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=light-audit-6">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-1">
 
   <style>
     /* HomeLab page specific styles */
-    .lab-hero {
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%);
-      overflow: hidden;
-      padding: var(--space-8) 0;
-    }
-
-    .lab-hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 30% 40%, #1a3a5e 0%, transparent 50%),
-                  radial-gradient(circle at 70% 70%, #2a6496 0%, transparent 50%);
-      opacity: 0.15;
-    }
-
-    .lab-hero__content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-    }
-
-    .lab-hero__icon {
-      font-size: 5rem;
-      color: #4a9eda;
-      margin-bottom: var(--space-6);
-      animation: float 6s ease-in-out infinite;
-      filter: drop-shadow(0 4px 20px rgba(74, 158, 218, 0.3));
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .lab-hero__title {
-      font-size: var(--text-5xl);
-      font-weight: var(--font-extrabold);
-      margin-bottom: var(--space-4);
-      background: linear-gradient(135deg, #ffffff 0%, #4a9eda 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .lab-hero__subtitle {
-      font-size: var(--text-xl);
-      color: var(--color-text-secondary);
-      max-width: 650px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
     .lab-section {
       padding: var(--space-20) 0;
     }
@@ -109,6 +49,8 @@
     }
 
     .lab-section__title {
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: var(--text-3xl);
       margin-bottom: var(--space-8);
     }
@@ -142,7 +84,7 @@
       left: 0;
       width: 100%;
       height: 3px;
-      background: linear-gradient(90deg, #1a3a5e, #4a9eda);
+      background: var(--color-primary);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform var(--transition-base);
@@ -151,7 +93,7 @@
     .lab-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
-      border-color: #4a9eda;
+      border-color: var(--color-primary);
     }
 
     .lab-card:hover::before {
@@ -230,7 +172,7 @@
     .lab-card__icon {
       font-size: 1.5rem;
       margin-bottom: var(--space-3);
-      color: #4a9eda;
+      color: var(--color-primary);
     }
 
     .hardware-specs {
@@ -297,18 +239,18 @@
     }
 
     .tech-cloud__tag {
-      background: rgba(74, 158, 218, 0.1);
-      color: #6cb4e6;
+      background: rgba(181, 39, 29, 0.06);
+      color: var(--color-primary);
       padding: var(--space-1) var(--space-3);
       border-radius: var(--radius-full);
       font-size: var(--text-sm);
-      border: 1px solid rgba(74, 158, 218, 0.25);
+      border: 1px solid rgba(181, 39, 29, 0.25);
       transition: all var(--transition-fast);
     }
 
     .tech-cloud__tag:hover {
-      background: rgba(74, 158, 218, 0.2);
-      border-color: #4a9eda;
+      background: rgba(181, 39, 29, 0.12);
+      border-color: var(--color-primary);
     }
 
     .ai-section {
@@ -320,7 +262,7 @@
     }
 
     .ai-section h3 {
-      color: #4a9eda;
+      color: var(--color-primary);
       margin-bottom: var(--space-4);
       font-size: var(--text-xl);
     }
@@ -347,7 +289,7 @@
     }
 
     .ai-feature i {
-      color: #4a9eda;
+      color: var(--color-primary);
       font-size: var(--text-lg);
     }
 
@@ -370,7 +312,7 @@
       top: 0;
       bottom: 0;
       width: 2px;
-      background: #4a9eda;
+      background: var(--color-primary);
       opacity: 0.35;
     }
 
@@ -392,13 +334,14 @@
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background: #4a9eda;
+      background: var(--color-primary);
       box-shadow: 0 0 0 4px var(--color-background);
     }
 
     .lab-timeline__era {
+      font-family: var(--font-mono);
       font-size: var(--text-sm);
-      color: #4a9eda;
+      color: var(--color-primary);
       font-weight: var(--font-semibold);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -516,18 +459,6 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      .lab-hero {
-        min-height: 60vh;
-      }
-
-      .lab-hero__title {
-        font-size: var(--text-3xl);
-      }
-
-      .lab-hero__icon {
-        font-size: 3.5rem;
-      }
-
       .services-grid {
         grid-template-columns: 1fr;
       }
@@ -608,61 +539,6 @@
     }
 
     /* ===== Light-mode adjustments ===== */
-    /* Title gradient starts at white -> blue, which is invisible on a white
-       page. Swap the start color for a dark tone so the heading reads. */
-    [data-theme="light"] .lab-hero__title {
-      background: linear-gradient(135deg, #0b2236 0%, #1a6fb0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Light radial wash needs more presence on a white background */
-    [data-theme="light"] .lab-hero::before {
-      opacity: 0.08;
-    }
-
-    /* Tech-cloud tags use a pale blue on a pale blue wash - washed out in
-       light mode. Switch text to a darker blue for contrast. */
-    [data-theme="light"] .tech-cloud__tag {
-      background: rgba(26, 111, 176, 0.08);
-      color: #1a4d7a;
-      border-color: rgba(26, 111, 176, 0.3);
-    }
-
-    [data-theme="light"] .tech-cloud__tag:hover {
-      background: rgba(26, 111, 176, 0.16);
-      border-color: #1a6fb0;
-    }
-
-    /* AI-section accent heading too pale on white */
-    [data-theme="light"] .ai-section h3,
-    [data-theme="light"] .lab-card__icon,
-    [data-theme="light"] .lab-hero__icon,
-    [data-theme="light"] .lab-timeline__era {
-      color: #1a4d7a;
-    }
-
-    /* Timeline rail / dots - soft blue is hard to see on white */
-    [data-theme="light"] .lab-timeline::before {
-      background: #1a6fb0;
-      opacity: 0.25;
-    }
-
-    [data-theme="light"] .lab-timeline__item::before {
-      background: #1a6fb0;
-    }
-
-    /* Lab-card hover border + bar use a light blue too. Use a darker tone. */
-    [data-theme="light"] .lab-card:hover {
-      border-color: #1a6fb0;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    }
-
-    [data-theme="light"] .lab-card::before {
-      background: linear-gradient(90deg, #0b2236, #1a6fb0);
-    }
-
     /* Status badge colors stay on-brand in both themes; planned (yellow) needs
        a darker text in light mode to clear AA contrast on a pale yellow wash. */
     [data-theme="light"] .status-badge--planned {
@@ -685,116 +561,52 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navigation" id="navigation">
-    <div class="container navigation__container">
-      <a href="index.html" class="navigation__brand">ND</a>
+  <a href="#content" class="skip-link">Skip to content</a>
 
-      <!-- Desktop Menu -->
-      <ul class="navigation__menu">
-        <li class="navigation__item">
-          <a href="index.html#about" class="navigation__link">About</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#projects" class="navigation__link">Projects</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#resume" class="navigation__link">Resume</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#certifications" class="navigation__link">Certifications</a>
-        </li>
-        <li class="navigation__item">
-          <a href="bandit.html" class="navigation__link">Bandit</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#contact" class="navigation__link">Contact</a>
-        </li>
-        <li class="navigation__item">
-          <select class="theme-selector" data-theme-selector aria-label="Theme selector">
-            <option value="system">System</option>
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-          </select>
-        </li>
-      </ul>
-
-      <!-- Mobile Menu Toggle -->
-      <button class="navigation__toggle" aria-label="Toggle menu" aria-controls="mobileMenu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+  <!-- Top bar -->
+  <header class="detail-top">
+    <div class="container detail-top__bar">
+      <a class="detail-back" href="index.html#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
+      <select class="theme-selector" data-theme-selector aria-label="Theme selector">
+        <option value="system">System</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
     </div>
-  </nav>
+  </header>
 
-  <!-- Mobile Menu -->
-  <div class="navigation__mobile" id="mobileMenu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
-    <div class="navigation__mobile-header">
-      <span class="navigation__brand">ND</span>
-      <button class="navigation__toggle" aria-label="Close menu" aria-controls="mobileMenu" aria-expanded="false">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="navigation__mobile-menu">
-      <li class="navigation__mobile-item">
-        <a href="index.html#about" class="navigation__mobile-link">About</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#projects" class="navigation__mobile-link">Projects</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#resume" class="navigation__mobile-link">Resume</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#certifications" class="navigation__mobile-link">Certifications</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="bandit.html" class="navigation__mobile-link">Bandit</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#contact" class="navigation__mobile-link">Contact</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <select class="theme-selector" data-theme-selector aria-label="Theme selector">
-          <option value="system">System</option>
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-        </select>
-      </li>
-    </ul>
-  </div>
-  <div class="navigation__overlay"></div>
-
-  <main>
-  <!-- Hero Section -->
-  <section class="lab-hero">
+  <main id="content" tabindex="-1">
+  <!-- Header -->
+  <section class="detail detail--header">
     <div class="container">
-      <div class="lab-hero__content" data-aos="zoom-in">
-        <div class="lab-hero__icon">
-          <i class="fas fa-server"></i>
-        </div>
-        <h1 class="lab-hero__title">A Year and a Half of Proxmox</h1>
-        <p class="lab-hero__subtitle">
-          What started as a single Tailscale container grew into a 12+ service environment spanning
-          personal services, home networking, observability, and a production deployment target for my own software.
-        </p>
-      </div>
+      <p class="ds-section__num">PROJECT / HOMELAB</p>
+      <h1 class="detail__title">A Year and a Half of Proxmox</h1>
+      <p class="detail__lead">
+        What started as a single Tailscale container grew into a 12+ service environment spanning
+        personal services, home networking, observability, and a production deployment target for my own software.
+      </p>
+      <div class="chips"><span class="chip">Proxmox</span><span class="chip">pfSense</span><span class="chip">ClickHouse</span><span class="chip">Cloudflare</span></div>
+      <p class="detail__status"><i class="fas fa-plug-circle-xmark"></i> Offline &middot; moving to San Diego</p>
+      <figure class="detail__hero"><img src="images/homelab-offline.png" alt="Terminal readout: homelab racked down for the move, next boot San Diego" width="1336" height="835"></figure>
     </div>
   </section>
 
   <!-- Intro Section -->
   <section class="lab-section lab-section--alt">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">The Short Version</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">The Short Version</h2>
       <p class="lab-section__text" data-aos="fade-up">
         I've been running a Proxmox homelab for about a year and a half. It didn't start as a "homelab."
         It started as one container doing one useful thing. Every era since has been driven by a concrete
         problem I wanted to solve, or a piece of infrastructure I wanted to stop misunderstanding.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        The lab now serves me, my roommate, and my baseball team. It has a real observability stack,
+        The lab grew to serve me, my roommate, and my baseball team. It has a real observability stack,
         real network segmentation, and real rollback plans. This is the history of how it got there.
+      </p>
+      <p class="lab-section__text" data-aos="fade-up">
+        As of July 2026 the rack is unplugged and packed for the move to San Diego.
+        Everything below describes the fleet as last booted. Next boot happens in the new place.
       </p>
     </div>
   </section>
@@ -802,7 +614,7 @@
   <!-- Timeline Section -->
   <section class="lab-section">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Timeline</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Timeline</h2>
 
       <div class="lab-timeline" data-aos="fade-up">
         <div class="lab-timeline__item">
@@ -869,6 +681,16 @@
             the lab self-reporting.
           </p>
         </div>
+
+        <div class="lab-timeline__item">
+          <div class="lab-timeline__era">July 2026 &middot; The Move South</div>
+          <div class="lab-timeline__title">Racked Down for San Diego</div>
+          <p class="lab-timeline__text">
+            Graduated, packed the rack, and started the move from Felton to San Diego for the new job.
+            The lab is offline until the new place has power and internet. First boot in San Diego comes
+            with a fresh network cutover and a chance to fix the cable management sins of the last two eras.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -876,7 +698,7 @@
   <!-- Today Section -->
   <section class="lab-section lab-section--alt">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">What the Lab Looks Like Today</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">The Lab, Pre-Move Snapshot</h2>
 
       <div class="hardware-specs" data-aos="fade-up">
         <div class="spec-item">
@@ -929,9 +751,10 @@
   <!-- Services Section -->
   <section class="lab-section">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Services</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Services</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        The 12+ containers and VMs that make up the current fleet.
+        The 12+ containers and VMs that make up the fleet, offline for the move and coming back
+        online in San Diego.
       </p>
 
       <div class="services-grid" style="margin-top: var(--space-8);" data-aos="fade-up">
@@ -939,7 +762,7 @@
           <div class="lab-card__icon"><i class="fas fa-fire"></i></div>
           <div class="lab-card__header">
             <h3>pfSense</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Edge router + firewall running as a VM. VLANs for LAN, IoT, Servers, and Guest. Replaced the consumer R9000 in April 2026.</p>
         </div>
@@ -948,7 +771,7 @@
           <div class="lab-card__icon"><i class="fas fa-database"></i></div>
           <div class="lab-card__header">
             <h3>ClickHouse</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Time-series warehouse (LTS 26.3) on a dedicated 200 GiB disk. Database <code>homelab</code> stores heartbeats, host metrics, and outage timeline data.</p>
         </div>
@@ -957,7 +780,7 @@
           <div class="lab-card__icon"><i class="fas fa-chart-area"></i></div>
           <div class="lab-card__header">
             <h3>Grafana</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>LXC with provisioned dashboards ("Host Overview" and "Outage Timeline") backed by the ClickHouse native-protocol datasource.</p>
         </div>
@@ -966,7 +789,7 @@
           <div class="lab-card__icon"><i class="fas fa-project-diagram"></i></div>
           <div class="lab-card__header">
             <h3>n8n</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Scheduled workflow runner. Hosts the daily Homelab report and the weekly fleet-wide apt-upgrade job.</p>
         </div>
@@ -975,7 +798,7 @@
           <div class="lab-card__icon"><i class="fas fa-chart-line"></i></div>
           <div class="lab-card__header">
             <h3>DevHost (Zedi)</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>VM 110 · production deployment target for Zedi. Rust + Axum + Postgres in Docker. My own software, running on my own infrastructure.</p>
         </div>
@@ -984,7 +807,7 @@
           <div class="lab-card__icon"><i class="fas fa-shield-alt"></i></div>
           <div class="lab-card__header">
             <h3>Pi-hole</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Network-wide DNS and ad-blocking. 14k+ queries/day, ~3% blocked.</p>
         </div>
@@ -993,7 +816,7 @@
           <div class="lab-card__icon"><i class="fas fa-eye"></i></div>
           <div class="lab-card__header">
             <h3>ntopng</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Flow-level network visibility. When something on the LAN is acting up, this is where I go first.</p>
         </div>
@@ -1002,7 +825,7 @@
           <div class="lab-card__icon"><i class="fas fa-network-wired"></i></div>
           <div class="lab-card__header">
             <h3>Tailscale</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Exit node + subnet router. Private mesh access to internal services from anywhere.</p>
         </div>
@@ -1011,7 +834,7 @@
           <div class="lab-card__icon"><i class="fas fa-images"></i></div>
           <div class="lab-card__header">
             <h3>Immich</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Self-hosted photo backup: baseball team library plus a dedicated 300 GiB volume for personal photos.</p>
         </div>
@@ -1020,7 +843,7 @@
           <div class="lab-card__icon"><i class="fas fa-home"></i></div>
           <div class="lab-card__header">
             <h3>Home Assistant Green</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Physical device for home automation. Not a VM, but a dedicated box living on the IoT VLAN.</p>
         </div>
@@ -1029,7 +852,7 @@
           <div class="lab-card__icon"><i class="fas fa-folder-open"></i></div>
           <div class="lab-card__header">
             <h3>Samba Video Share</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>LXC serving a macOS-friendly SMB share. Scratch volume for editing without filling up the MacBook.</p>
         </div>
@@ -1038,7 +861,7 @@
           <div class="lab-card__icon"><i class="fas fa-chart-bar"></i></div>
           <div class="lab-card__header">
             <h3>Traderbot</h3>
-            <span class="status-badge status-badge--active">Running</span>
+            <span class="status-badge status-badge--inactive">Offline</span>
           </div>
           <p>Windows 11 VM running my roommate's trading automations 24/7. The first "someone-else-depends-on-this" workload.</p>
         </div>
@@ -1049,7 +872,7 @@
   <!-- Observability Section -->
   <section class="lab-section lab-section--alt">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Observability</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Observability</h2>
       <p class="lab-section__text" data-aos="fade-up">
         The goal: stop guessing whether the lab is healthy. Three pieces work together: a time-series warehouse
         I control (ClickHouse), a dashboard layer (Grafana), and an external heartbeat that verifies the lab
@@ -1085,7 +908,7 @@
   <!-- Automation Section -->
   <section class="lab-section">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Automation</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Automation</h2>
       <p class="lab-section__text" data-aos="fade-up">
         Two n8n workflows do most of the day-to-day fleet ops. Both run from a dedicated n8n LXC with
         an ed25519 key authorized across every host.
@@ -1143,7 +966,7 @@ immich (expected), arbitrage-bot (expected)</div>
   <!-- Cloudflare Ingress Section -->
   <section class="lab-section lab-section--alt">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Cloudflare Ingress</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Cloudflare Ingress</h2>
       <p class="lab-section__text" data-aos="fade-up">
         Cloudflare Tunnel is the only way into the lab from the public internet. No port-forwarding on the router,
         no exposed WAN IP, no services listening on the open internet. Each tunnel is a narrow, encrypted connection
@@ -1168,7 +991,7 @@ immich (expected), arbitrage-bot (expected)</div>
   <!-- Why Section -->
   <section class="lab-section">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Why I Built It</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Why I Built It</h2>
       <p class="lab-section__text" data-aos="fade-up">
         Infrastructure-as-a-learning-tool. Reading about pfSense or ClickHouse is not the same as cutting your
         home network over to a new router at 11 PM and needing it back up before anyone notices. You remember
@@ -1184,7 +1007,7 @@ immich (expected), arbitrage-bot (expected)</div>
   <!-- Tech Stack Section -->
   <section class="lab-section lab-section--alt">
     <div class="container">
-      <h2 class="lab-section__title gradient-text" data-aos="fade-up">Tech Stack</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">Tech Stack</h2>
       <p class="lab-section__text" data-aos="fade-up">
         Everything currently load-bearing.
       </p>
@@ -1219,18 +1042,23 @@ immich (expected), arbitrage-bot (expected)</div>
       </div>
     </div>
   </section>
+
+  <!-- Prev / next -->
+  <section class="detail detail--footer">
+    <div class="container">
+      <nav class="detail__nav">
+        <a href="flora.html"><i class="fas fa-arrow-left"></i> Prev: Flora</a>
+        <a href="bandit.html">Next: Bandit <i class="fas fa-arrow-right"></i></a>
+      </nav>
+    </div>
+  </section>
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer__container">
-      <p class="footer__text">&copy; 2026 Nicolo DiFerdinando | Cal Poly San Luis Obispo</p>
+      <p class="footer__text">NICOLO DIFERDINANDO / CAL POLY SLO '26 &middot; SAN DIEGO, CA</p>
       <div class="footer__socials">
-        <a href="index.html"
-           class="footer__social"
-           aria-label="Portfolio">
-          <i class="fas fa-home"></i>
-        </a>
         <a href="https://github.com/nicodiferd"
            target="_blank"
            rel="noopener noreferrer"
@@ -1255,7 +1083,7 @@ immich (expected), arbitrage-bot (expected)</div>
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=refresh-2"></script>
+  <script type="module" src="js/app.js?v=redesign-1"></script>
 
   <!-- AOS implementation -->
   <script>

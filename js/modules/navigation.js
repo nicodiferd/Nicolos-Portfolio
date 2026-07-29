@@ -25,8 +25,9 @@ export class Navigation {
   }
   
   setupScrollEffect() {
+    if (!this.nav) return;
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
       const currentScroll = window.pageYOffset;
       

@@ -13,7 +13,7 @@
   <script>
     (function() {
       try {
-        var saved = localStorage.getItem('preferredTheme') || 'system';
+        var saved = localStorage.getItem('preferredTheme') || 'light';
         var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
         var system = isLight ? 'light' : 'dark';
         var theme = saved === 'system' ? system : saved;
@@ -30,73 +30,16 @@
   </script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=light-audit-6">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-1">
 
   <style>
     /* Bandit page specific styles */
-    .bandit-hero {
-      min-height: 60vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%);
-      overflow: hidden;
-      padding: var(--space-8) 0;
-    }
-
-    .bandit-hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 20% 50%, var(--color-primary) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, var(--color-primary-dark) 0%, transparent 50%);
-      opacity: 0.1;
-    }
-
-    .bandit-hero__content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-    }
-
-    .bandit-logo {
-      max-width: 400px;
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
-      animation: float 6s ease-in-out infinite;
-      margin: 0 auto var(--space-8);
-      display: block;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .bandit-hero__title {
-      font-size: var(--text-5xl);
-      font-weight: var(--font-extrabold);
-      margin-bottom: var(--space-4);
-    }
-
-    .bandit-hero__subtitle {
-      font-size: var(--text-xl);
-      color: var(--color-text-secondary);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
     .bandit-section {
       padding: var(--space-20) 0;
     }
@@ -106,6 +49,8 @@
     }
 
     .bandit-section__title {
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: var(--text-3xl);
       margin-bottom: var(--space-8);
     }
@@ -174,12 +119,12 @@
     }
 
     .tech-tag {
-      background: rgba(167, 29, 42, 0.12);
-      color: var(--color-primary-light);
+      background: rgba(181, 39, 29, 0.08);
+      color: var(--color-primary);
       padding: var(--space-1) var(--space-3);
       border-radius: var(--radius-full);
       font-size: var(--text-sm);
-      border: 1px solid rgba(167, 29, 42, 0.3);
+      border: 1px solid rgba(181, 39, 29, 0.3);
     }
 
     .timeline {
@@ -264,18 +209,6 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      .bandit-hero {
-        min-height: 50vh;
-      }
-
-      .bandit-logo {
-        max-width: 280px;
-      }
-
-      .bandit-hero__title {
-        font-size: var(--text-3xl);
-      }
-
       .card-grid {
         grid-template-columns: 1fr;
       }
@@ -336,105 +269,36 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navigation" id="navigation">
-    <div class="container navigation__container">
-      <a href="index.html" class="navigation__brand">ND</a>
+  <a href="#content" class="skip-link">Skip to content</a>
 
-      <!-- Desktop Menu -->
-      <ul class="navigation__menu">
-        <li class="navigation__item">
-          <a href="index.html#about" class="navigation__link">About</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#projects" class="navigation__link">Projects</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#resume" class="navigation__link">Resume</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#certifications" class="navigation__link">Certifications</a>
-        </li>
-        <li class="navigation__item">
-          <a href="homelab.html" class="navigation__link">HomeLab</a>
-        </li>
-        <li class="navigation__item">
-          <a href="index.html#contact" class="navigation__link">Contact</a>
-        </li>
-        <li class="navigation__item">
-          <select class="theme-selector" data-theme-selector aria-label="Theme selector">
-            <option value="system">System</option>
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-          </select>
-        </li>
-      </ul>
-
-      <!-- Mobile Menu Toggle -->
-      <button class="navigation__toggle" aria-label="Toggle menu" aria-controls="mobileMenu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+  <!-- Top bar -->
+  <header class="detail-top">
+    <div class="container detail-top__bar">
+      <a class="detail-back" href="index.html#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
+      <select class="theme-selector" data-theme-selector aria-label="Theme selector">
+        <option value="system">System</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
     </div>
-  </nav>
+  </header>
 
-  <!-- Mobile Menu -->
-  <div class="navigation__mobile" id="mobileMenu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
-    <div class="navigation__mobile-header">
-      <span class="navigation__brand">ND</span>
-      <button class="navigation__toggle" aria-label="Close menu" aria-controls="mobileMenu" aria-expanded="false">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul class="navigation__mobile-menu">
-      <li class="navigation__mobile-item">
-        <a href="index.html#about" class="navigation__mobile-link">About</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#projects" class="navigation__mobile-link">Projects</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#resume" class="navigation__mobile-link">Resume</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#certifications" class="navigation__mobile-link">Certifications</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="homelab.html" class="navigation__mobile-link">HomeLab</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <a href="index.html#contact" class="navigation__mobile-link">Contact</a>
-      </li>
-      <li class="navigation__mobile-item">
-        <select class="theme-selector" data-theme-selector aria-label="Theme selector">
-          <option value="system">System</option>
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-        </select>
-      </li>
-    </ul>
-  </div>
-  <div class="navigation__overlay"></div>
-
-  <main>
-  <!-- Hero Section -->
-  <section class="bandit-hero">
+  <main id="content" tabindex="-1">
+  <!-- Header -->
+  <section class="detail detail--header">
     <div class="container">
-      <div class="bandit-hero__content" data-aos="zoom-in">
-        <img src="images/Bandit Fancy.png" alt="Bandit Logo" class="bandit-logo">
-        <h1 class="bandit-hero__title gradient-text">Bandit: Year One</h1>
-        <p class="bandit-hero__subtitle">
-          A retrospective on co-founding a student transportation startup in San Luis Obispo.
-        </p>
-      </div>
+      <p class="ds-section__num">PROJECT / BANDIT</p>
+      <h1 class="detail__title">Bandit: Year One</h1>
+      <p class="detail__lead">A retrospective on co-founding a student transportation startup in San Luis Obispo.</p>
+      <div class="chips"><span class="chip">Startup</span><span class="chip">iOS</span><span class="chip">Operations</span></div>
+      <figure class="detail__hero"><img src="images/Bandit Fancy.png" alt="Bandit logo" width="1024" height="640"></figure>
     </div>
   </section>
 
   <!-- Context Section -->
   <section class="bandit-section bandit-section--alt">
     <div class="container">
-      <h2 class="bandit-section__title gradient-text" data-aos="fade-up">What It Was</h2>
+      <h2 class="bandit-section__title" data-aos="fade-up">What It Was</h2>
       <p class="bandit-section__text" data-aos="fade-up">
         Bandit was a student transportation company, an LLC I co-founded to provide safe, reliable rides
         for college students in San Luis Obispo. We weren't just building an app; we were trying to build
@@ -450,7 +314,7 @@
   <!-- Problem Section -->
   <section class="bandit-section">
     <div class="container">
-      <h2 class="bandit-section__title gradient-text" data-aos="fade-up">The Problem</h2>
+      <h2 class="bandit-section__title" data-aos="fade-up">The Problem</h2>
       <div class="card-grid" data-aos="fade-up">
         <div class="bandit-card">
           <h3><i class="fas fa-dollar-sign" style="margin-right: var(--space-2);"></i> Surge Pricing</h3>
@@ -483,7 +347,7 @@
   <!-- What We Built Section -->
   <section class="bandit-section bandit-section--alt">
     <div class="container">
-      <h2 class="bandit-section__title gradient-text" data-aos="fade-up">What We Built</h2>
+      <h2 class="bandit-section__title" data-aos="fade-up">What We Built</h2>
       <p class="bandit-section__text" data-aos="fade-up">
         The technical foundation for a real-time ride scheduling platform, from native iOS to backend infrastructure.
       </p>
@@ -532,7 +396,7 @@
   <!-- The Journey Section -->
   <section class="bandit-section">
     <div class="container">
-      <h2 class="bandit-section__title gradient-text" data-aos="fade-up">The Journey</h2>
+      <h2 class="bandit-section__title" data-aos="fade-up">The Journey</h2>
 
       <div class="timeline" data-aos="fade-up">
         <div class="timeline__item">
@@ -586,7 +450,7 @@
   <!-- What I Learned Section -->
   <section class="bandit-section bandit-section--alt">
     <div class="container">
-      <h2 class="bandit-section__title gradient-text" data-aos="fade-up">What I Learned</h2>
+      <h2 class="bandit-section__title" data-aos="fade-up">What I Learned</h2>
 
       <div class="lessons-grid" data-aos="fade-up">
         <div class="bandit-card">
@@ -629,18 +493,23 @@
       </div>
     </div>
   </section>
+
+  <!-- Prev / next -->
+  <section class="detail detail--footer">
+    <div class="container">
+      <nav class="detail__nav">
+        <a href="homelab.html"><i class="fas fa-arrow-left"></i> Prev: HomeLab</a>
+        <a href="zedi.html">Next: Zedi <i class="fas fa-arrow-right"></i></a>
+      </nav>
+    </div>
+  </section>
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer__container">
-      <p class="footer__text">&copy; 2026 Nicolo DiFerdinando | Cal Poly San Luis Obispo</p>
+      <p class="footer__text">NICOLO DIFERDINANDO / CAL POLY SLO '26 &middot; SAN DIEGO, CA</p>
       <div class="footer__socials">
-        <a href="index.html"
-           class="footer__social"
-           aria-label="Portfolio">
-          <i class="fas fa-home"></i>
-        </a>
         <a href="https://github.com/nicodiferd"
            target="_blank"
            rel="noopener noreferrer"
@@ -665,7 +534,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=refresh-2"></script>
+  <script type="module" src="js/app.js?v=redesign-1"></script>
 
   <!-- AOS implementation -->
   <script>
