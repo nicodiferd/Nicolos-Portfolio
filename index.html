@@ -382,175 +382,123 @@
   </section>
   
   <!-- Projects Section -->
-  <section class="projects section" id="projects" data-section-divider>
+  <section class="ds-section ds-section--alt" id="projects">
     <div class="container">
-      <div class="projects__header">
-        <h2 class="projects__title gradient-text" data-aos="fade-up">Featured Projects</h2>
-        <p class="projects__subtitle" data-aos="fade-up" data-aos-delay="200">
-          AI Agents, Full-Stack Apps, Infrastructure & Data Analytics
-        </p>
-      </div>
-      
-      <div class="card-grid">
-        <!-- Project 1: Flora -->
-        <article class="card card--icon-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="card__icon-hero" style="background: linear-gradient(135deg, #1a5e2a 0%, #2d8a4e 50%, #1a5e2a 100%);">
-            <i class="fas fa-seedling"></i>
+      <p class="ds-section__num">03 / PROJECTS</p>
+      <div class="proj-grid">
+
+        <!-- Flora (TODO: replace PLACEHOLDER-flora.png with real image) -->
+        <article class="proj-card">
+          <a class="proj-card__media" href="flora.html">
+            <img src="images/PLACEHOLDER-flora.png" alt="Flora" loading="lazy" decoding="async">
+          </a>
+          <div class="proj-card__body">
+            <p class="proj-card__cat">SENIOR CAPSTONE / BLOOMFILTER.AI</p>
+            <h3 class="proj-card__title">Flora</h3>
+            <p class="proj-card__desc">Year-long senior capstone with Bloomfilter, improving HCI for AI-agent integration inside project-management tools. Capped the year by winning Best in Lab.</p>
+            <div class="chips"><span class="chip chip--accent">Best in Lab</span><span class="chip">HCI</span><span class="chip">AI Agents</span><span class="chip">Research</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="flora.html">View project <i class="fas fa-arrow-right"></i></a></div>
           </div>
-          <div class="card__content">
-            <h3 class="card__title">Flora</h3>
-            <p class="card__description">
-              Exploring the interface layer between humans and machines against a constantly-shifting AI tool landscape.
-              Current focus: a project-manager assistant that lives inside existing PM software. Mostly under NDA, with more to share when I can.
-            </p>
-            <div class="card__tags">
-              <span class="card__tag">Research</span>
-              <span class="card__tag">HCI</span>
-              <span class="card__tag">NDA</span>
-            </div>
-            <div class="card__actions">
-              <span class="card__link card__link--coming-soon">
-                <span>Coming Soon</span>
-              </span>
+        </article>
+
+        <!-- HomeLab (terminal placeholder; swap for a real rack photo once set up in San Diego) -->
+        <article class="proj-card">
+          <a class="proj-card__media" href="homelab.html">
+            <img src="images/homelab-offline.png" alt="HomeLab terminal: racked down for the move, next boot San Diego" loading="lazy" decoding="async">
+          </a>
+          <div class="proj-card__body">
+            <p class="proj-card__cat">INFRASTRUCTURE</p>
+            <h3 class="proj-card__title">HomeLab</h3>
+            <p class="proj-card__desc">Self-hosted Proxmox cluster running 12+ services: pfSense networking, Docker, ZFS mirrored storage, and an observability stack. Currently unplugged for the move to San Diego, back online in the new place.</p>
+            <div class="chips"><span class="chip">Proxmox</span><span class="chip">Docker</span><span class="chip">ClickHouse</span><span class="chip">Cloudflare</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="homelab.html">Explore setup <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+        </article>
+
+        <!-- Bandit -->
+        <article class="proj-card">
+          <a class="proj-card__media" href="bandit.html">
+            <img src="images/Bandit Fancy.png" alt="Bandit" loading="lazy" decoding="async">
+          </a>
+          <div class="proj-card__body">
+            <p class="proj-card__cat">STARTUP</p>
+            <h3 class="proj-card__title">Bandit</h3>
+            <p class="proj-card__desc">Co-founded a student transportation LLC in San Luis Obispo. Built the app, ran operations, and wound it down after a year of hard lessons.</p>
+            <div class="chips"><span class="chip">Startup</span><span class="chip">iOS</span><span class="chip">Operations</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="bandit.html">Read the story <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+        </article>
+
+        <!-- Zedi -->
+        <article class="proj-card">
+          <a class="proj-card__media" href="zedi.html">
+            <img src="images/zedi-deck-shots/dashboard.png" alt="Zedi dashboard" loading="lazy" decoding="async">
+          </a>
+          <div class="proj-card__body">
+            <p class="proj-card__cat">PERSONAL FINANCE SAAS</p>
+            <h3 class="proj-card__title">Zedi</h3>
+            <p class="proj-card__desc">Full-stack finance platform built end to end: Rust and Axum API, Next.js frontend, Postgres with row-level multi-tenancy, Claude Vision receipt OCR, and Stripe billing.</p>
+            <div class="chips"><span class="chip">Rust</span><span class="chip">Next.js</span><span class="chip">Postgres</span><span class="chip">Claude Vision</span></div>
+            <div class="proj-card__links">
+              <a class="proj-card__link" href="zedi.html">Case study <i class="fas fa-arrow-right"></i></a>
+              <a class="proj-card__link" href="https://zedi.sneeks.ai" target="_blank" rel="noopener noreferrer">Live site <i class="fas fa-arrow-up-right-from-square"></i></a>
             </div>
           </div>
         </article>
 
-        <!-- Project 2: HomeLab -->
-        <article class="card card--icon-card" data-aos="fade-up" data-aos-delay="200">
-          <div class="card__icon-hero" style="background: linear-gradient(135deg, #1a3a5e 0%, #2a6496 50%, #1a3a5e 100%);">
-            <i class="fas fa-server"></i>
+        <!-- Wedge (TODO: swap logo for feature screenshot when provided) -->
+        <article class="proj-card">
+          <div class="proj-card__media proj-card__media--logo">
+            <img src="images/wedge_logo.png" alt="Wedge" loading="lazy" decoding="async">
           </div>
-          <div class="card__content">
-            <h3 class="card__title">HomeLab</h3>
-            <p class="card__description">
-              A year and a half of Proxmox: one container turned into a 12+ service environment spanning pfSense networking,
-              a ClickHouse + Grafana observability stack, and fleet-wide SSH automation. The place I learn infrastructure by running real systems for real people.
-            </p>
-            <div class="card__tags">
-              <span class="card__tag">Proxmox</span>
-              <span class="card__tag">pfSense</span>
-              <span class="card__tag">ClickHouse</span>
-              <span class="card__tag">Cloudflare</span>
-            </div>
-            <div class="card__actions">
-              <a href="homelab.html" class="card__link">
-                <span>Explore Setup</span>
-                <i class="fas fa-arrow-right card__link-icon"></i>
-              </a>
-            </div>
+          <div class="proj-card__body">
+            <p class="proj-card__cat">MOBILE / DONATOS</p>
+            <h3 class="proj-card__title">Wedge</h3>
+            <p class="proj-card__desc">Shipped a focused feature inside the Donatos golf app as a contributor, from build through release.</p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Feature</span></div>
+            <span class="proj-card__muted">Contributor</span>
           </div>
         </article>
 
-        <!-- Project 3: Bandit -->
-        <article class="card" data-aos="fade-up" data-aos-delay="300">
-          <div class="card__image">
-             <img src="images/Bandit Fancy.png" alt="Bandit" loading="lazy" decoding="async">
-            <div class="card__image-overlay"></div>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">Bandit</h3>
-            <p class="card__description">
-              Co-founded a student transportation LLC in SLO. Built the app, ran operations, and closed after a year of learning.
-            </p>
-            <div class="card__tags">
-              <span class="card__tag">Startup</span>
-              <span class="card__tag">iOS</span>
-              <span class="card__tag">Operations</span>
-            </div>
-            <div class="card__actions">
-              <a href="bandit.html" class="card__link">
-                <span>Read the Story</span>
-                <i class="fas fa-arrow-right card__link-icon"></i>
-              </a>
-            </div>
+        <!-- diferdinando.com -->
+        <article class="proj-card proj-card--tile">
+          <div class="proj-card__body">
+            <p class="proj-card__cat">PORTFOLIO</p>
+            <h3 class="proj-card__title">diferdinando.com</h3>
+            <p class="proj-card__url">diferdinando.com</p>
+            <p class="proj-card__desc">Personal portfolio built with Next.js and TypeScript.</p>
+            <div class="chips"><span class="chip">Next.js</span><span class="chip">TypeScript</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="https://diferdinando.com" target="_blank" rel="noopener noreferrer">Visit <i class="fas fa-arrow-up-right-from-square"></i></a></div>
           </div>
         </article>
 
-        <!-- Project 4: Zedi -->
-        <article class="card card--icon-card" data-aos="fade-up" data-aos-delay="400">
-          <div class="card__icon-hero" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">Zedi</h3>
-            <p class="card__description">
-              Personal finance platform I built end-to-end. Live as a public SaaS at zedi.sneeks.ai, with a private instance running my real banking data on my homelab. Receipt OCR, CSV/QFX/PDF statement imports, auto-categorization.
-            </p>
-            <div class="card__tags">
-              <span class="card__tag">Rust</span>
-              <span class="card__tag">Axum</span>
-              <span class="card__tag">Postgres</span>
-              <span class="card__tag">Next.js 14</span>
-              <span class="card__tag">Claude Vision</span>
-              <span class="card__tag">Multi-tenant SaaS</span>
-            </div>
-            <div class="card__actions">
-              <a href="https://zedi.sneeks.ai"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="card__link">
-                <span>Visit Zedi</span>
-                <i class="fas fa-arrow-right card__link-icon"></i>
-              </a>
-            </div>
+        <!-- Beyond Wrapped -->
+        <article class="proj-card proj-card--tile">
+          <div class="proj-card__body">
+            <p class="proj-card__cat">DATA / ML &middot; IME 565</p>
+            <h3 class="proj-card__title">Beyond Wrapped</h3>
+            <p class="proj-card__desc">Spotify analytics platform with ML-powered audio-feature prediction and context-aware scoring.</p>
+            <div class="chips"><span class="chip">Python</span><span class="chip">ML</span><span class="chip">Streamlit</span></div>
+            <span class="proj-card__muted">Private repo</span>
           </div>
         </article>
 
-        <!-- Project 5: Beyond Wrapped -->
-        <article class="card card--icon-card" data-aos="fade-up" data-aos-delay="500">
-          <div class="card__icon-hero" style="background: linear-gradient(135deg, #1db954 0%, #1aa34a 50%, #158f3f 100%);">
-            <i class="fab fa-spotify"></i>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">Beyond Wrapped</h3>
-            <p class="card__description">
-              Spotify analytics platform with ML-powered audio feature prediction, temporal listening patterns, and context-aware scoring. Built for an IME 565 course project.
-            </p>
-            <div class="card__tags">
-              <span class="card__tag">Python</span>
-              <span class="card__tag">ML</span>
-              <span class="card__tag">Streamlit</span>
-            </div>
-            <div class="card__actions">
-              <span class="card__link card__link--coming-soon">
-                <span>Private Repo</span>
-              </span>
-            </div>
+        <!-- anthony.diferdinando.com -->
+        <article class="proj-card proj-card--tile">
+          <div class="proj-card__body">
+            <p class="proj-card__cat">DESIGN &middot; BUILD</p>
+            <h3 class="proj-card__title">anthony.diferdinando.com</h3>
+            <p class="proj-card__url">anthony.diferdinando.com</p>
+            <p class="proj-card__desc">Designed and built my brother Anthony's mechanical-engineering portfolio.</p>
+            <div class="chips"><span class="chip">Next.js</span><span class="chip">Design</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="https://anthony.diferdinando.com" target="_blank" rel="noopener noreferrer">Visit <i class="fas fa-arrow-up-right-from-square"></i></a></div>
           </div>
         </article>
 
-        <!-- Project 6: diferdinando.com -->
-        <article class="card" data-aos="fade-up" data-aos-delay="600">
-          <div class="card__image">
-             <img src="images/diferdinando-site.png" alt="diferdinando.com" loading="lazy" decoding="async">
-            <div class="card__image-overlay"></div>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">diferdinando.com</h3>
-            <p class="card__description">
-              Modern portfolio website built with Next.js and TypeScript. Features dynamic theming and responsive design.
-            </p>
-            <div class="card__tags">
-              <span class="card__tag">Next.js</span>
-              <span class="card__tag">TypeScript</span>
-              <span class="card__tag">React</span>
-            </div>
-            <div class="card__actions">
-              <a href="https://diferdinando.com"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="card__link">
-                <span>View Project</span>
-                <i class="fas fa-arrow-right card__link-icon"></i>
-              </a>
-            </div>
-          </div>
-        </article>
       </div>
     </div>
   </section>
-  
+
   <!-- Resume Section -->
   <section class="section" id="resume" data-section-divider>
     <div class="container">
