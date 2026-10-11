@@ -14,13 +14,14 @@
 
 .ds-section__num {
   font-family: var(--font-mono);
-  font-weight: var(--font-normal);
+  font-weight: var(--font-regular);
   font-size: var(--text-sm);
   letter-spacing: 0.12em;
   color: var(--color-primary);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: var(--space-4);
   margin-bottom: var(--space-12);
+  max-width: none;
 }
 
 .ds-section__lead {
@@ -146,6 +147,7 @@
 .stack {
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .stack-row {
@@ -155,10 +157,6 @@
   padding: var(--space-6) 0;
   border-top: 1px solid var(--color-border);
   align-items: baseline;
-}
-
-.stack-row:last-child {
-  border-bottom: 1px solid var(--color-border);
 }
 
 .stack-row__label {
@@ -187,8 +185,10 @@
   --color-text-secondary: #c4bfb5;
   --color-text-muted: #8b867c;
   --color-border: rgba(255, 255, 255, 0.14);
-  --color-primary: #e2392c;
+  --color-primary: #e84a3d;
   --color-primary-dark: #b5271d;
+  --color-primary-light: #f0594c;
+  --color-primary-fill: #cc3226;
   background: var(--color-background);
   color: var(--color-text-primary);
 }

@@ -3,11 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Bandit: Year One. A retrospective on co-founding a student transportation startup in San Luis Obispo">
-  <title>Bandit: Year One | Nicolo DiFerdinando</title>
+  <meta name="description" content="Bandit: a retrospective on co-founding a student transportation startup in San Luis Obispo, from forming the LLC in early 2024 to winding it down in September 2025.">
+  <meta name="author" content="Nicolo DiFerdinando">
+  <meta name="theme-color" content="#f5f2ec">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nicolo DiFerdinando">
+  <meta property="og:title" content="Bandit: A Retrospective | Nicolo DiFerdinando">
+  <meta property="og:description" content="Bandit: a retrospective on co-founding a student transportation startup in San Luis Obispo, from forming the LLC in early 2024 to winding it down in September 2025.">
+  <meta property="og:url" content="https://nicolod.org/bandit">
+  <meta property="og:image" content="https://nicolod.org/images/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bandit: A Retrospective | Nicolo DiFerdinando">
+  <meta name="twitter:description" content="Bandit: a retrospective on co-founding a student transportation startup in San Luis Obispo, from forming the LLC in early 2024 to winding it down in September 2025.">
+  <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
+  <meta name="twitter:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
+  <title>Bandit: A Retrospective | Nicolo DiFerdinando</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="canonical" href="https://nicolod.org/bandit">
 
   <!-- Early theme to prevent flash -->
   <script>
@@ -36,7 +53,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=redesign-1">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-2">
 
   <style>
     /* Bandit page specific styles */
@@ -182,7 +199,7 @@
 
     .lessons-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
       gap: var(--space-6);
     }
 
@@ -218,7 +235,8 @@
       }
     }
 
-    /* AOS animations */
+    /* Scroll reveal: hidden until js/modules/animations.js adds .aos-animate.
+       Transforms live in styles/main.css; <noscript> below undoes this. */
     [data-aos] {
       opacity: 0;
       transition-duration: 800ms;
@@ -228,53 +246,28 @@
     [data-aos].aos-animate {
       opacity: 1;
     }
-
-    [data-aos="fade-up"] {
-      transform: translateY(30px);
-    }
-
-    [data-aos="fade-up"].aos-animate {
-      transform: translateY(0);
-    }
-
-    [data-aos="fade-right"] {
-      transform: translateX(-30px);
-    }
-
-    [data-aos="fade-right"].aos-animate {
-      transform: translateX(0);
-    }
-
-    [data-aos="fade-left"] {
-      transform: translateX(30px);
-    }
-
-    [data-aos="fade-left"].aos-animate {
-      transform: translateX(0);
-    }
-
-    [data-aos="zoom-in"] {
-      transform: scale(0.8);
-    }
-
-    [data-aos="zoom-in"].aos-animate {
-      transform: scale(1);
-    }
-
-    /* Ensure content visible immediately */
-    body {
-      opacity: 1 !important;
-      visibility: visible !important;
-    }
   </style>
+  <noscript><style>[data-aos]{opacity:1 !important;transform:none !important;}</style></noscript>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NWWM38WB');</script>
+  <!-- End Google Tag Manager -->
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWWM38WB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <a href="#content" class="skip-link">Skip to content</a>
 
   <!-- Top bar -->
   <header class="detail-top">
     <div class="container detail-top__bar">
-      <a class="detail-back" href="index.html#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
+      <a class="detail-back" href="/#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
       <select class="theme-selector" data-theme-selector aria-label="Theme selector">
         <option value="system">System</option>
         <option value="dark">Dark</option>
@@ -288,10 +281,10 @@
   <section class="detail detail--header">
     <div class="container">
       <p class="ds-section__num">PROJECT / BANDIT</p>
-      <h1 class="detail__title">Bandit: Year One</h1>
-      <p class="detail__lead">A retrospective on co-founding a student transportation startup in San Luis Obispo.</p>
+      <h1 class="detail__title">Bandit: A Retrospective</h1>
+      <p class="detail__lead">Co-founding a student transportation startup in San Luis Obispo, from early 2024 to the September 2025 wind-down.</p>
       <div class="chips"><span class="chip">Startup</span><span class="chip">iOS</span><span class="chip">Operations</span></div>
-      <figure class="detail__hero"><img src="images/Bandit Fancy.png" alt="Bandit logo" width="1024" height="640"></figure>
+      <figure class="detail__hero detail__hero--ink"><img src="images/bandit.webp" alt="Bandit logo" width="1024" height="1024"></figure>
     </div>
   </section>
 
@@ -427,7 +420,7 @@
         </div>
 
         <div class="timeline__item">
-          <div class="timeline__date">Fall 2024</div>
+          <div class="timeline__date">Fall 2024 to Summer 2025</div>
           <div class="timeline__title">Operations</div>
           <p class="timeline__text">
             Ran live operations: managing drivers, handling scheduling, and dealing with the reality
@@ -498,8 +491,8 @@
   <section class="detail detail--footer">
     <div class="container">
       <nav class="detail__nav">
-        <a href="homelab.html"><i class="fas fa-arrow-left"></i> Prev: HomeLab</a>
-        <a href="zedi.html">Next: Zedi <i class="fas fa-arrow-right"></i></a>
+        <a href="/homelab"><i class="fas fa-arrow-left"></i> Prev: HomeLab</a>
+        <a href="/zedi">Next: Zedi <i class="fas fa-arrow-right"></i></a>
       </nav>
     </div>
   </section>
@@ -534,36 +527,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=redesign-1"></script>
-
-  <!-- AOS implementation -->
-  <script>
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '50px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('aos-animate');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const animatedElements = document.querySelectorAll('[data-aos]');
-      animatedElements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          el.classList.add('aos-animate');
-        } else {
-          observer.observe(el);
-        }
-      });
-      document.body.classList.add('loaded');
-    });
-  </script>
+  <script type="module" src="js/app.js?v=redesign-2"></script>
 </body>
 </html>

@@ -12,3 +12,8 @@ build/
 .cache/
 .eslintcache
 coverage/
+
+# Local tool state
+.claude/settings.local.json
+.remember/
+.wrangler/

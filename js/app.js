@@ -3,9 +3,13 @@
  * Initializes all modules and components
  */
 
-import { Navigation } from './modules/navigation.js';
-import { ThemeManager } from './modules/theme.js';
-import { Animations } from './modules/animations.js';
+// Module URLs carry a version: _headers asks for no-cache on /js/*, but the
+// zone's Browser Cache TTL caches them for 4h in production anyway, and this
+// keeps a fresh app.js from pairing with stale cached modules. See CLAUDE.md
+// (Important Notes 7) for bumping the token across every page, CSS and JS.
+import { Navigation } from './modules/navigation.js?v=redesign-2';
+import { ThemeManager } from './modules/theme.js?v=redesign-2';
+import { Animations } from './modules/animations.js?v=redesign-2';
 
 class App {
   constructor() {
@@ -29,9 +33,7 @@ class App {
     this.modules.animations = new Animations();
     
     // Setup global features
-    this.setupLazyLoading();
     this.setupFormHandling();
-    this.setupPageTransitions();
     
     // Mark app as loaded
     document.body.classList.add('loaded');
@@ -43,26 +45,6 @@ class App {
         el.classList.add('aos-animate');
       });
     }, 1000);
-  }
-  
-  setupLazyLoading() {
-    const images = document.querySelectorAll('img[data-src]');
-    
-    const imageObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.getAttribute('data-src');
-          img.removeAttribute('data-src');
-          img.classList.add('loaded');
-          imageObserver.unobserve(img);
-        }
-      });
-    }, {
-      rootMargin: '50px'
-    });
-    
-    images.forEach(img => imageObserver.observe(img));
   }
   
   setupFormHandling() {
@@ -105,31 +87,6 @@ class App {
           submitBtn.textContent = originalText;
         }
       });
-    });
-  }
-  
-  setupPageTransitions() {
-    // Smooth fade between pages
-    const links = document.querySelectorAll('a:not([href^="#"]):not([href^="http"]):not([target="_blank"]):not([download])');
-    
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const href = link.getAttribute('href');
-        
-        document.body.classList.add('page-transition');
-        
-        setTimeout(() => {
-          window.location.href = href;
-        }, 300);
-      });
-    });
-    
-    // Handle browser back/forward
-    window.addEventListener('pageshow', (e) => {
-      if (e.persisted) {
-        document.body.classList.remove('page-transition');
-      }
     });
   }
   

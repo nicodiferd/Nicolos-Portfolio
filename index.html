@@ -3,26 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Nicolo DiFerdinando: AI Analyst at PeopleConnect building across software, data, and security. AI agents, data pipelines, infrastructure.">
+  <meta name="description" content="Nicolo DiFerdinando: AI-Driven Solutions Analyst at PeopleConnect building across software, data, and security. AI agents, data pipelines, infrastructure.">
   <meta name="author" content="Nicolo DiFerdinando">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#f5f2ec">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nicolo DiFerdinando">
   <meta property="og:title" content="Nicolo DiFerdinando">
-  <meta property="og:description" content="Nicolo DiFerdinando: AI Analyst at PeopleConnect building across software, data, and security. AI agents, data pipelines, infrastructure.">
+  <meta property="og:description" content="AI-Driven Solutions Analyst at PeopleConnect building across software, data, and security. AI agents, data pipelines, infrastructure.">
   <meta property="og:url" content="https://nicolod.org/">
-  <meta property="og:image" content="/images/Nicolo.jpeg">
+  <meta property="og:image" content="https://nicolod.org/images/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Nicolo DiFerdinando">
-  <meta name="twitter:description" content="AI Analyst at PeopleConnect building across software, data, and security. AI agents, data pipelines, infrastructure.">
-  <meta name="twitter:image" content="/images/Nicolo.jpeg">
+  <meta name="twitter:description" content="AI-Driven Solutions Analyst at PeopleConnect building across software, data, and security. AI agents, data pipelines, infrastructure.">
+  <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
+  <meta name="twitter:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
 
   <title>Nicolo DiFerdinando</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
-  <link rel="prefetch" href="/bandit.html" as="document">
-  <link rel="prefetch" href="/homelab.html" as="document">
+  <link rel="prefetch" href="/bandit" as="document">
+  <link rel="prefetch" href="/homelab" as="document">
   <link rel="preload" href="images/Nicolo.jpeg" as="image" fetchpriority="high">
   
   <!-- Preconnect to external domains -->
@@ -58,7 +62,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=redesign-1">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-2">
   <link rel="canonical" href="https://nicolod.org/">
   
   <!-- Critical inline styles for immediate visibility -->
@@ -88,12 +92,6 @@
       display: block !important;
     }
     
-    /* Override any hidden animations initially */
-    [data-aos] {
-      opacity: 1 !important;
-      visibility: visible !important;
-    }
-    
     /* Ensure navigation is visible */
     .navigation {
       opacity: 1 !important;
@@ -102,19 +100,6 @@
     }
 
   </style>
-  
-  <!-- Noscript fallback styles -->
-  <noscript>
-    <style>
-      [data-aos] {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-      body {
-        opacity: 1 !important;
-      }
-    </style>
-  </noscript>
 
   <script type="application/ld+json">
   {
@@ -123,7 +108,15 @@
     "name": "Nicolo DiFerdinando",
     "url": "https://nicolod.org/",
     "image": "https://nicolod.org/images/Nicolo.jpeg",
-    "jobTitle": "AI Analyst at PeopleConnect",
+    "jobTitle": "AI-Driven Solutions Analyst",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "PeopleConnect"
+    },
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "California Polytechnic State University, San Luis Obispo"
+    },
     "email": "mailto:nicodiferd@gmail.com",
     "sameAs": [
       "https://github.com/nicodiferd",
@@ -159,7 +152,7 @@
         <li class="navigation__item"><a href="#projects" class="navigation__link">Projects</a></li>
         <li class="navigation__item"><a href="#stack" class="navigation__link">Stack</a></li>
         <li class="navigation__item"><a href="#contact" class="navigation__link">Contact</a></li>
-        <li class="navigation__item"><a href="/resume.pdf" class="navigation__link navigation__link--btn" download="Nicolo_DiFerdinando_Resume.pdf">Resume</a></li>
+        <li class="navigation__item"><a href="/resume.pdf" class="navigation__link navigation__link--btn" target="_blank" rel="noopener">Resume</a></li>
         <li class="navigation__item">
           <select class="theme-selector" data-theme-selector aria-label="Theme selector">
             <option value="system">System</option>
@@ -192,7 +185,7 @@
       <li class="navigation__mobile-item"><a href="#projects" class="navigation__mobile-link">Projects</a></li>
       <li class="navigation__mobile-item"><a href="#stack" class="navigation__mobile-link">Stack</a></li>
       <li class="navigation__mobile-item"><a href="#contact" class="navigation__mobile-link">Contact</a></li>
-      <li class="navigation__mobile-item"><a href="/resume.pdf" class="navigation__mobile-link" download="Nicolo_DiFerdinando_Resume.pdf">Resume</a></li>
+      <li class="navigation__mobile-item"><a href="/resume.pdf" class="navigation__mobile-link" target="_blank" rel="noopener">Resume</a></li>
       <li class="navigation__mobile-item">
         <select class="theme-selector" data-theme-selector aria-label="Theme selector">
           <option value="system">System</option>
@@ -211,19 +204,19 @@
       <div class="hero__main">
         <p class="hero__eyebrow">SOFTWARE &middot; DATA &middot; SECURITY</p>
         <a class="hero__status" href="#experience">
-          <img src="images/pc.webp" alt="PeopleConnect" class="hero__status-logo" width="18" height="18">
-          <span>AI Analyst @ PeopleConnect</span>
+          <img src="images/pc.webp" alt="" class="hero__status-logo" width="18" height="18">
+          <span>AI-Driven Solutions Analyst @&nbsp;PeopleConnect</span>
         </a>
         <h1 class="hero__title">Nicolo<br>DiFerdinando</h1>
         <p class="hero__bio">
-          Industrial engineering grad building software, data pipelines, and security automation.
+          Industrial engineering grad now building LLM-powered tools and data pipelines at PeopleConnect.
           I make internal tools that take repetitive work off people's plates, design data systems,
           and ship AI agents with Python and LangChain.
         </p>
         <div class="hero__actions">
           <a href="#projects" class="btn btn--primary" data-magnetic><span>View work</span></a>
           <a href="#contact" class="btn btn--secondary" data-magnetic><span>Get in touch</span></a>
-          <a href="/resume.pdf" class="btn btn--ghost" download="Nicolo_DiFerdinando_Resume.pdf"><span>Resume</span><i class="fas fa-arrow-down"></i></a>
+          <a href="/resume.pdf" class="btn btn--ghost" target="_blank" rel="noopener"><span>Resume</span><i class="fas fa-arrow-up-right-from-square"></i></a>
         </div>
       </div>
       <aside class="hero__aside">
@@ -249,11 +242,12 @@
     <div class="container">
       <h2 class="ds-section__num">01 / PROFILE</h2>
       <div class="ds-section__lead">
-        <p class="ds-statement">I build the boring stuff so people do not have to: internal tools, data pipelines, and agents that quietly handle the repetitive work.</p>
+        <p class="ds-statement">I build the boring stuff so people don't have to: internal tools, data pipelines, and agents that quietly handle the repetitive work.</p>
         <p class="ds-body">
           Industrial engineering graduate with experience across software engineering, data engineering, and
           cybersecurity automation. Focused on building internal tools that streamline workflows, designing data
-          pipelines and database systems, automating reporting, and building agents with LangChain and Python.
+          pipelines and database systems, automating reporting and repetitive tasks, and building agents with
+          LangChain and Python.
         </p>
         <div class="chips">
           <span class="chip">Internal Tooling</span>
@@ -278,11 +272,11 @@
           </div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">AI-Driven Solutions Analyst</h3>
-            <p class="ds-row__org">PeopleConnect &middot; San Diego, CA</p>
+            <p class="ds-row__org">PeopleConnect &middot; San Diego, CA &middot; Full-time</p>
             <ul class="ds-row__points">
-              <li>Build and deploy LLM-powered tools and Python scripts (OpenAI, Claude, Zapier, Airflow) to automate high-impact workflows across Growth and Operations.</li>
-              <li>Partner with Marketing and Finance on forecasting and campaign optimization using ML and prompt-engineered systems across Snowflake, dbt, and Sigma.</li>
-              <li>Translate business problems into AI-driven solutions and run structured experiments measuring time saved, revenue lift, and cost efficiency.</li>
+              <li>Build and deploy LLM-powered tools and Python scripts (OpenAI, Claude, Zapier, Airflow) to automate high-impact workflows across Growth, BI, and Operations.</li>
+              <li>Partner with Marketing and Finance on creative generation and campaign optimization, applying ML and prompt-engineered systems to improve forecasting across Snowflake, dbt, and Sigma.</li>
+              <li>Translate business problems into AI-driven solutions, then run structured experiments measuring time savings, revenue lift, and cost efficiency to scale what works.</li>
             </ul>
           </div>
         </article>
@@ -293,11 +287,12 @@
           </div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">Business Intelligence Intern</h3>
-            <p class="ds-row__org">PeopleConnect</p>
+            <p class="ds-row__org">PeopleConnect &middot; Part-time</p>
             <ul class="ds-row__points">
-              <li>Built interactive dashboards in Sigma, Tableau, and Snowflake serving 50+ stakeholders across Growth, Operations, and Finance.</li>
-              <li>Developed and monitored dbt data pipelines with CI/CD, and built a semantic layer service exposing governed metrics through MCP connectors (Claude, ChatGPT, Slack).</li>
-              <li>Helped migrate enterprise reporting from Tableau to Sigma, cutting delivery overhead.</li>
+              <li>Built interactive dashboards in Sigma Computing, Tableau, and Snowflake serving 50+ stakeholders across Growth Operations, Executives, and Finance.</li>
+              <li>Developed and monitored data pipelines on dbt Core/Fusion semantic layers with CI/CD, managing incremental ETL logic through code review with the data engineering team.</li>
+              <li>Built a semantic layer service that embeds company metrics, dimensions, and entities over dbt and exposes governed definitions through MCP connectors (Claude, ChatGPT), a Slack bot, and more.</li>
+              <li>Helped migrate enterprise reporting from Tableau to Sigma Computing, streamlining dashboard delivery and reducing licensing overhead.</li>
             </ul>
           </div>
         </article>
@@ -308,10 +303,10 @@
           </div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">Cybersecurity &amp; IT Intern</h3>
-            <p class="ds-row__org">PeopleConnect</p>
+            <p class="ds-row__org">PeopleConnect &middot; Full-time</p>
             <ul class="ds-row__points">
-              <li>Built bash automation for audit reporting and completed a SOC 2 audit in 4 weeks against a projected 10.</li>
-              <li>Deployed vulnerability scanning across 200+ endpoints and wrote reusable scripts to reduce risk surface.</li>
+              <li>Wrote bash scripts automating audit reporting, completing a SOC 2 audit in 4 weeks against a projected 10, and communicated findings to engineering and compliance stakeholders.</li>
+              <li>Deployed a vulnerability scanning and testing solution across 200+ endpoints, with reusable automation scripts that improved visibility into on-prem devices and reduced risk surface.</li>
             </ul>
           </div>
         </article>
@@ -322,10 +317,10 @@
           </div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">Assistant Student SOC Analyst</h3>
-            <p class="ds-row__org">Cal Poly ITS</p>
+            <p class="ds-row__org">Cal Poly ITS &middot; Part-time</p>
             <ul class="ds-row__points">
-              <li>Built a Python Slack app automating SOC workflows by integrating Splunk SOAR playbooks with Slack Bolt REST APIs for real-time incident response.</li>
-              <li>Analyzed and responded to 50+ weekly security incidents (suspicious logins, phishing, anomalous traffic) in Splunk Enterprise, collaborating with IT on remediation.</li>
+              <li>Built a Python Slack app automating SOC workflows (email confirmation, user suppression, blocking) by integrating Splunk SOAR playbooks with Slack Bolt REST APIs for real-time incident response.</li>
+              <li>Analyzed and responded to 50+ weekly security incidents (suspicious logins, phishing, anomalous network traffic) in Splunk Enterprise, collaborating with IT on remediation.</li>
             </ul>
           </div>
         </article>
@@ -335,11 +330,11 @@
             <span class="ds-row__date">SUMMER 2022</span>
           </div>
           <div class="ds-row__body">
-            <h3 class="ds-row__title">CyberSecurity Intern</h3>
-            <p class="ds-row__org">loanDepot</p>
+            <h3 class="ds-row__title">Cybersecurity Intern</h3>
+            <p class="ds-row__org">loanDepot &middot; Full-time</p>
             <ul class="ds-row__points">
-              <li>Designed and deployed phishing simulation campaigns to train employees on social engineering threats.</li>
-              <li>Gained hands-on exposure to incident response, compliance auditing, and security architecture.</li>
+              <li>Designed and deployed phishing simulation campaigns to educate employees on social engineering threats.</li>
+              <li>Gained hands-on exposure to incident response procedures, compliance auditing, and security architecture.</li>
             </ul>
           </div>
         </article>
@@ -354,51 +349,55 @@
       <h2 class="ds-section__num">03 / PROJECTS</h2>
       <div class="proj-grid">
 
-        <!-- Flora (TODO: replace PLACEHOLDER-flora.png with real image) -->
-        <article class="proj-card">
-          <a class="proj-card__media" href="flora.html">
-            <img src="images/PLACEHOLDER-flora.png" alt="Flora" loading="lazy" decoding="async">
-          </a>
+        <!-- Flora -->
+        <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
             <p class="proj-card__cat">SENIOR CAPSTONE / BLOOMFILTER.AI</p>
             <h3 class="proj-card__title">Flora</h3>
             <p class="proj-card__desc">Year-long senior capstone with Bloomfilter, improving HCI for AI-agent integration inside project-management tools. Capped the year by winning Best in Lab.</p>
             <div class="chips"><span class="chip chip--accent">Best in Lab</span><span class="chip">HCI</span><span class="chip">AI Agents</span><span class="chip">Research</span></div>
-            <div class="proj-card__links"><a class="proj-card__link" href="flora.html">View project <i class="fas fa-arrow-right"></i></a></div>
+            <!-- Spec readout (reuses the hero spec-list style) fills the text tile beside the HomeLab image card -->
+            <dl class="hero__chip proj-card__spec">
+              <div><dt>PARTNER</dt><dd>Bloomfilter.ai</dd></div>
+              <div><dt>ADVISOR</dt><dd>Dr. Awwad</dd></div>
+              <div><dt>FORMAT</dt><dd>Year-long team capstone</dd></div>
+              <div><dt>RESULT</dt><dd>Best in Lab</dd></div>
+            </dl>
+            <div class="proj-card__links"><a class="proj-card__link" href="/flora">View project <i class="fas fa-arrow-right"></i></a></div>
           </div>
         </article>
 
-        <!-- HomeLab (terminal placeholder; swap for a real rack photo once set up in San Diego) -->
+        <!-- HomeLab (terminal-style render of the live lab status as of 2026-10-10; a real rack photo can replace images/homelab-status.png later) -->
         <article class="proj-card">
-          <a class="proj-card__media" href="homelab.html">
-            <img src="images/homelab-offline.png" alt="HomeLab terminal: racked down for the move, next boot San Diego" loading="lazy" decoding="async">
+          <a class="proj-card__media" href="/homelab">
+            <img src="images/homelab-status.png" alt="HomeLab terminal: ssh into the homelab succeeds, 8 of 15 guests running, online in San Diego since August 2026" loading="lazy" decoding="async">
           </a>
           <div class="proj-card__body">
             <p class="proj-card__cat">INFRASTRUCTURE</p>
             <h3 class="proj-card__title">HomeLab</h3>
-            <p class="proj-card__desc">Self-hosted Proxmox cluster running 12+ services: pfSense networking, Docker, ZFS mirrored storage, and an observability stack. Currently unplugged for the move to San Diego, back online in the new place.</p>
-            <div class="chips"><span class="chip">Proxmox</span><span class="chip">Docker</span><span class="chip">ClickHouse</span><span class="chip">Cloudflare</span></div>
-            <div class="proj-card__links"><a class="proj-card__link" href="homelab.html">Explore setup <i class="fas fa-arrow-right"></i></a></div>
+            <p class="proj-card__desc">Single-node Proxmox lab, running since 2024 and back online in San Diego since August 2026: 15 VMs and containers, n8n automation, ClickHouse telemetry, weekly PBS backups, and a GPU container for local receipt OCR.</p>
+            <div class="chips"><span class="chip">Proxmox</span><span class="chip">n8n</span><span class="chip">ClickHouse</span><span class="chip">Cloudflare</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="/homelab">Explore setup <i class="fas fa-arrow-right"></i></a></div>
           </div>
         </article>
 
         <!-- Bandit -->
         <article class="proj-card">
-          <a class="proj-card__media" href="bandit.html">
-            <img src="images/Bandit Fancy.png" alt="Bandit" loading="lazy" decoding="async">
+          <a class="proj-card__media proj-card__media--ink" href="/bandit">
+            <img src="images/bandit.webp" alt="Bandit" width="1024" height="1024" loading="lazy" decoding="async">
           </a>
           <div class="proj-card__body">
             <p class="proj-card__cat">STARTUP</p>
             <h3 class="proj-card__title">Bandit</h3>
-            <p class="proj-card__desc">Co-founded a student transportation LLC in San Luis Obispo. Built the app, ran operations, and wound it down after a year of hard lessons.</p>
+            <p class="proj-card__desc">Co-founded a student transportation LLC in San Luis Obispo in early 2024. Built the app, ran operations, and wound it down in September 2025 after plenty of hard lessons.</p>
             <div class="chips"><span class="chip">Startup</span><span class="chip">iOS</span><span class="chip">Operations</span></div>
-            <div class="proj-card__links"><a class="proj-card__link" href="bandit.html">Read the story <i class="fas fa-arrow-right"></i></a></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="/bandit">Read the story <i class="fas fa-arrow-right"></i></a></div>
           </div>
         </article>
 
         <!-- Zedi -->
         <article class="proj-card">
-          <a class="proj-card__media" href="zedi.html">
+          <a class="proj-card__media" href="/zedi">
             <img src="images/zedi-deck-shots/dashboard.png" alt="Zedi dashboard" loading="lazy" decoding="async">
           </a>
           <div class="proj-card__body">
@@ -407,42 +406,40 @@
             <p class="proj-card__desc">Full-stack finance platform built end to end: Rust and Axum API, Next.js frontend, Postgres with row-level multi-tenancy, Claude Vision receipt OCR, and Stripe billing.</p>
             <div class="chips"><span class="chip">Rust</span><span class="chip">Next.js</span><span class="chip">Postgres</span><span class="chip">Claude Vision</span></div>
             <div class="proj-card__links">
-              <a class="proj-card__link" href="zedi.html">Case study <i class="fas fa-arrow-right"></i></a>
+              <a class="proj-card__link" href="/zedi">Case study <i class="fas fa-arrow-right"></i></a>
               <a class="proj-card__link" href="https://zedi.sneeks.ai" target="_blank" rel="noopener noreferrer">Live site <i class="fas fa-arrow-up-right-from-square"></i></a>
             </div>
           </div>
         </article>
 
-        <!-- Wedge (TODO: swap logo for feature screenshot when provided) -->
-        <article class="proj-card">
-          <div class="proj-card__media proj-card__media--logo">
-            <img src="images/wedge_logo.png" alt="Wedge" loading="lazy" decoding="async">
-          </div>
+        <!-- Wedge -->
+        <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
-            <p class="proj-card__cat">MOBILE / DONATOS</p>
+            <p class="proj-card__cat">IOS APP / CONTRIBUTOR</p>
             <h3 class="proj-card__title">Wedge</h3>
-            <p class="proj-card__desc">Shipped a focused feature inside the Donatos golf app as a contributor, from build through release.</p>
-            <div class="chips"><span class="chip">iOS</span><span class="chip">Feature</span></div>
-            <span class="proj-card__muted">Contributor</span>
+            <p class="proj-card__url">wedge-golf.dev</p>
+            <p class="proj-card__desc">My brother Donato's iPhone golf app: shot tracking, money games, and GHIN handicap sync. It's his project, and I'm a contributor on the codebase.</p>
+            <div class="chips"><span class="chip">iOS</span><span class="chip">Golf</span></div>
+            <div class="proj-card__links"><a class="proj-card__link" href="https://wedge-golf.dev" target="_blank" rel="noopener noreferrer">Visit <i class="fas fa-arrow-up-right-from-square"></i></a></div>
           </div>
         </article>
 
         <!-- diferdinando.com -->
         <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
-            <p class="proj-card__cat">PORTFOLIO</p>
+            <p class="proj-card__cat">BUSINESS SITE</p>
             <h3 class="proj-card__title">diferdinando.com</h3>
             <p class="proj-card__url">diferdinando.com</p>
-            <p class="proj-card__desc">Personal portfolio built with Next.js and TypeScript.</p>
+            <p class="proj-card__desc">Site for DiFerdinando Brothers, the development and data engineering services business I started with my brother Donato.</p>
             <div class="chips"><span class="chip">Next.js</span><span class="chip">TypeScript</span></div>
-            <div class="proj-card__links"><a class="proj-card__link" href="https://diferdinando.com" target="_blank" rel="noopener noreferrer">Visit <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+            <!-- Visit link (https://diferdinando.com) paused until that site's bio and certifications are updated -->
           </div>
         </article>
 
         <!-- Beyond Wrapped -->
         <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
-            <p class="proj-card__cat">DATA / ML &middot; IME 565</p>
+            <p class="proj-card__cat">DATA / ML &middot; COURSE PROJECT</p>
             <h3 class="proj-card__title">Beyond Wrapped</h3>
             <p class="proj-card__desc">Spotify analytics platform with ML-powered audio-feature prediction and context-aware scoring.</p>
             <div class="chips"><span class="chip">Python</span><span class="chip">ML</span><span class="chip">Streamlit</span></div>
@@ -454,10 +451,10 @@
         <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
             <p class="proj-card__cat">DESIGN &middot; BUILD</p>
-            <h3 class="proj-card__title">anthony.diferdinando.com</h3>
+            <h3 class="proj-card__title">anthony.<wbr>diferdinando.com</h3>
             <p class="proj-card__url">anthony.diferdinando.com</p>
             <p class="proj-card__desc">Designed and built my brother Anthony's mechanical-engineering portfolio.</p>
-            <div class="chips"><span class="chip">Next.js</span><span class="chip">Design</span></div>
+            <div class="chips"><span class="chip">React</span><span class="chip">Vite</span><span class="chip">Design</span></div>
             <div class="proj-card__links"><a class="proj-card__link" href="https://anthony.diferdinando.com" target="_blank" rel="noopener noreferrer">Visit <i class="fas fa-arrow-up-right-from-square"></i></a></div>
           </div>
         </article>
@@ -472,11 +469,12 @@
       <h2 class="ds-section__num">04 / STACK</h2>
       <div class="stack">
         <div class="stack-row"><p class="stack-row__label">LANGUAGES</p><p class="stack-row__val">Python, SQL, Rust, TypeScript, JavaScript, Swift / SwiftUI, Bash, YAML, HTML / CSS</p></div>
-        <div class="stack-row"><p class="stack-row__label">AI &amp; DATA</p><p class="stack-row__val">LangChain, PyTorch, OpenAI, Claude, MCP, Snowflake, dbt, Tableau, Sigma, ClickHouse, Grafana</p></div>
+        <div class="stack-row"><p class="stack-row__label">AI &amp; DATA</p><p class="stack-row__val">LangChain, PyTorch, OpenAI, Claude, MCP, Zapier, Airflow, Snowflake, dbt, Tableau, Sigma Computing, ClickHouse, Grafana</p></div>
         <div class="stack-row"><p class="stack-row__label">WEB &amp; APP</p><p class="stack-row__val">Node.js, React, Next.js, Streamlit, PostgreSQL, MongoDB, Firebase, Supabase, Stripe</p></div>
         <div class="stack-row"><p class="stack-row__label">INFRASTRUCTURE</p><p class="stack-row__val">Docker, Proxmox, Terraform, Linux, Cloudflare, GCP, Railway, CI/CD, Git</p></div>
         <div class="stack-row"><p class="stack-row__label">SECURITY</p><p class="stack-row__val">Splunk, Splunk SOAR, SOC 2, Vulnerability Scanning, Phishing Simulation</p></div>
-        <div class="stack-row"><p class="stack-row__label">CERTIFIED</p><p class="stack-row__val"><span class="chip chip--accent">Splunk Enterprise Certified</span></p></div>
+        <!-- CERT: course certificate, not a certification. Wrap the title in a link to the Coursera verify URL once Nicolo sends it -->
+        <div class="stack-row"><p class="stack-row__label">CERTIFICATES</p><p class="stack-row__val">Intro to Snowflake for Devs, Data Scientists, Data Engineers (Snowflake, via Coursera)</p></div>
       </div>
     </div>
   </section>
@@ -486,15 +484,14 @@
     <div class="container">
       <h2 class="ds-section__num">05 / LEADERSHIP</h2>
       <div class="ds-rows">
-        <!-- LEADERSHIP COPY: drafted from the graduation post, Nicolo to refine -->
         <article class="ds-row">
           <div class="ds-row__meta"><span class="ds-row__date">2023 &ndash; JUN 2026</span></div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">Cal Poly Club Baseball</h3>
-            <p class="ds-row__org">Co-President (2025 to 2026) &middot; Player (2023 to 2026)</p>
+            <p class="ds-row__org">Co-President (Jun 2025 to Jun 2026) &middot; Player (2023 to Jun 2026)</p>
             <ul class="ds-row__points">
-              <li>Competed for three seasons, some of the best memories of my time at Cal Poly.</li>
-              <li>Co-led the club for the final year: roster, scheduling, budget, and travel for a full competitive season.</li>
+              <li>Played three seasons with the club, and they're some of my best memories from Cal Poly.</li>
+              <li>Co-led the club as Co-President in my final season.</li>
             </ul>
           </div>
         </article>
@@ -502,9 +499,9 @@
           <div class="ds-row__meta"><span class="ds-row__date">SEP 2021 &ndash; JUN 2025</span></div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">Kappa Sigma Fraternity</h3>
-            <p class="ds-row__org">President (2022 to 2023) &middot; Risk Manager (2021 to 2025)</p>
+            <p class="ds-row__org">President (Dec 2022 to Mar 2023) &middot; Risk Manager (Sep 2021 to Jun 2025)</p>
             <ul class="ds-row__points">
-              <li>Led the chapter as President and ran risk management across multiple years.</li>
+              <li>Led the chapter as President and ran risk management for nearly four years.</li>
             </ul>
           </div>
         </article>
@@ -524,7 +521,7 @@
             <p class="ds-row__org">California Polytechnic State University, San Luis Obispo</p>
             <ul class="ds-row__points">
               <li>Senior project (Flora, with Bloomfilter) won Best in Lab.</li>
-              <li>Coursework: Data Science, Computer Science, Data Analytics, Enterprise Analytics, Database Management and Design, Operations Research, Machine Learning, Statistics and Design of Experiments, Simulation, Human Factors and Ergonomics, Usability / HCI, Project Management, RAG-assisted LLM systems.</li>
+              <li>Coursework: Data Science, Computer Science, Data Analytics, Enterprise Analytics, Database Management and System Design, Operations Research, Machine Learning, Statistics and Design of Experiments, Simulation, Human Factors and Ergonomics, Usability / HCI, Project Management, Internal Systems Management, RAG-assisted LLM systems.</li>
             </ul>
           </div>
         </article>
@@ -539,7 +536,7 @@
       <div class="contact-grid">
         <div class="contact-grid__intro">
           <p class="ds-statement">Have an idea, a project, or just want to talk shop?</p>
-          <p class="ds-body">I am always down to connect. Reach out and I will get back to you.</p>
+          <p class="ds-body">I'm always down to connect. Reach out and I'll get back to you.</p>
           <div class="contact-actions">
             <a class="btn btn--primary" href="mailto:nicodiferd@gmail.com">nicodiferd@gmail.com</a>
             <a class="btn btn--secondary" href="https://www.linkedin.com/in/nicolo-diferdinando/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -576,8 +573,6 @@
   
   
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=redesign-1"></script>
-  
-  <!-- Counters handled by js/modules/animations.js -->
+  <script type="module" src="js/app.js?v=redesign-2"></script>
 </body>
 </html>

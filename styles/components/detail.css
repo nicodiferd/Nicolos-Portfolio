@@ -94,6 +94,11 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* Dark backdrop for a transparent logo hero (bandit.html) */
+.detail__hero--ink img {
+  background: #17171a;
+}
+
 /* Modifiers for pages that keep their own section layout below the header */
 .detail--header {
   padding-bottom: var(--space-6);
@@ -141,6 +146,14 @@
 
 .detail__body a:not(.btn) {
   color: var(--color-primary);
+}
+
+/* Inline links in prose: underline so they don't rely on color alone */
+.detail__body a:not(.btn),
+.detail__lead a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 /* Gallery */

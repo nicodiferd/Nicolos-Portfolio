@@ -1,1 +1,17 @@
-/resume.pdf  /Nicolo DiFerdinando Resume.pdf  200
+# Cloudflare Pages redirects. Each rule is "source destination status",
+# whitespace-separated, so a literal space in a path breaks the rule (Pages
+# drops it). Write spaces as %20.
+
+# Short link to the resume (the PDF itself is served from /resume.pdf)
+/resume              /resume.pdf  301
+
+# Old resume URL (the PDF used to be served from the repo root under this
+# name), kept so links already shared don't 404
+/Nicolo%20DiFerdinando%20Resume.pdf  /resume.pdf  301
+
+# Old resume viewer page (removed)
+/view-resume         /resume.pdf  301
+/view-resume.html    /resume.pdf  301
+
+# Browsers and crawlers ask for /favicon.ico (e.g. on the PDF tab)
+/favicon.ico         /images/favicon.png  301

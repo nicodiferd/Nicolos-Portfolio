@@ -3,11 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="HomeLab: a year and a half of Proxmox, pfSense, ClickHouse observability, and fleet-wide automation. Built by Nicolo DiFerdinando.">
-  <title>HomeLab | Nicolo DiFerdinando</title>
+  <meta name="description" content="HomeLab: a single-node Proxmox lab running since 2024, rebuilt in San Diego in 2026. n8n automation, ClickHouse telemetry, Proxmox Backup Server, and local GPU OCR.">
+  <meta name="author" content="Nicolo DiFerdinando">
+  <meta name="theme-color" content="#f5f2ec">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nicolo DiFerdinando">
+  <meta property="og:title" content="HomeLab: Proxmox Since 2024 | Nicolo DiFerdinando">
+  <meta property="og:description" content="HomeLab: a single-node Proxmox lab running since 2024, rebuilt in San Diego in 2026. n8n automation, ClickHouse telemetry, Proxmox Backup Server, and local GPU OCR.">
+  <meta property="og:url" content="https://nicolod.org/homelab">
+  <meta property="og:image" content="https://nicolod.org/images/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HomeLab: Proxmox Since 2024 | Nicolo DiFerdinando">
+  <meta name="twitter:description" content="HomeLab: a single-node Proxmox lab running since 2024, rebuilt in San Diego in 2026. n8n automation, ClickHouse telemetry, Proxmox Backup Server, and local GPU OCR.">
+  <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
+  <meta name="twitter:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
+  <title>HomeLab: Proxmox Since 2024 | Nicolo DiFerdinando</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="canonical" href="https://nicolod.org/homelab">
 
   <!-- Early theme to prevent flash -->
   <script>
@@ -36,7 +53,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=redesign-1">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-2">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NWWM38WB');</script>
+  <!-- End Google Tag Manager -->
 
   <style>
     /* HomeLab page specific styles */
@@ -64,6 +89,16 @@
 
     .lab-section__text + .lab-section__text {
       margin-top: var(--space-4);
+    }
+
+    .lab-section__asof {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-top: calc(-1 * var(--space-6));
+      margin-bottom: var(--space-8);
     }
 
     .lab-card {
@@ -104,13 +139,37 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: var(--space-3);
       margin-bottom: var(--space-3);
+    }
+
+    .lab-card__header .lab-card__icon {
+      margin-bottom: 0;
+    }
+
+    .lab-card .lab-card__meta,
+    .lab-card .lab-card__kicker {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .lab-card .lab-card__kicker {
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
     }
 
     .lab-card h3 {
       color: var(--color-text-primary);
       font-size: var(--text-lg);
       margin-bottom: 0;
+    }
+
+    .lab-card > h3 {
+      margin-bottom: var(--space-2);
     }
 
     .lab-card p {
@@ -129,6 +188,8 @@
       font-weight: var(--font-semibold);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .status-badge--active {
@@ -143,7 +204,7 @@
       height: 6px;
       border-radius: 50%;
       background: #28a745;
-      animation: pulse-dot 2s infinite;
+      animation: pulse-dot 2s 3;
     }
 
     @keyframes pulse-dot {
@@ -153,19 +214,35 @@
 
     .status-badge--inactive {
       background: rgba(108, 117, 125, 0.15);
-      color: #6c757d;
+      color: #8a9096;
       border: 1px solid rgba(108, 117, 125, 0.3);
     }
 
-    .status-badge--planned {
-      background: rgba(255, 193, 7, 0.15);
-      color: #ffc107;
-      border: 1px solid rgba(255, 193, 7, 0.3);
+    .status-badge--retired {
+      background: transparent;
+      color: var(--color-text-muted);
+      border: 1px dashed var(--color-border);
+    }
+
+    .services-group {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--space-3);
+      margin: var(--space-12) 0 var(--space-6);
+      max-width: none;
+    }
+
+    .services-group--first {
+      margin-top: var(--space-8);
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
       gap: var(--space-6);
     }
 
@@ -175,11 +252,14 @@
       color: var(--color-primary);
     }
 
+    .lab-card--parked .lab-card__icon {
+      color: var(--color-text-muted);
+    }
+
     .hardware-specs {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
       gap: var(--space-4);
-      margin-top: var(--space-8);
     }
 
     .spec-item {
@@ -204,31 +284,10 @@
       color: var(--color-text-primary);
     }
 
-    .cf-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: var(--space-4);
-      margin-top: var(--space-8);
-    }
-
-    .cf-stat {
-      text-align: center;
-      padding: var(--space-4);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-    }
-
-    .cf-stat__number {
-      font-size: var(--text-3xl);
-      font-weight: var(--font-bold);
-      color: #f6821f;
-      margin-bottom: var(--space-1);
-    }
-
-    .cf-stat__label {
-      font-size: var(--text-sm);
-      color: var(--color-text-secondary);
+    .spec-item__sub {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
     }
 
     .tech-cloud {
@@ -249,8 +308,29 @@
     }
 
     .tech-cloud__tag:hover {
-      background: rgba(181, 39, 29, 0.12);
       border-color: var(--color-primary);
+    }
+
+    .tech-cloud__tag--retired {
+      background: transparent;
+      color: var(--color-text-muted);
+      border: 1px dashed var(--color-border);
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+
+    .tech-cloud__tag--retired:hover {
+      background: transparent;
+      border-color: var(--color-border);
+    }
+
+    .tech-cloud__label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-top: var(--space-8);
     }
 
     .ai-section {
@@ -270,11 +350,16 @@
     .ai-section p {
       color: var(--color-text-secondary);
       line-height: 1.7;
+      max-width: 800px;
+    }
+
+    .ai-section p + p {
+      margin-top: var(--space-4);
     }
 
     .ai-features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
       gap: var(--space-4);
       margin-top: var(--space-6);
     }
@@ -372,18 +457,32 @@
       line-height: 1.75;
     }
 
+    .lab-timeline__list + .lab-timeline__text {
+      margin-top: var(--space-3);
+    }
+
     .lab-timeline__list li {
       margin-bottom: var(--space-2);
     }
 
-    /* Terminal-style readout */
+    /* Hero: crop from the bottom so the terminal title bar stays visible */
+    .detail__hero img {
+      object-position: top;
+    }
+
+    /* Terminal-style readout (a <pre> inside a <figure>) */
+    .readout-figure {
+      margin: var(--space-6) 0 0;
+    }
+
     .readout {
+      max-width: 46rem;
       background: #0d1117;
       border: 1px solid #1f2a3a;
       border-radius: var(--radius-md);
       padding: var(--space-5);
-      margin-top: var(--space-6);
-      font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      margin: 0;
+      font-family: var(--font-mono);
       font-size: 0.82rem;
       line-height: 1.65;
       color: #c9d1d9;
@@ -393,11 +492,11 @@
     }
 
     .readout__header {
-      font-family: var(--font-family-base, inherit);
+      font-family: var(--font-mono);
       display: flex;
       align-items: center;
       gap: var(--space-2);
-      color: var(--color-text-muted);
+      color: #8b949e;
       font-size: var(--text-xs);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -423,12 +522,23 @@
     .readout__dots span:nth-child(2) { background: #ffbd2e; }
     .readout__dots span:nth-child(3) { background: #27c93f; }
 
+    .readout__caption {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-3);
+      max-width: 800px;
+    }
+
     /* Automation cards */
     .auto-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
       gap: var(--space-6);
       margin-top: var(--space-6);
+    }
+
+    .auto-grid--pairs {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
     }
 
     .tunnel-list {
@@ -436,7 +546,7 @@
       padding: 0;
       margin-top: var(--space-4);
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
       gap: var(--space-3);
     }
 
@@ -446,15 +556,20 @@
       border-left: 3px solid #f6821f;
       border-radius: var(--radius-sm);
       padding: var(--space-3) var(--space-4);
-      font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: var(--text-sm);
       color: var(--color-text-primary);
     }
 
+    .tunnel-list li.tunnel-list__item--tailscale {
+      border-left-color: var(--color-primary);
+    }
+
     .tunnel-list li span {
+      display: block;
       color: var(--color-text-muted);
       font-size: 0.75rem;
-      margin-left: var(--space-2);
+      margin-top: var(--space-1);
     }
 
     /* Responsive */
@@ -467,10 +582,6 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .cf-stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
       .lab-section {
         padding: var(--space-12) 0;
       }
@@ -478,6 +589,10 @@
       .readout {
         font-size: 0.72rem;
         padding: var(--space-3);
+      }
+
+      .ai-section {
+        padding: var(--space-5);
       }
 
       .lab-timeline {
@@ -489,7 +604,8 @@
       }
     }
 
-    /* AOS animations */
+    /* Scroll reveal: hidden until js/modules/animations.js adds .aos-animate.
+       Transforms live in styles/main.css; <noscript> below undoes this. */
     [data-aos] {
       opacity: 0;
       transition-duration: 800ms;
@@ -500,73 +616,47 @@
       opacity: 1;
     }
 
-    [data-aos="fade-up"] {
-      transform: translateY(30px);
-    }
-
-    [data-aos="fade-up"].aos-animate {
-      transform: translateY(0);
-    }
-
-    [data-aos="fade-right"] {
-      transform: translateX(-30px);
-    }
-
-    [data-aos="fade-right"].aos-animate {
-      transform: translateX(0);
-    }
-
-    [data-aos="fade-left"] {
-      transform: translateX(30px);
-    }
-
-    [data-aos="fade-left"].aos-animate {
-      transform: translateX(0);
-    }
-
-    [data-aos="zoom-in"] {
-      transform: scale(0.8);
-    }
-
-    [data-aos="zoom-in"].aos-animate {
-      transform: scale(1);
-    }
-
-    /* Ensure content visible immediately */
-    body {
-      opacity: 1 !important;
-      visibility: visible !important;
+    /* Inline links in body copy: underline so they don't rely on color alone */
+    .lab-section__text a,
+    .lab-card p a {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
     /* ===== Light-mode adjustments ===== */
-    /* Status badge colors stay on-brand in both themes; planned (yellow) needs
-       a darker text in light mode to clear AA contrast on a pale yellow wash. */
-    [data-theme="light"] .status-badge--planned {
-      color: #8a5a00;
-      border-color: rgba(255, 193, 7, 0.5);
-    }
-
+    /* Status badge colors stay on-brand in both themes; text is darkened in
+       light mode to clear AA contrast on the pale washes. */
     [data-theme="light"] .status-badge--inactive {
       color: #5a5f66;
       border-color: rgba(108, 117, 125, 0.4);
     }
 
     [data-theme="light"] .status-badge--active {
-      color: #1a7a3a;
+      color: #166a32;
       border-color: rgba(40, 167, 69, 0.4);
+    }
+
+    [data-theme="light"] .status-badge--retired {
+      border-color: rgba(26, 22, 18, 0.3);
     }
 
     /* The terminal-style .readout is intentionally a fixed dark "console"
        panel and is preserved in both themes - no override. */
   </style>
+  <noscript><style>[data-aos]{opacity:1 !important;transform:none !important;}</style></noscript>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWWM38WB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <a href="#content" class="skip-link">Skip to content</a>
 
   <!-- Top bar -->
   <header class="detail-top">
     <div class="container detail-top__bar">
-      <a class="detail-back" href="index.html#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
+      <a class="detail-back" href="/#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
       <select class="theme-selector" data-theme-selector aria-label="Theme selector">
         <option value="system">System</option>
         <option value="dark">Dark</option>
@@ -580,14 +670,15 @@
   <section class="detail detail--header">
     <div class="container">
       <p class="ds-section__num">PROJECT / HOMELAB</p>
-      <h1 class="detail__title">A Year and a Half of Proxmox</h1>
+      <h1 class="detail__title">HomeLab: Proxmox Since 2024</h1>
       <p class="detail__lead">
-        What started as a single Tailscale container grew into a 12+ service environment spanning
-        personal services, home networking, observability, and a production deployment target for my own software.
+        What started as one Tailscale container is now a single-node Proxmox lab in San Diego:
+        15 VMs and containers, eight of them running, covering automation, metrics, backups,
+        local AI, and a self-hosted copy of my own software.
       </p>
-      <div class="chips"><span class="chip">Proxmox</span><span class="chip">pfSense</span><span class="chip">ClickHouse</span><span class="chip">Cloudflare</span></div>
-      <p class="detail__status"><i class="fas fa-plug-circle-xmark"></i> Offline &middot; moving to San Diego</p>
-      <figure class="detail__hero"><img src="images/homelab-offline.png" alt="Terminal readout: homelab racked down for the move, next boot San Diego" width="1336" height="835"></figure>
+      <div class="chips"><span class="chip">Proxmox</span><span class="chip">n8n</span><span class="chip">ClickHouse</span><span class="chip">Tailscale</span><span class="chip">Cloudflare</span><span class="chip">llama.cpp</span></div>
+      <p class="detail__status"><i class="fas fa-plug-circle-check"></i> Online &middot; San Diego &middot; since Aug 31, 2026</p>
+      <figure class="detail__hero"><img src="images/homelab-status.png" alt="Terminal: ssh into the homelab succeeds. Proxmox VE, 15 guests with 8 running and 7 parked or retired, located in San Diego, status online since August 31, 2026" width="1336" height="835"></figure>
     </div>
   </section>
 
@@ -596,17 +687,21 @@
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">The Short Version</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        I've been running a Proxmox homelab for about a year and a half. It didn't start as a "homelab."
+        I've been running a Proxmox homelab since late 2024. It didn't start as a "homelab."
         It started as one container doing one useful thing. Every era since has been driven by a concrete
         problem I wanted to solve, or a piece of infrastructure I wanted to stop misunderstanding.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        The lab grew to serve me, my roommate, and my baseball team. It has a real observability stack,
-        real network segmentation, and real rollback plans. This is the history of how it got there.
+        Today it's one Ryzen box hosting 15 VMs and containers. Eight are live: remote access, scheduled
+        automation, a metrics database, weekly backups, a GPU container that reads receipts, a personal
+        instance of my finance app, an ops VM that runs Claude Code, and (for now) a Minecraft server for
+        friends. The other seven are parked or retired on purpose, because 32 GB of RAM is a budget and
+        I'd rather spend it on things I actually use.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        As of July 2026 the rack is unplugged and packed for the move to San Diego.
-        Everything below describes the fleet as last booted. Next boot happens in the new place.
+        The SLO rack came down on June 17, 2026, and the lab was rebuilt in San Diego.
+        It has been back online since August 31. The move broke more than I expected, and most of the
+        interesting parts of this page came out of fixing it.
       </p>
     </div>
   </section>
@@ -618,77 +713,119 @@
 
       <div class="lab-timeline" data-aos="fade-up">
         <div class="lab-timeline__item">
-          <div class="lab-timeline__era">Late 2024 · Rosita</div>
-          <div class="lab-timeline__title">The Beginning</div>
+          <div class="lab-timeline__era">Late 2024 &middot; San Luis Obispo</div>
+          <h3 class="lab-timeline__title">The Beginning</h3>
           <p class="lab-timeline__text">
-            Installed Proxmox on a spare box at Rosita, the house my roommates and I named.
-            First CT was Tailscale, so I could VPN into the apartment from anywhere. Second CT was Pi-hole,
-            running network-wide DNS ad-blocking for the whole place. That was the entire lab for a while:
+            Installed Proxmox on a spare box at my first apartment in San Luis Obispo.
+            The first container was Tailscale, so I could VPN in from anywhere. The second was Pi-hole,
+            blocking ads in DNS for the whole household. That was the entire lab for a while:
             two containers doing useful household work.
           </p>
         </div>
 
         <div class="lab-timeline__item">
-          <div class="lab-timeline__era">Early 2025 · First VM</div>
-          <div class="lab-timeline__title">Someone Else Depends On It</div>
+          <div class="lab-timeline__era">June 2025 &middot; Across Town</div>
+          <h3 class="lab-timeline__title">The Move + Immich</h3>
           <p class="lab-timeline__text">
-            Spun up a Windows 11 VM for my roommate Matthew to run his trading automations.
-            First time the lab was serving someone besides me, and the first time an outage actually
-            mattered to anyone else. Uptime stopped being theoretical.
+            Rack moved across San Luis Obispo to a new apartment. Stood up Immich as a
+            self-hosted photo library, originally for my Cal Poly club baseball team (30+ users),
+            and later for my own photos too. Other people depending on it made uptime stop being theoretical.
           </p>
         </div>
 
         <div class="lab-timeline__item">
-          <div class="lab-timeline__era">June 2025 · Felton</div>
-          <div class="lab-timeline__title">The Move + Immich</div>
-          <p class="lab-timeline__text">
-            Rack moved with me from SLO to Felton. Stood up Immich as a self-hosted photo library,
-            originally to host photos for my Cal Poly club baseball team. Later added a dedicated 300 GiB
-            volume for personal photo backup so the team library and my own photos weren't fighting for space.
-          </p>
-        </div>
-
-        <div class="lab-timeline__item">
-          <div class="lab-timeline__era">Late 2025 · Early 2026</div>
-          <div class="lab-timeline__title">The DevOps Era</div>
+          <div class="lab-timeline__era">Late 2025 to Early 2026</div>
+          <h3 class="lab-timeline__title">The DevOps Era</h3>
           <p class="lab-timeline__text">
             This is where the lab stopped being "a few useful services" and became a real learning environment.
             Each addition forced me to learn something I'd been hand-waving over:
           </p>
           <ul class="lab-timeline__list">
-            <li><strong>n8n</strong> (LXC) for scheduled automation, including a weekly apt-upgrade job that SSHes into every host in the fleet.</li>
-            <li><strong>ntopng</strong> for flow-level network visibility. Finally being able to see what my network was actually doing.</li>
-            <li><strong>Home Assistant Green</strong> (physical device) for home automation.</li>
+            <li><strong>A real host.</strong> Over the winter the original FX-6350 with 8 GB of DDR3 gave way to a Ryzen 9 5900X (12 cores, 24 threads) with 32 GB of DDR4.</li>
+            <li><strong>n8n</strong> (LXC) for scheduled automation.</li>
+            <li><strong>ntopng</strong> for flow-level network visibility. Finally being able to see what my network was actually doing. (Destroyed in May 2026 to reclaim memory.)</li>
+            <li><strong>A VM for a friend's side project</strong>, hosted alongside my own.</li>
+            <li><strong>Home Assistant Green</strong>, a physical appliance. Automation was always going to be the next project.</li>
             <li><strong>Samba video share</strong> (LXC) as a macOS-friendly editing scratch volume.</li>
           </ul>
         </div>
 
         <div class="lab-timeline__item">
           <div class="lab-timeline__era">April 2026</div>
-          <div class="lab-timeline__title">Network Redesign + Observability Stack</div>
+          <h3 class="lab-timeline__title">Network Redesign + Observability Stack</h3>
           <p class="lab-timeline__text">
-            The biggest level-up so far. Four things happened back-to-back:
+            The biggest level-up so far, and it started with a loss: the AI agent I'd been running ops through
+            lost access. Taking it apart showed most of its jobs were shell scripts wearing an agent costume.
+            So the plumbing moved to n8n, the metrics moved to ClickHouse, and the LLM was kept for work that
+            actually needs judgment: a scalpel, not plumbing.
           </p>
           <ul class="lab-timeline__list">
-            <li>Migrated the network off a consumer R9000 router onto <strong>pfSense CE 2.7.2</strong> running as a VM. Configured VLANs for LAN, IoT, Servers, and Guest. Cutover was April 13.</li>
-            <li>Redesigned the IP scheme from scattered (.9, .12, .14, .17–.20) to sequential (.2–.11) with DHCP static reservations for every service. Every host has a predictable address now.</li>
-            <li>Built a <strong>ClickHouse + Grafana</strong> observability stack from scratch. ClickHouse on a dedicated 200 GiB disk, database <code>homelab</code>. Grafana CT with provisioned dashboards: "Host Overview" and "Outage Timeline."</li>
-            <li>Exposed ClickHouse publicly via <strong>Cloudflare Tunnel</strong> at <code>clickhouse.nicolod.org</code>, gated to an INSERT-only user. Pivoted here from Tailscale Funnel after discovering it blocks datacenter egress, which had been silently breaking my heartbeat Worker.</li>
+            <li>Migrated off a consumer R9000 router onto <strong>pfSense CE</strong> running as a VM, with a dual-port Intel NIC for WAN and LAN. The first cutover failed because the cable modem wouldn't re-lock to new hardware; the second one stuck on April 13. VLANs for IoT, Servers and Guest were designed and defined, but never switched on before the move.</li>
+            <li>Redesigned addressing from scattered to sequential, grouped by function, with a reservation for every service.</li>
+            <li>Built a <strong>ClickHouse + Grafana</strong> observability stack. The "ClickHouse VM" turned out to be bare Ubuntu with ClickHouse never installed, so the schema started from zero. Telegraf then looked healthy at every layer (service active, HTTP 200, a write logged) while the table held zero rows. "Verify with row counts, not status codes" has been a standing rule ever since.</li>
+            <li>Put a <strong>Cloudflare Worker</strong> heartbeat on a one-minute cron, writing in from Cloudflare's edge. The first version went through Tailscale Funnel, which turned out to block datacenter IPs and had been failing every Worker call with a 522.</li>
+            <li>Moved the daily report from a bash cron to <strong>n8n</strong> and built the weekly patch workflow.</li>
           </ul>
+        </div>
+
+        <div class="lab-timeline__item">
+          <div class="lab-timeline__era">Early June 2026</div>
+          <h3 class="lab-timeline__title">Backups, Finally</h3>
           <p class="lab-timeline__text">
-            The heartbeat itself: a Cloudflare Worker (<code>homelab-heartbeat</code>) runs cron-every-minute
-            and writes a row into <code>homelab.heartbeats</code>. Independent external uptime verification instead of
-            the lab self-reporting.
+            Stood up <strong>Proxmox Backup Server</strong> in an unprivileged container, plus a restic repo for the
+            configs that matter most. Backup failures had been going to root mail, which bounced at Gmail because
+            it came from a residential IP, so alerts moved to a Discord hook. ClickHouse's own logging had grown to 62 GiB,
+            dwarfing the actual data; cleanup took it to 247 MiB, and ClickHouse was excluded from backups
+            on purpose, since the schema is in git and the data re-ingests.
           </p>
         </div>
 
         <div class="lab-timeline__item">
-          <div class="lab-timeline__era">July 2026 &middot; The Move South</div>
-          <div class="lab-timeline__title">Racked Down for San Diego</div>
+          <div class="lab-timeline__era">June 17, 2026 &middot; The Move South</div>
+          <h3 class="lab-timeline__title">Racked Down</h3>
           <p class="lab-timeline__text">
-            Graduated, packed the rack, and started the move from Felton to San Diego for the new job.
-            The lab is offline until the new place has power and internet. First boot in San Diego comes
-            with a fresh network cutover and a chance to fix the cable management sins of the last two eras.
+            Graduated, and the rack came down for the move to San Diego and the new job.
+            The newest backups were from June 14. Then about ten weeks in boxes.
+          </p>
+        </div>
+
+        <div class="lab-timeline__item">
+          <div class="lab-timeline__era">Aug 31, 2026 &middot; San Diego</div>
+          <h3 class="lab-timeline__title">Back Online, Mostly</h3>
+          <p class="lab-timeline__text">
+            Back online in San Diego, behind AT&amp;T Fiber and a <strong>UniFi</strong> gateway.
+            pfSense didn't survive the trip: its NICs had no carrier on the new network, and a week later I made
+            AT&amp;T plus UniFi the setup going forward. The pfSense VM was kept, stopped, and later retired.
+            The first week was mostly finding out what the move had quietly broken:
+          </p>
+          <ul class="lab-timeline__list">
+            <li>The backup job still pointed at an address from the old apartment. Caught and fixed the day the lab came back.</li>
+            <li>An unattended upgrade installed a ClickHouse build that needed a CPU feature the VM didn't expose. It crash-looped 18,837 times over six and a half days, and nothing alerted. (More on that below.)</li>
+            <li>The daily report had been producing nothing at all, because its first step, a query to the dead pfSense VM, aborted the whole run. It fails open now.</li>
+            <li>The docs were full of the old network: 145 stale references across 41 files. Live configs got fixed; historical docs were left alone on purpose, because rewriting them destroys the record of what was true at the time.</li>
+          </ul>
+        </div>
+
+        <div class="lab-timeline__item">
+          <div class="lab-timeline__era">September 2026</div>
+          <h3 class="lab-timeline__title">Cleanup and Two GPUs</h3>
+          <ul class="lab-timeline__list">
+            <li>Audited database access and moved every client onto scoped, least-privilege accounts.</li>
+            <li>Stopped <strong>Grafana</strong> (nobody was opening it) and cut ClickHouse from 8 GB of RAM to 4.</li>
+            <li>Batched <strong>Telegraf</strong>: from roughly 1,155 INSERTs a minute across the fleet to about 5.</li>
+            <li>Pulled the dual-port NIC pfSense had used and put two GPUs in its place: an <strong>AMD RX 5700</strong>, whose render node now feeds a container running local OCR models, and a GTX 1060 that drives the console.</li>
+            <li>Two host freezes, on the 15th and the 25th. The host now panics and reboots itself instead of hanging.</li>
+            <li>Stood up a <strong>Minecraft</strong> server for friends on the 25th, and parked four guests to pay for its RAM.</li>
+          </ul>
+        </div>
+
+        <div class="lab-timeline__item">
+          <div class="lab-timeline__era">October 2026</div>
+          <h3 class="lab-timeline__title">Travel-Ready</h3>
+          <p class="lab-timeline__text">
+            Approved the Tailscale container as an exit node and phone-tested it, so my traffic can leave
+            through home when I'm on the road. Redesigned the daily report to be read on a phone in ten seconds.
+            Reconciled the inventory and the issue tracker against what's actually running.
           </p>
         </div>
       </div>
@@ -698,51 +835,71 @@
   <!-- Today Section -->
   <section class="lab-section lab-section--alt">
     <div class="container">
-      <h2 class="lab-section__title" data-aos="fade-up">The Lab, Pre-Move Snapshot</h2>
+      <h2 class="lab-section__title" data-aos="fade-up">The Lab Today</h2>
+      <p class="lab-section__asof" data-aos="fade-up">As of October 10, 2026</p>
 
       <div class="hardware-specs" data-aos="fade-up">
         <div class="spec-item">
           <div class="spec-item__label">Hypervisor</div>
-          <div class="spec-item__value">Proxmox VE 9.1.7</div>
+          <div class="spec-item__value">Proxmox&nbsp;VE</div>
+          <div class="spec-item__sub">single node</div>
         </div>
         <div class="spec-item">
-          <div class="spec-item__label">Compute</div>
-          <div class="spec-item__value">24 logical CPUs</div>
+          <div class="spec-item__label">CPU</div>
+          <div class="spec-item__value">Ryzen 9 5900X</div>
+          <div class="spec-item__sub">12 cores / 24 threads</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-item__label">Memory</div>
+          <div class="spec-item__value">32 GB DDR4</div>
+          <div class="spec-item__sub">~80% in use</div>
         </div>
         <div class="spec-item">
           <div class="spec-item__label">Guests</div>
-          <div class="spec-item__value">12+ CT / VM</div>
+          <div class="spec-item__value">8 of 15 running</div>
+          <div class="spec-item__sub">7 VMs, 8 containers</div>
         </div>
         <div class="spec-item">
-          <div class="spec-item__label">Network</div>
-          <div class="spec-item__value">192.168.1.0/24 · VLANs</div>
+          <div class="spec-item__label">Storage</div>
+          <div class="spec-item__value">ZFS mirror + 2&nbsp;TB</div>
+          <div class="spec-item__sub">5 SATA drives in all</div>
         </div>
         <div class="spec-item">
-          <div class="spec-item__label">Switch</div>
-          <div class="spec-item__value">TL-SG108E (managed, trunked)</div>
+          <div class="spec-item__label">GPUs</div>
+          <div class="spec-item__value">RX&nbsp;5700 + GTX&nbsp;1060</div>
+          <div class="spec-item__sub">local OCR + console</div>
         </div>
         <div class="spec-item">
-          <div class="spec-item__label">Edge / Firewall</div>
-          <div class="spec-item__value">pfSense CE 2.7.2 (VM)</div>
+          <div class="spec-item__label">Gateway</div>
+          <div class="spec-item__value">UniFi</div>
+          <div class="spec-item__sub">behind AT&amp;T Fiber</div>
         </div>
         <div class="spec-item">
-          <div class="spec-item__label">Warehouse Disk</div>
-          <div class="spec-item__value">ClickHouse · 200 GiB</div>
+          <div class="spec-item__label">Remote Access</div>
+          <div class="spec-item__value">Tailscale</div>
+          <div class="spec-item__sub">subnet router + exit node</div>
         </div>
         <div class="spec-item">
-          <div class="spec-item__label">Public Ingress</div>
-          <div class="spec-item__value">Cloudflare Tunnel only</div>
+          <div class="spec-item__label">Backups</div>
+          <div class="spec-item__value">PBS + restic</div>
+          <div class="spec-item__sub">weekly, verified</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-item__label">Public Web</div>
+          <div class="spec-item__value">Cloudflare Tunnel</div>
+          <div class="spec-item__sub">outbound only</div>
         </div>
       </div>
 
       <p class="lab-section__text" style="margin-top: var(--space-10);" data-aos="fade-up">
-        <strong>Fleet-wide SSH</strong>: my ed25519 key is authorized on every CT and VM I operate, so I can hop into
-        any service from my workstation with zero friction. Different users per host: CTs use <code>root@</code>,
-        VMs use non-root service accounts like <code>clickhouse@</code> and <code>devhost@</code>.
+        <strong>Ops from one place.</strong> Hosts are administered from a dedicated ops VM running Claude Code,
+        which keeps the inventory, runbooks, a decisions log and a 35-issue tracker in git, next to the configs
+        they describe. The scheduled jobs in n8n use their own separate key, so one compromised identity doesn't
+        open everything. Risky hypervisor changes get a cold review from a second Claude Code session before
+        they go in.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        <strong>No port-forwarding, no exposed IP.</strong> Cloudflare Tunnel is the only public ingress.
-        Everything is version-controlled configs with explicit rollback plans. I've learned the hard way that
+        Everything lives in version-controlled configs, with the decisions written down. I've learned the hard way that
         "I'll remember how I set this up" is a lie.
       </p>
     </div>
@@ -753,117 +910,174 @@
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">Services</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        The 12+ containers and VMs that make up the fleet, offline for the move and coming back
-        online in San Diego.
+        15 guests on one host. Eight are running. The other seven are stopped on purpose: six parked, mostly
+        to free RAM, and pfSense retired. "Parked" means stopped, autostart off, and listed as expected-down in the daily report, so a
+        stopped guest that isn't on that list shows up as critical the next morning.
       </p>
 
-      <div class="services-grid" style="margin-top: var(--space-8);" data-aos="fade-up">
+      <p class="services-group services-group--first" data-aos="fade-up">Running &middot; 8</p>
+      <div class="services-grid" data-aos="fade-up">
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-fire"></i></div>
           <div class="lab-card__header">
-            <h3>pfSense</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-network-wired"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>Edge router + firewall running as a VM. VLANs for LAN, IoT, Servers, and Guest. Replaced the consumer R9000 in April 2026.</p>
+          <h3>Tailscale</h3>
+          <p class="lab-card__meta">LXC</p>
+          <p>Subnet router since day one; the exit node was approved and phone-tested in October. Private access to everything from anywhere, and travel traffic that leaves through home.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-database"></i></div>
           <div class="lab-card__header">
-            <h3>ClickHouse</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-project-diagram"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>Time-series warehouse (LTS 26.3) on a dedicated 200 GiB disk. Database <code>homelab</code> stores heartbeats, host metrics, and outage timeline data.</p>
+          <h3>n8n</h3>
+          <p class="lab-card__meta">LXC</p>
+          <p>Runs the scheduled ops: the 9 AM daily report and the Sunday patch run, from its own container with its own SSH key.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-chart-area"></i></div>
           <div class="lab-card__header">
-            <h3>Grafana</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-database"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>LXC with provisioned dashboards ("Host Overview" and "Outage Timeline") backed by the ClickHouse native-protocol datasource.</p>
+          <h3>ClickHouse</h3>
+          <p class="lab-card__meta">VM</p>
+          <p>ClickHouse on 4 GB of RAM. Heartbeats, host metrics, daily-report history and game analytics: under 1 GiB of data (about 2 GiB on disk with ClickHouse's own logs) on a ~200 GiB volume. Whether to swap it for something smaller is an open question.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-project-diagram"></i></div>
           <div class="lab-card__header">
-            <h3>n8n</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-terminal"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>Scheduled workflow runner. Hosts the daily Homelab report and the weekly fleet-wide apt-upgrade job.</p>
+          <h3>Ops VM</h3>
+          <p class="lab-card__meta">VM &middot; Claude Code</p>
+          <p>Where Claude Code works. Administers the other hosts over SSH and keeps the inventory, runbooks, decisions log and issue tracker in git.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-chart-line"></i></div>
           <div class="lab-card__header">
-            <h3>DevHost (Zedi)</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-chart-line"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>VM 110 · production deployment target for Zedi. Rust + Axum + Postgres in Docker. My own software, running on my own infrastructure.</p>
+          <h3>DevHost (Zedi)</h3>
+          <p class="lab-card__meta">VM &middot; Docker</p>
+          <p>My personal, self-hosted instance of <a href="/zedi">Zedi</a> (Rust + Axum + Postgres in Docker), LAN-only. The public SaaS runs on Railway. Next: receipts read by the GPU container instead of a cloud API.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-shield-alt"></i></div>
           <div class="lab-card__header">
-            <h3>Pi-hole</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-box-archive"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>Network-wide DNS and ad-blocking. 14k+ queries/day, ~3% blocked.</p>
+          <h3>Proxmox Backup Server</h3>
+          <p class="lab-card__meta">LXC</p>
+          <p>Weekly incremental backups with dedup, verify jobs, and 4 weekly / 6 monthly / 1 yearly retention. Runs as an unprivileged container instead of a VM to save RAM.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-eye"></i></div>
           <div class="lab-card__header">
-            <h3>ntopng</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-microchip"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>Flow-level network visibility. When something on the LAN is acting up, this is where I go first.</p>
+          <h3>gpu-ai</h3>
+          <p class="lab-card__meta">LXC &middot; RX 5700</p>
+          <p>The RX 5700's render node, shared into an unprivileged container. llama.cpp on Vulkan runs GLM-OCR, Qwen3-4B and Qwen3-VL-2B to turn receipt photos into JSON. LAN-only.</p>
         </div>
 
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-network-wired"></i></div>
           <div class="lab-card__header">
-            <h3>Tailscale</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-cubes"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
           </div>
-          <p>Exit node + subnet router. Private mesh access to internal services from anywhere.</p>
+          <h3>Minecraft</h3>
+          <p class="lab-card__meta">LXC &middot; for now</p>
+          <p>A vanilla server for friends, planned for two weeks and still up. An analytics collector streams events and stats into ClickHouse (no IPs stored, chat never analyzed).</p>
+        </div>
+      </div>
+
+      <p class="services-group" data-aos="fade-up">Parked&nbsp;&middot;&nbsp;6 &nbsp;/&nbsp; Retired&nbsp;&middot;&nbsp;1 &nbsp;/&nbsp; Appliance&nbsp;&middot;&nbsp;1</p>
+      <div class="services-grid" data-aos="fade-up">
+        <div class="lab-card lab-card--parked">
+          <div class="lab-card__header">
+            <div class="lab-card__icon"><i class="fas fa-shield-alt"></i></div>
+            <span class="status-badge status-badge--inactive">Parked</span>
+          </div>
+          <h3>Pi-hole</h3>
+          <p class="lab-card__meta">LXC</p>
+          <p>Bypassed since the move: the new gateway is the network's DNS server now. Parked until I decide whether to wire it back in.</p>
         </div>
 
-        <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-images"></i></div>
+        <div class="lab-card lab-card--parked">
           <div class="lab-card__header">
-            <h3>Immich</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-chart-area"></i></div>
+            <span class="status-badge status-badge--inactive">Parked</span>
           </div>
-          <p>Self-hosted photo backup: baseball team library plus a dedicated 300 GiB volume for personal photos.</p>
+          <h3>Grafana</h3>
+          <p class="lab-card__meta">LXC</p>
+          <p>Two dashboards, provisioned as code, never opened. Stopped in September and kept around in case I'm wrong.</p>
         </div>
 
-        <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-home"></i></div>
+        <div class="lab-card lab-card--parked">
           <div class="lab-card__header">
-            <h3>Home Assistant Green</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-images"></i></div>
+            <span class="status-badge status-badge--inactive">Parked</span>
           </div>
-          <p>Physical device for home automation. Not a VM, but a dedicated box living on the IoT VLAN.</p>
+          <h3>Immich</h3>
+          <p class="lab-card__meta">VM</p>
+          <p>Photo library for my club baseball team and my own photos. About 400 GB, too big for the weekly backups. Stopped in September to free RAM for the GPU container.</p>
         </div>
 
-        <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-folder-open"></i></div>
+        <div class="lab-card lab-card--parked">
           <div class="lab-card__header">
-            <h3>Samba Video Share</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-folder-open"></i></div>
+            <span class="status-badge status-badge--inactive">Parked</span>
           </div>
-          <p>LXC serving a macOS-friendly SMB share. Scratch volume for editing without filling up the MacBook.</p>
+          <h3>Samba Video Share</h3>
+          <p class="lab-card__meta">LXC</p>
+          <p>macOS-friendly scratch volume for video editing, so the MacBook doesn't fill up. Parked in September to pay for the game server's RAM.</p>
         </div>
 
-        <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-chart-bar"></i></div>
+        <div class="lab-card lab-card--parked">
           <div class="lab-card__header">
-            <h3>Traderbot</h3>
-            <span class="status-badge status-badge--inactive">Offline</span>
+            <div class="lab-card__icon"><i class="fas fa-chart-bar"></i></div>
+            <span class="status-badge status-badge--inactive">Parked</span>
           </div>
-          <p>Windows 11 VM running my roommate's trading automations 24/7. The first "someone-else-depends-on-this" workload.</p>
+          <h3>Side-project VM</h3>
+          <p class="lab-card__meta">VM</p>
+          <p>A VM I host for a friend's project. Parked in September.</p>
+        </div>
+
+        <div class="lab-card lab-card--parked">
+          <div class="lab-card__header">
+            <div class="lab-card__icon"><i class="fas fa-baseball"></i></div>
+            <span class="status-badge status-badge--inactive">Parked</span>
+          </div>
+          <h3>Baseball ML</h3>
+          <p class="lab-card__meta">VM</p>
+          <p>My baseball analytics pipeline. Its catch-up timer fired two seconds after the host came back from a nearly five-day freeze and finished the day's data run with nobody touching it. Parked for the game server.</p>
+        </div>
+
+        <div class="lab-card lab-card--parked">
+          <div class="lab-card__header">
+            <div class="lab-card__icon"><i class="fas fa-fire"></i></div>
+            <span class="status-badge status-badge--retired">Retired</span>
+          </div>
+          <h3>pfSense</h3>
+          <p class="lab-card__meta">VM</p>
+          <p>Ran the SLO network from April to June 2026. Didn't survive the move, and its network card came out in September to make room for two GPUs. The VM is kept, stopped.</p>
+        </div>
+
+        <div class="lab-card lab-card--parked">
+          <div class="lab-card__header">
+            <div class="lab-card__icon"><i class="fas fa-home"></i></div>
+            <span class="status-badge status-badge--inactive">Shelved</span>
+          </div>
+          <h3>Home Assistant Green</h3>
+          <p class="lab-card__meta">Physical appliance</p>
+          <p>A dedicated box, not a VM. Shelved until a project actually needs home automation.</p>
         </div>
       </div>
     </div>
@@ -874,32 +1088,30 @@
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">Observability</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        The goal: stop guessing whether the lab is healthy. Three pieces work together: a time-series warehouse
-        I control (ClickHouse), a dashboard layer (Grafana), and an external heartbeat that verifies the lab
-        from outside itself (Cloudflare Worker).
+        The goal: stop guessing whether the lab is healthy. It's three pieces now: a time-series warehouse
+        I control (ClickHouse), a daily report that reads it (because that's what I actually look at), and a
+        heartbeat that checks the lab from outside itself (a Cloudflare Worker).
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        The whole reason ClickHouse is publicly reachable is so my heartbeat Worker can insert into it.
-        The auth posture is narrow on purpose: one Cloudflare Tunnel hostname (<code>clickhouse.nicolod.org</code>),
-        authenticated as an <strong>INSERT-only user</strong>. No SELECT, no DROP, no schema access.
-        Nothing a leaked credential could exfiltrate.
+        Since a September audit, every client of the database, the heartbeat included, uses a scoped,
+        least-privilege account.
       </p>
 
       <div class="auto-grid" data-aos="fade-up">
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-database"></i></div>
-          <h3>ClickHouse</h3>
-          <p>LTS 26.3 on its own VM with a 200 GiB dedicated disk. Database <code>homelab</code>. Stores heartbeats, Telegraf metrics, and outage records.</p>
-        </div>
-        <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-chart-area"></i></div>
-          <h3>Grafana</h3>
-          <p>"Host Overview" and "Outage Timeline" dashboards, both provisioned as code. Backed by the ClickHouse native-protocol datasource.</p>
+          <h3>Telegraf &rarr; ClickHouse</h3>
+          <p>Agents on four hosts collect CPU, memory, disk, network and process stats every 10 seconds. Batching cut fleet INSERTs from ~1,155 a minute to ~5 and shrank ClickHouse's own query log from 3.18 GiB to 56 MiB. ClickHouse runs on 4 GB with capped caches (about 900 MiB resident) and is excluded from backups on purpose. Cattle, not a pet.</p>
         </div>
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-heartbeat"></i></div>
-          <h3>homelab-heartbeat (Cloudflare Worker)</h3>
-          <p>Cron-every-minute Worker that inserts a row over Cloudflare Tunnel. External verification: if the Worker stops inserting, I know before the lab realizes it's down.</p>
+          <h3>Heartbeat (Cloudflare Worker)</h3>
+          <p>Writes a row every minute from Cloudflare's edge, so every outage since April shows up as a gap in its table, no matter what died inside. The lesson from September: those gaps have to page someone, not sit in a table.</p>
+        </div>
+        <div class="lab-card">
+          <div class="lab-card__icon"><i class="fas fa-clock-rotate-left"></i></div>
+          <h3>Baselines</h3>
+          <p>Every daily report writes a snapshot row back into ClickHouse, so the next one can compute real 24-hour deltas, spot a gateway that rebooted overnight, and notice a changed public IP. A degraded run doesn't blind the next day's report.</p>
         </div>
       </div>
     </div>
@@ -910,81 +1122,184 @@
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">Automation</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        Two n8n workflows do most of the day-to-day fleet ops. Both run from a dedicated n8n LXC with
-        an ed25519 key authorized across every host.
+        Two n8n workflows run the scheduled ops, and Proxmox Backup Server runs the backups. Interactive work
+        happens from the Claude Code ops VM.
+      </p>
+
+      <div class="auto-grid auto-grid--pairs" data-aos="fade-up">
+        <div class="lab-card">
+          <div class="lab-card__icon"><i class="fas fa-clock"></i></div>
+          <h3>Daily Report &middot; 9:00 AM</h3>
+          <p>Pulls from the Proxmox API, ClickHouse, the UniFi gateway, the ISP modem and a LAN sweep, then posts one phone-sized Discord embed that leads with only what needs me. Every source fails open: a dead dependency becomes a named "couldn't reach" line instead of killing the report. Delivery fails closed, so an undelivered report shows up as an error, never as a green run.</p>
+        </div>
+        <div class="lab-card">
+          <div class="lab-card__icon"><i class="fas fa-code-branch"></i></div>
+          <h3>Built in Git, Previewed Offline</h3>
+          <p>The report workflow is generated by a Python builder that lives in git and deploys over n8n's API, so a UI edit gets overwritten on the next deploy. A preview harness replays real past runs, plus fixtures for every source down, missed backups and hostile device names, and fails if a line won't fit on a phone.</p>
+        </div>
+        <div class="lab-card">
+          <div class="lab-card__icon"><i class="fas fa-sync-alt"></i></div>
+          <h3>Weekly Patch Run &middot; Sunday 4:00 AM</h3>
+          <p>SSHes a 9-host roster, runs each host's own update script, logs the results to ClickHouse, posts them to Discord and reboots what needs it, except the hypervisor and the backup server, which it never reboots.</p>
+        </div>
+        <div class="lab-card">
+          <div class="lab-card__icon"><i class="fas fa-box-archive"></i></div>
+          <h3>Backups &middot; Sunday 2:00 AM</h3>
+          <p>PBS snapshots the VMs at 2:00 and the containers at 2:30, then garbage-collects and verifies. A restic repo of the Proxmox and PBS configs lands on the ZFS mirror at 5:00, restorable on a laptop with no PBS at all.</p>
+        </div>
+      </div>
+
+      <figure class="readout-figure" data-aos="fade-up">
+      <pre class="readout"><span class="readout__header">
+  <span class="readout__dots" aria-hidden="true"><span></span><span></span><span></span></span>
+  <span>daily-report &middot; n8n &middot; 2026-10-10</span>
+</span><span aria-hidden="true">🟡</span><span class="sr-only">Warning:</span> Homelab · Sat Oct 10
+<span aria-hidden="true">🟡</span><span class="sr-only">Warning:</span> PVE needs a reboot into the
+  newer kernel, flagged 6 days ago <span aria-hidden="true">→</span><span class="sr-only">next step:</span>
+  reboot when guests can restart
+
+<span aria-hidden="true">▸</span> Guests          <span aria-hidden="true">▸</span> Last backup
+8/8 up            6 days ago
+
+<span aria-hidden="true">▸</span> Telegraf        <span aria-hidden="true">▸</span> WAN 24h
+4/4 hosts         100% · 5 ms
+
+<span aria-hidden="true">▸</span> Proxmox         <span aria-hidden="true">▸</span> Gateway
+up 14d · mem 80%  up 29d · 48°C
+
+<span aria-hidden="true">▸ 💾</span> Storage
+  <span aria-hidden="true">┄┄┄</span>
+  <span aria-hidden="true">│</span>TANK    <span aria-hidden="true">██████░░░░</span>  58% 522/899G
+  <span aria-hidden="true">│</span>ch-data <span aria-hidden="true">░░░░░░░░░░</span>   1% 2.0/196G
+  <span aria-hidden="true">│</span>        -0.1G/day
+  <span aria-hidden="true">│</span>ssd-dev <span aria-hidden="true">████████░░</span>  79% 180/228G
+  <span aria-hidden="true">│</span>local   <span aria-hidden="true">█████░░░░░</span>  55% 36/66G
+  <span aria-hidden="true">│</span>lvm     <span aria-hidden="true">████░░░░░░</span>  39% 54/137G
+  <span aria-hidden="true">┄┄┄</span>
+
+<span aria-hidden="true">▸ 🌐</span> Network
+WAN online
+Traffic 24h 42.4 GB <span aria-hidden="true">↓</span><span class="sr-only">down</span> · 2.7 GB <span aria-hidden="true">↑</span><span class="sr-only">up</span>
+
+Parked: 7, all expected
+daily-report · n8n · 9:00 AM</pre>
+      <figcaption class="readout__caption">
+        The report from October 10, 2026, trimmed for the page: the public IP, version strings, household
+        details and guest names are taken out, and the parked list is condensed. The yellow is real: a
+        newer kernel is installed and the host hasn't rebooted into it yet. The parked list is deliberate.
+        After pfSense was retired, the dead VM raised a critical every single morning, which is how a report
+        trains you to stop reading it. Parked guests, retired pfSense included, now sit on an expected-down list
+        (hence 7 in the report), and a listed guest found
+        running gets an info line, so the list can't quietly go stale.
+      </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Local AI Section -->
+  <section class="lab-section lab-section--alt">
+    <div class="container">
+      <h2 class="lab-section__title" data-aos="fade-up">Local OCR on a 2019 GPU</h2>
+      <p class="lab-section__text" data-aos="fade-up">
+        The RX 5700 can't be passed through to a VM: it shares an IOMMU group with the SATA controller and the
+        host's network port, and its Navi 10 chip has a reset bug with no fix on current Proxmox kernels. So its
+        render node is shared into an unprivileged container instead. No passthrough, no host driver change,
+        no reboot, and one command to undo.
+      </p>
+
+      <div class="ai-section" data-aos="fade-up">
+        <h3>Receipts in, JSON out</h3>
+        <p>
+          Inside the container, llama.cpp runs on Vulkan as an OpenAI-compatible router. GLM-OCR (0.9B) reads the
+          page, Qwen3-4B turns the text into JSON under a schema grammar, and Qwen3-VL-2B handles questions about
+          images. All three fit in 8 GB of VRAM. PDFs with a text layer skip the GPU entirely.
+        </p>
+        <p>
+          First real test: 89 photos from my own phone, eight of which weren't receipts at all. Store, date and
+          total were filled in on 78, 73 and 78 of the 89, and nearly every miss was a non-receipt or a cropped
+          date. The arithmetic was humbler: line items summed to the subtotal
+          on 34 of 74, and subtotal plus tax plus tip matched the total on 47 of 70. Mean time was 20 seconds.
+          Useful, not trustworthy without checks downstream, which is exactly why it got measured before it got
+          wired into anything.
+        </p>
+        <p>
+          It also taught me some GPU ops. Under load the card occasionally drops its Vulkan device, after which the
+          model server kept passing health checks while failing every request. A small API gateway inside the
+          container now serializes GPU calls, notices the failure, restarts the model server and retries once.
+        </p>
+        <div class="ai-features">
+          <div class="ai-feature"><i class="fas fa-file-image"></i><span>GLM-OCR 0.9B &middot; ~260 tok/s out</span></div>
+          <div class="ai-feature"><i class="fas fa-code"></i><span>Qwen3-4B &middot; JSON by grammar</span></div>
+          <div class="ai-feature"><i class="fas fa-memory"></i><span>3 models in 8 GB of VRAM</span></div>
+          <div class="ai-feature"><i class="fas fa-receipt"></i><span>89 photos &middot; 20 s mean</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ingress Section -->
+  <section class="lab-section">
+    <div class="container">
+      <h2 class="lab-section__title" data-aos="fade-up">How Traffic Gets In</h2>
+      <p class="lab-section__text" data-aos="fade-up">
+        Apart from a temporary game server, nothing in the lab accepts connections from the internet. The few
+        web-facing pieces leave through outbound-only Cloudflare Tunnels, so on the web side the lab dials out
+        and nothing dials in. Admin access goes over Tailscale.
+      </p>
+
+      <ul class="tunnel-list" data-aos="fade-up">
+        <li>public web <span>&middot; cloudflare tunnel &middot; outbound only</span></li>
+        <li class="tunnel-list__item--tailscale">admin <span>&middot; tailscale &middot; private</span></li>
+      </ul>
+
+      <p class="lab-section__text" style="margin-top: var(--space-8);" data-aos="fade-up">
+        The site you're reading is on Cloudflare Pages and has no connection to the lab. The heartbeat
+        Worker runs on Cloudflare's edge and reaches its one ClickHouse endpoint through the tunnel, with
+        its own scoped account. Cloudflare Tunnel is free, works from anywhere, and needs no open ports.
+      </p>
+    </div>
+  </section>
+
+  <!-- What Broke Section -->
+  <section class="lab-section lab-section--alt">
+    <div class="container">
+      <h2 class="lab-section__title" data-aos="fade-up">What Broke</h2>
+      <p class="lab-section__text" data-aos="fade-up">
+        Most of what I know about running this thing came from it breaking. The good stories from the rebuild:
       </p>
 
       <div class="auto-grid" data-aos="fade-up">
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-clock"></i></div>
-          <h3>Daily Homelab Report · 9:00 AM</h3>
-          <p>Polls every host, rolls up health + storage + network + security into a single message, and posts it to Telegram. If anything is off, I see it before I open my laptop.</p>
+          <p class="lab-card__kicker">Aug 2026</p>
+          <h3>The renumber that would have broken the house</h3>
+          <p>The tempting fix for docs full of old addresses was to move the new LAN back onto the old subnet so the docs would be right again. That subnet collides with the network between the ISP gateway and mine, which would have broken routing for the whole house. It got caught only because an inferred value had been marked VERIFY instead of written down as fact.</p>
         </div>
         <div class="lab-card">
-          <div class="lab-card__icon"><i class="fas fa-sync-alt"></i></div>
-          <h3>Weekly Fleet Upgrade</h3>
-          <p>SSHes into every capable CT and VM, runs <code>apt update &amp;&amp; apt upgrade</code>, reports back. Kernel and dependency drift is a boring problem, and automation is the right answer.</p>
+          <p class="lab-card__kicker">Aug 31 to Sep 6</p>
+          <h3>The heartbeat that knew</h3>
+          <p>The day the lab came back, an unattended upgrade installed a ClickHouse build that needed AVX, on a VM whose CPU model didn't expose it. It crash-looped 18,837 times over six and a half days. Telegraf, the report and Grafana all depended on that database, so nothing alerted, while the external heartbeat logged the outage every minute into logs nobody read. Fixed by giving the VM the host's real CPU model. Monitoring has to live off the box, and it has to page someone.</p>
+        </div>
+        <div class="lab-card">
+          <p class="lab-card__kicker">Sep 2026</p>
+          <h3>"0% blocked"</h3>
+          <p>Pi-hole's numbers said 0% blocked, which read like a quiet day. It had actually been bypassed: the new gateway hands itself out as the DNS server, and 1,882 queries in 30 days were all Pi-hole talking to itself. A metric that looks fine when nothing is using the service is worse than no metric.</p>
+        </div>
+        <div class="lab-card">
+          <p class="lab-card__kicker">Sep 12</p>
+          <h3>Dashboards nobody opened</h3>
+          <p>Grafana had two dashboards, provisioned as code. After the move its datasource pointed at a dead address, and nobody noticed, because nobody ever opened it. The Discord report is what gets read, so Grafana got stopped, and a month later the report got rebuilt to be read on a phone in ten seconds.</p>
+        </div>
+        <div class="lab-card">
+          <p class="lab-card__kicker">Sep 13</p>
+          <h3>Adding GPUs renamed the network</h3>
+          <p>Pulling the dual-port NIC and adding two GPUs renumbered the PCIe bus, which renamed the host's network port. The bridge came up with no uplink, every guest went dark, and the backup container gave up on DHCP. Fixed at the physical console, then the port's name got pinned to its hardware address so the next card swap can't do it again.</p>
+        </div>
+        <div class="lab-card">
+          <p class="lab-card__kicker">Sep 15 &amp; Sep 25</p>
+          <h3>A freeze that looked like a power cut</h3>
+          <p>The host vanished for four days and 20 hours. The logs stopped mid-stream with no shutdown, and the router and modem had stayed up, so I read it as a power cut local to the box. Ten days later it froze again with me standing next to it: powered on, and the power button did nothing. That's a kernel hang. Both freezes came after the September 13 hardware change (two GPUs in, NIC out, new kernel). Root cause is still open, but the next hang panics, reboots in 10 seconds and leaves a crash dump. No repeat since.</p>
         </div>
       </div>
-
-      <div class="readout" data-aos="fade-up">
-<div class="readout__header">
-  <span class="readout__dots"><span></span><span></span><span></span></span>
-  <span>daily-report · n8n · sample</span>
-</div>🟢 Homelab Daily · Apr 18, 2026, 9:00 AM
-Status: OK · 0 warning · 0 critical
-
-🖥️  Hosts &amp; Health
-Guests        12/13 up
-PVE uptime    11d · PVE 9.1.7
-Telegraf      6/6 reporting
-Backups 24h   0 OK
-
-💾 Storage
-TANK (zfs)    443.9 / 899.3 GB (49.4% · +0.0 GB/24h)
-clickhouse    250 / 1863 GB (13.4% · +0.0 GB/24h)
-local-lvm     8.5 / 137.4 GB (6.2%)
-
-📈 Per-host anomalies
-clickhouse    load peak 10.5
-
-🌐 Network &amp; Security
-WAN           online · unchanged
-Gateway       8.0ms avg · 0% loss
-PF firewall   1,920 block entries in window
-PF auth       0 failed login patterns
-DNS           14,634 queries · 3.3% blocked
-Top blocked   192.168.1.5: 186
-
-Quiet hosts
-traderbot, tailscale, immich, n8n, pihole, ntopng,
-clawdbot, devhost, grafana, video-share, pfsense,
-immich (expected), arbitrage-bot (expected)</div>
-    </div>
-  </section>
-
-  <!-- Cloudflare Ingress Section -->
-  <section class="lab-section lab-section--alt">
-    <div class="container">
-      <h2 class="lab-section__title" data-aos="fade-up">Cloudflare Ingress</h2>
-      <p class="lab-section__text" data-aos="fade-up">
-        Cloudflare Tunnel is the only way into the lab from the public internet. No port-forwarding on the router,
-        no exposed WAN IP, no services listening on the open internet. Each tunnel is a narrow, encrypted connection
-        from a specific service to a specific hostname.
-      </p>
-
-      <ul class="tunnel-list" data-aos="fade-up">
-        <li>clickhouse.nicolod.org <span>· INSERT-only</span></li>
-        <li>os.nicolod.org <span>· NicoOS (Workers)</span></li>
-        <li>nicolod.org <span>· portfolio</span></li>
-        <li>homelab-heartbeat <span>· Worker cron</span></li>
-      </ul>
-
-      <p class="lab-section__text" style="margin-top: var(--space-8);" data-aos="fade-up">
-        I pivoted here from Tailscale Funnel after finding out it blocks datacenter egress, which silently
-        broke my heartbeat Worker. Cloudflare Tunnel is free, works from anywhere, and keeps the attack
-        surface at "one auth-gated hostname per service."
-      </p>
     </div>
   </section>
 
@@ -993,13 +1308,19 @@ immich (expected), arbitrage-bot (expected)</div>
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">Why I Built It</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        Infrastructure-as-a-learning-tool. Reading about pfSense or ClickHouse is not the same as cutting your
+        Infrastructure as a learning tool. Reading about pfSense or ClickHouse is not the same as cutting your
         home network over to a new router at 11 PM and needing it back up before anyone notices. You remember
         the thing you built under pressure for real people.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        The lab is also the production deployment target for my own software. Zedi runs on <code>DevHost</code> (VM 110)
-        against my real financial data. If I can't keep my own infrastructure up, I can't credibly ship software to anyone else.
+        It's also where my own software runs off the cloud: a self-hosted instance of <a href="/zedi">Zedi</a>,
+        my finance app, with the GPU container being built as its local receipt reader.
+      </p>
+      <p class="lab-section__text" data-aos="fade-up">
+        And it's where I practice running AI as an operator, not a demo. A Claude Code VM does the day-to-day ops
+        against a git-tracked inventory and issue tracker, and the rules it works under (verify with row counts,
+        find every reference when an address changes, get a second opinion before touching the hypervisor) mostly
+        came from something breaking.
       </p>
     </div>
   </section>
@@ -1009,36 +1330,39 @@ immich (expected), arbitrage-bot (expected)</div>
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">Tech Stack</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        Everything currently load-bearing.
+        What's load-bearing today.
       </p>
 
       <div class="tech-cloud" data-aos="fade-up">
-        <span class="tech-cloud__tag">Proxmox VE 9.1</span>
-        <span class="tech-cloud__tag">pfSense CE 2.7.2</span>
-        <span class="tech-cloud__tag">ClickHouse 26.3</span>
-        <span class="tech-cloud__tag">Grafana</span>
-        <span class="tech-cloud__tag">Telegraf</span>
-        <span class="tech-cloud__tag">n8n</span>
+        <span class="tech-cloud__tag">Proxmox VE</span>
+        <span class="tech-cloud__tag">Proxmox Backup Server</span>
+        <span class="tech-cloud__tag">restic</span>
         <span class="tech-cloud__tag">ZFS</span>
         <span class="tech-cloud__tag">LVM</span>
-        <span class="tech-cloud__tag">Docker</span>
-        <span class="tech-cloud__tag">Linux (Debian / Ubuntu)</span>
-        <span class="tech-cloud__tag">Windows 11 VM</span>
+        <span class="tech-cloud__tag">ClickHouse</span>
+        <span class="tech-cloud__tag">Telegraf</span>
+        <span class="tech-cloud__tag">n8n</span>
+        <span class="tech-cloud__tag">Discord webhooks</span>
         <span class="tech-cloud__tag">Cloudflare Tunnel</span>
         <span class="tech-cloud__tag">Cloudflare Workers</span>
-        <span class="tech-cloud__tag">Cloudflare R2</span>
-        <span class="tech-cloud__tag">Cloudflare DNS</span>
         <span class="tech-cloud__tag">Tailscale</span>
-        <span class="tech-cloud__tag">Immich</span>
-        <span class="tech-cloud__tag">Pi-hole</span>
-        <span class="tech-cloud__tag">ntopng</span>
-        <span class="tech-cloud__tag">Home Assistant</span>
-        <span class="tech-cloud__tag">Samba</span>
-        <span class="tech-cloud__tag">TL-SG108E VLAN trunking</span>
-        <span class="tech-cloud__tag">SSH (ed25519, fleet-wide)</span>
-        <span class="tech-cloud__tag">Bash</span>
+        <span class="tech-cloud__tag">UniFi</span>
+        <span class="tech-cloud__tag">llama.cpp (Vulkan)</span>
+        <span class="tech-cloud__tag">GLM-OCR</span>
+        <span class="tech-cloud__tag">Qwen3</span>
+        <span class="tech-cloud__tag">Docker</span>
+        <span class="tech-cloud__tag">Claude Code</span>
+        <span class="tech-cloud__tag">Linux (Debian / Ubuntu)</span>
         <span class="tech-cloud__tag">Python</span>
+        <span class="tech-cloud__tag">Bash</span>
         <span class="tech-cloud__tag">Node.js</span>
+      </div>
+
+      <p class="tech-cloud__label" data-aos="fade-up">Retired along the way</p>
+      <div class="tech-cloud" style="margin-top: var(--space-3);" data-aos="fade-up">
+        <span class="tech-cloud__tag tech-cloud__tag--retired">pfSense CE</span>
+        <span class="tech-cloud__tag tech-cloud__tag--retired">ntopng</span>
+        <span class="tech-cloud__tag tech-cloud__tag--retired">Netgear R9000</span>
       </div>
     </div>
   </section>
@@ -1047,8 +1371,8 @@ immich (expected), arbitrage-bot (expected)</div>
   <section class="detail detail--footer">
     <div class="container">
       <nav class="detail__nav">
-        <a href="flora.html"><i class="fas fa-arrow-left"></i> Prev: Flora</a>
-        <a href="bandit.html">Next: Bandit <i class="fas fa-arrow-right"></i></a>
+        <a href="/flora"><i class="fas fa-arrow-left"></i> Prev: Flora</a>
+        <a href="/bandit">Next: Bandit <i class="fas fa-arrow-right"></i></a>
       </nav>
     </div>
   </section>
@@ -1083,36 +1407,7 @@ immich (expected), arbitrage-bot (expected)</div>
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=redesign-1"></script>
+  <script type="module" src="js/app.js?v=redesign-2"></script>
 
-  <!-- AOS implementation -->
-  <script>
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '50px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('aos-animate');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const animatedElements = document.querySelectorAll('[data-aos]');
-      animatedElements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          el.classList.add('aos-animate');
-        } else {
-          observer.observe(el);
-        }
-      });
-      document.body.classList.add('loaded');
-    });
-  </script>
 </body>
 </html>

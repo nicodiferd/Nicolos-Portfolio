@@ -2,155 +2,24 @@
    Main Stylesheet - Import Order
    =================================== */
 
+/* Every @import below and each page's main.css <link> carry ?v=redesign-N.
+   /styles/* is cached for 7 days, so bump the token everywhere after any
+   CSS or JS edit (see CLAUDE.md, Important Notes 7). */
+
 /* Base Styles */
-@import 'base/variables.css?v=redesign-1';
-@import 'base/base.css?v=redesign-1';
+@import 'base/variables.css?v=redesign-2';
+@import 'base/base.css?v=redesign-2';
 
 /* Components */
-@import 'components/navigation.css?v=redesign-1';
-@import 'components/hero.css?v=redesign-1';
-@import 'components/card.css?v=redesign-1';
-@import 'components/effects.css?v=redesign-1';
-@import 'components/notifications.css?v=redesign-1';
-@import 'components/sections.css?v=redesign-1';
-@import 'components/detail.css?v=redesign-1';
+@import 'components/navigation.css?v=redesign-2';
+@import 'components/hero.css?v=redesign-2';
+@import 'components/card.css?v=redesign-2';
+@import 'components/effects.css?v=redesign-2';
+@import 'components/notifications.css?v=redesign-2';
+@import 'components/sections.css?v=redesign-2';
+@import 'components/detail.css?v=redesign-2';
 
-/* Page Specific Styles */
-.about {
-  padding: var(--space-24) 0;
-  background: var(--color-background-alt);
-}
-
-.about__container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-16);
-  align-items: center;
-}
-
-.about__content h2 {
-  font-size: var(--text-4xl);
-  margin-bottom: var(--space-6);
-}
-
-.about__content p {
-  font-size: var(--text-lg);
-  line-height: 1.8;
-  margin-bottom: var(--space-6);
-}
-
-.about__skills {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
-  margin-top: var(--space-8);
-}
-
-.about__skill {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  transition: all var(--transition-fast);
-}
-
-.about__skill:hover {
-  background: var(--color-surface-alt);
-  border-color: var(--color-primary);
-  transform: translateX(8px);
-}
-
-.about__skill-icon {
-  color: var(--color-primary);
-  font-size: var(--text-xl);
-}
-
-.about__stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
-}
-
-.stat {
-  text-align: center;
-  padding: var(--space-6);
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  transition: all var(--transition-fast);
-}
-
-.stat:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-lg);
-}
-
-.stat__number {
-  font-size: var(--text-4xl);
-  font-weight: var(--font-bold);
-  color: var(--color-primary);
-  margin-bottom: var(--space-2);
-}
-
-.stat__label {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-/* Projects Section */
-.projects {
-  padding: var(--space-24) 0;
-  background: var(--color-background);
-}
-
-.projects__header {
-  text-align: center;
-  margin-bottom: var(--space-12);
-}
-
-.projects__title {
-  font-size: var(--text-4xl);
-  margin-bottom: var(--space-4);
-}
-
-.projects__subtitle {
-  font-size: var(--text-xl);
-  color: var(--color-text-secondary);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Contact Section */
-.contact {
-  padding: var(--space-24) 0;
-  background: var(--color-background-alt);
-}
-
-.contact__container {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.contact__title {
-  font-size: var(--text-4xl);
-  margin-bottom: var(--space-4);
-}
-
-.contact__subtitle {
-  font-size: var(--text-xl);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-12);
-  margin-left: auto;
-  margin-right: auto;
-}
-
+/* Contact form (index.html, inside .section--ink) */
 .contact__form {
   display: grid;
   gap: var(--space-6);
@@ -249,67 +118,12 @@
   transform: translateY(-4px);
 }
 
-/* Utilities */
-.gradient-text {
-  background: linear-gradient(135deg,
-    var(--color-primary) 0%,
-    var(--color-secondary) 50%,
-    var(--color-primary-light) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Animations */
+/* Scroll-reveal (data-aos on bandit.html / homelab.html). Each page's inline
+   style hides [data-aos]; js/modules/animations.js reveals it, js/app.js forces
+   it after 1s, and the CSS fallback below reveals it even if JS never runs. */
 [data-aos] {
   transition-property: transform, opacity;
 }
-[data-section-divider]::before,
-[data-section-divider]::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 80px;
-  pointer-events: none;
-}
-
-[data-section-divider]::before {
-  top: 0;
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,0.04),
-    rgba(255,255,255,0)
-  );
-}
-
-[data-section-divider]::after {
-  bottom: 0;
-  background: linear-gradient(to top,
-    rgba(255,255,255,0.04),
-    rgba(255,255,255,0)
-  );
-}
-
-/* AOS variants DISABLED - causing visibility issues */
-/* 
-[data-aos] {
-  opacity: 0;
-  transition-duration: 800ms;
-  transition-property: transform, opacity;
-}
-
-[data-aos].aos-animate {
-  opacity: 1;
-}
-*/
 
 /* Fallback: Show content if animations fail to load */
 @media (prefers-reduced-motion: reduce) {
@@ -319,8 +133,8 @@
   }
 }
 
-/* Show content after a timeout as fallback */
-body.loaded [data-aos] {
+/* Show content after a timeout as fallback (no dependency on JS) */
+[data-aos] {
   animation: fadeInFallback 1s ease-out forwards;
   animation-delay: 2s;
 }
@@ -328,13 +142,8 @@ body.loaded [data-aos] {
 @keyframes fadeInFallback {
   to {
     opacity: 1;
+    transform: none;
   }
-}
-
-/* Critical content should always be visible */
-.hero__content,
-.navigation {
-  opacity: 1 !important;
 }
 
 [data-aos="fade-up"] {
@@ -373,186 +182,32 @@ body.loaded [data-aos] {
    Light mode specific adjustments
    =================================== */
 
-[data-theme="light"] .navigation.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .hero__background::before {
-  opacity: 0.05;
-}
-
-[data-theme="light"] .glass {
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="light"] .card__image-overlay {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(255, 255, 255, 0.85) 100%
-  );
-}
-
-[data-theme="light"] .stat:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-}
-
-/* Hero title - flat solid color in both themes. Strong overrides so a
-   cached older hero.css gradient definition can't sneak back through. */
-.hero__title-gradient {
-  background: none !important;
-  background-image: none !important;
-  -webkit-text-fill-color: var(--color-white) !important;
-  color: var(--color-white) !important;
-}
-
-[data-theme="light"] .hero__title-gradient {
-  -webkit-text-fill-color: var(--color-primary) !important;
-  color: var(--color-primary) !important;
-}
-
-/* Hero animated grid - invert line color so it actually renders */
-[data-theme="light"] .hero__grid {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-}
-
-/* Hero avatar halo - switch from white inner glow to a soft red tint */
-[data-theme="light"] .hero__avatar::after {
-  background: radial-gradient(circle at 50% 50%, rgba(220, 53, 69, 0.10), transparent 60%);
-  box-shadow: 0 0 24px rgba(220, 53, 69, 0.15), 0 0 36px rgba(167, 29, 42, 0.10);
-}
-
-/* Section divider gradients - fade through a translucent dark instead of white */
-[data-theme="light"] [data-section-divider]::before {
-  background: linear-gradient(to bottom,
-    rgba(0, 0, 0, 0.05),
-    rgba(0, 0, 0, 0)
-  );
-}
-
-[data-theme="light"] [data-section-divider]::after {
-  background: linear-gradient(to top,
-    rgba(0, 0, 0, 0.05),
-    rgba(0, 0, 0, 0)
-  );
-}
-
-/* Floating hero particles AND the cursor pointer glow are gone in every
-   theme. Strong selectors so cached older copies of hero.css / effects.css
-   cannot reintroduce them. */
-.hero__particles,
-.particle,
-.cursor-glow {
-  display: none !important;
-}
-
-/* Card hover shadow - lighter, since the dark-mode version is rgba(0,0,0,0.4) */
-[data-theme="light"] .card:hover {
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.08),
-    0 0 20px rgba(220, 53, 69, 0.08),
-    0 0 24px rgba(167, 29, 42, 0.10);
-}
-
-/* Card tag - primary-light (#e8616b) on a pale pink wash reads washed out
-   in light mode. Use a darker primary for contrast. */
-[data-theme="light"] .card__tag {
-  background: rgba(167, 29, 42, 0.08);
-  color: var(--color-secondary-dark);
-  border-color: rgba(167, 29, 42, 0.25);
-}
-
-/* About-skill and stat cards sit on --color-background-alt with --color-surface;
-   in light mode both are off-white, so add a subtle shadow to give depth. */
-[data-theme="light"] .about__skill,
-[data-theme="light"] .stat {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-}
-
-/* Floating form label background - match the section's alt background
-   exactly (it already does via the variable; no override needed here). */
-
-/* Selection - primary red on white reads fine, but bright white text on
-   red is jarring; tone it down slightly */
-[data-theme="light"] ::selection {
-  background-color: rgba(220, 53, 69, 0.85);
-  color: var(--color-white);
-}
-
-/* Scrollbar track on a white page should be subtle, not the off-white
-   surface (which looks identical to background) */
+/* Scrollbar track: use the alt cream so it reads against the page */
 [data-theme="light"] ::-webkit-scrollbar-track {
   background: var(--color-background-alt);
 }
 
-/* Btn primary sheen reuses rgba(255,255,255,0.2) - fine on red button bg in both themes */
-
-/* Bandit / homelab inline tech-tag classes share the same washed-out color
-   issue as .card__tag. Override centrally. */
+/* bandit.html tech tags: darker red text on a faint red wash */
 [data-theme="light"] .tech-tag {
-  background: rgba(167, 29, 42, 0.08);
+  background: rgba(181, 39, 29, 0.08);
   color: var(--color-secondary-dark);
-  border-color: rgba(167, 29, 42, 0.25);
+  border-color: rgba(181, 39, 29, 0.25);
 }
 
-/* Grain noise texture is more visible on white - drop opacity so it stays
+/* Grain noise texture is more visible on cream - drop opacity so it stays
    atmospheric rather than dirty-looking. */
 [data-theme="light"] .fx-grain {
   opacity: 0.03;
 }
 
-/* Hero scroll-down cue uses --color-text-muted (#6a6a6a) on white - visible
-   but quiet. Bump to text-secondary for a touch more presence. */
-[data-theme="light"] .hero__scroll-icon {
-  color: var(--color-text-secondary);
-}
-
-/* Bandit hero radial gradient washes are 0.1 alpha - feel anemic on white.
-   Lift just a hair so the page still has a colored hero impression. */
-[data-theme="light"] .bandit-hero::before {
-  opacity: 0.18;
-}
-
-/* Notification borders inherit their color from the variant, so success /
-   error remain on-brand. Add a soft shadow so the toast actually feels
-   detached from the page rather than blending into the background. */
+/* Soft shadow so toasts read as detached from the page. */
 [data-theme="light"] .notification {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* Footer top border is rgba(0,0,0,0.1) via --color-border - fine. Form
-   inputs in their focused state currently set background to --color-surface-alt
-   (#f0f0f0). Keep them white so the focus state reads as "live", and rely on
-   the red border ring for the affordance. */
+/* Focused form fields stay on the plain surface, with a faint red ring. */
 [data-theme="light"] .form__input:focus,
 [data-theme="light"] .form__textarea:focus {
   background: var(--color-surface);
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
-}
-
-/* Responsive */
-@media (min-width: 1024px) {
-  .about__skills {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .about__container {
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-  }
-  
-  .about__skills {
-    grid-template-columns: 1fr;
-  }
-  
-  .about__stats {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
+  box-shadow: 0 0 0 3px rgba(181, 39, 29, 0.12);
 }

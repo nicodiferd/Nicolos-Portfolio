@@ -13,6 +13,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  /* Keep in-page anchor targets clear of the fixed / sticky top bar */
+  scroll-padding-top: 80px;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -59,6 +61,12 @@ a {
 
 a:hover {
   color: var(--color-primary-light);
+}
+
+/* primary-light is under 4.5:1 on cream, so light mode darkens on hover.
+   :where() keeps this at a:hover's specificity so component hovers still win. */
+:where([data-theme="light"]) a:hover {
+  color: var(--color-primary-dark);
 }
 
 /* Lists */
@@ -120,7 +128,7 @@ pre {
 
 /* Selection */
 ::selection {
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-fill);
   color: var(--color-white);
 }
 
@@ -167,8 +175,8 @@ pre {
   padding: 0 var(--space-6);
 }
 
-.section {
-  padding: var(--space-20) 0;
+[hidden] {
+  display: none !important;
 }
 
 .sr-only {
@@ -189,11 +197,12 @@ pre {
   left: 8px;
   top: 8px;
   transform: translateY(-250%);
-  background: var(--color-primary);
-  color: white;
+  background: var(--color-primary-fill);
+  color: var(--color-white);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
-  z-index: var(--z-fixed);
+  /* Above the fixed nav / sticky detail bar, which share --z-fixed */
+  z-index: var(--z-tooltip);
   transition: transform var(--transition-fast);
 }
 
@@ -201,26 +210,9 @@ pre {
   transform: translateY(0);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+/* Skip-link target: focused programmatically, no ring around the whole page */
+main[tabindex="-1"]:focus {
+  outline: none;
 }
 
 /* Media Queries */
@@ -236,10 +228,6 @@ pre {
   
   .container {
     padding: 0 var(--space-4);
-  }
-  
-  .section {
-    padding: var(--space-12) 0;
   }
 }
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Page not found. Head back to nicolod.org for Nicolo DiFerdinando's work and projects.">
+  <meta name="author" content="Nicolo DiFerdinando">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f5f2ec">
+  <title>Page Not Found | Nicolo DiFerdinando</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Early theme to prevent flash -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('preferredTheme') || 'light';
+        var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        var system = isLight ? 'light' : 'dark';
+        var theme = saved === 'system' ? system : saved;
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        } else {
+          document.documentElement.classList.remove('light');
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet (absolute paths: this page is served for any missing URL, at any depth) -->
+  <link rel="stylesheet" href="/styles/main.css?v=redesign-2">
+
+  <style>
+    /* 404 page specific styles */
+    .notfound__code {
+      font-family: var(--font-mono);
+      font-weight: var(--font-semibold);
+      font-size: clamp(5rem, 18vw, 9rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--color-primary);
+      margin: 0 0 var(--space-4);
+    }
+
+    .notfound-spec {
+      display: grid;
+      gap: var(--space-2);
+      max-width: 420px;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-3) 0;
+      margin: var(--space-10) 0 0;
+    }
+
+    .notfound-spec > div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+    }
+
+    .notfound-spec dt {
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .notfound-spec dd {
+      color: var(--color-text-primary);
+      margin: 0;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+  </style>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NWWM38WB');</script>
+  <!-- End Google Tag Manager -->
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWWM38WB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <!-- Top bar -->
+  <header class="detail-top">
+    <div class="container detail-top__bar">
+      <a class="detail-back" href="/"><i class="fas fa-arrow-left"></i> Back to home</a>
+      <select class="theme-selector" data-theme-selector aria-label="Theme selector">
+        <option value="system">System</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+  </header>
+
+  <main id="content" tabindex="-1">
+  <section class="detail">
+    <div class="container">
+      <p class="ds-section__num">404 / NOT FOUND</p>
+      <p class="notfound__code" aria-hidden="true">404</p>
+      <h1 class="detail__title">Nothing at this address.</h1>
+      <p class="detail__lead">
+        The link may be old, or the page moved when the site was rebuilt.
+        Head home or jump straight to the projects.
+      </p>
+
+      <dl class="notfound-spec">
+        <div><dt>STATUS</dt><dd>404 / NOT FOUND</dd></div>
+        <div><dt>PATH</dt><dd data-notfound-path>unknown</dd></div>
+        <div><dt>TRY</dt><dd>/ &middot; /#projects</dd></div>
+      </dl>
+
+      <div class="contact-actions">
+        <a class="btn btn--primary" href="/">Go home</a>
+        <a class="btn btn--secondary" href="/#projects">View projects</a>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__container">
+      <p class="footer__text">NICOLO DIFERDINANDO / CAL POLY SLO '26 &middot; SAN DIEGO, CA</p>
+      <div class="footer__socials">
+        <a href="https://github.com/nicodiferd" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/nicolo-diferdinando/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:nicodiferd@gmail.com" class="footer__social" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Show the requested path in the spec readout (textContent, never parsed as HTML) -->
+  <script>
+    (function() {
+      var el = document.querySelector('[data-notfound-path]');
+      if (el && window.location && window.location.pathname) {
+        el.textContent = window.location.pathname;
+      }
+    })();
+  </script>
+
+  <!-- Scripts -->
+  <script type="module" src="/js/app.js?v=redesign-2"></script>
+</body>
+</html>

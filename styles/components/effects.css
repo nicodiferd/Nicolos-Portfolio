@@ -1,18 +1,3 @@
-/* Cursor glow element - disabled site-wide. */
-.cursor-glow {
-  display: none;
-}
-
-/* Page transitions */
-body.page-transition {
-  opacity: 0;
-  transition: opacity var(--transition-base);
-}
-
-body.loaded {
-  opacity: 1;
-}
-
 /* Subtle Grain Texture Overlay */
 .fx-grain {
   position: fixed;

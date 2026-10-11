@@ -1,5 +1,0 @@
-brown = Color(red: 86/255, green: 73/255, blue: 62/255)
-pink = Color(red: 248/255, green: 189/255, blue: 205/255)
-white = Color(red: 253/255, green: 241/255, blue: 232/255)
-black = Color(red: 16/255, green: 16/255, blue: 16/255)
-
