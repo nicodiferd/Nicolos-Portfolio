@@ -120,7 +120,7 @@
         <ul>
           <li>Rust + Axum API on PostgreSQL with row-level security and a two-pool tenancy model, so each user's data is isolated at the database layer.</li>
           <li>Next.js frontend for the dashboard, transactions, accounts, analytics, receipts, and People views.</li>
-          <li>Statement import from CSV, QFX, and PDF. PDF statements are read by Claude and checked against their own printed balances; rows already seen are skipped and card payments pair with the other side, so nothing counts twice.</li>
+          <li>Statement import from CSV, QFX, and PDF. PDF statements are read by Claude and checked against their own printed balances; rows already seen are skipped, and card payments pair with the other side, so they don't count as spending or income.</li>
           <li>Read-only bank sync through SimpleFIN on Pro. Zedi never sees the bank login and stores one read-only key, encrypted with AES-256-GCM.</li>
           <li>Claude Vision receipt OCR: a photo becomes line items, and a receipt linked to its charge can split that charge by item category.</li>
           <li>People ledger: split receipts with friends and keep a running who-owes-who balance per person. Venmo statement files tag payments to people.</li>
@@ -132,7 +132,8 @@
         <ul>
           <li>Free: unlimited CSV and QFX files, 10 receipt scans and 10 PDF scans a month, and opt-in AI categories for 50 rows a month.</li>
           <li>Pro: $3.50 a month or $30 a year. Adds read-only bank sync (SimpleFIN bills its own $1.50 a month), unlimited scans, and unlimited AI categories.</li>
-          <li>A 30-day Pro trial needs no card. No ads, and data is never sold.</li>
+          <li>Try Pro free for 30 days, with 50 receipt and PDF scans. No card to start. Bank sync in the trial still needs your own SimpleFIN subscription.</li>
+          <li>No ads, and data is never sold.</li>
         </ul>
         <p>
           <a class="btn btn--primary" href="https://zedi.dev" target="_blank" rel="noopener noreferrer">Visit the live site</a>
@@ -142,12 +143,10 @@
       <section class="detail__gallery">
         <h2>Screens</h2>
         <div class="gallery-grid">
-          <a href="images/zedi-deck-shots/dashboard-full.png" target="_blank" rel="noopener"><img src="images/zedi-deck-shots/dashboard.png" alt="Dashboard" width="1600" height="1000" loading="lazy" decoding="async"></a>
           <a href="images/zedi-deck-shots/transactions-full.png" target="_blank" rel="noopener"><img src="images/zedi-deck-shots/transactions.png" alt="Transactions" width="1600" height="1000" loading="lazy" decoding="async"></a>
           <a href="images/zedi-deck-shots/accounts-full.png" target="_blank" rel="noopener"><img src="images/zedi-deck-shots/accounts.png" alt="Accounts" width="1600" height="1000" loading="lazy" decoding="async"></a>
           <a href="images/zedi-deck-shots/analytics-full.png" target="_blank" rel="noopener"><img src="images/zedi-deck-shots/analytics.png" alt="Analytics" width="1600" height="1000" loading="lazy" decoding="async"></a>
           <a href="images/zedi-deck-shots/receipts-full.png" target="_blank" rel="noopener"><img src="images/zedi-deck-shots/receipts.png" alt="Receipts" width="1600" height="1000" loading="lazy" decoding="async"></a>
-          <a href="images/zedi-deck-shots/xray-full.png" target="_blank" rel="noopener"><img src="images/zedi-deck-shots/xray.png" alt="X-ray" width="1600" height="1000" loading="lazy" decoding="async"></a>
         </div>
       </section>
 
