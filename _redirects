@@ -15,3 +15,17 @@
 
 # Browsers and crawlers ask for /favicon.ico (e.g. on the PDF tab)
 /favicon.ico         /images/favicon.png  301
+
+# Repo internals. The build output is the repo root, so these would be served
+# too; redirects win over static files on Pages. NicoOS (os/) still deploys as
+# its own Worker, so this only stops nicolod.org/os/... from serving it.
+# Remove these once the site moves into public/ (handoff.md, open item 10).
+/os                  /  301
+/os/*                /  301
+/docs                /  301
+/docs/*              /  301
+/CLAUDE.md           /  301
+/handoff.md          /  301
+/README.md           /  301
+/package.json        /  301
+/package-lock.json   /  301
