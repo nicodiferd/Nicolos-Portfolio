@@ -1,0 +1,16 @@
+// Takedown config for os.nicolod.org: same Worker name and route as wrangler.jsonc,
+// but it ships redirect-worker.js (a 301 to https://nicolod.org/) and no static assets.
+// Not deployed yet. Deploy: cd os && npx --yes wrangler@4.115.0 deploy -c wrangler.redirect.jsonc
+// Rollback: cd os && npm run build && npx --yes wrangler@4.115.0 deploy (uses wrangler.jsonc)
+{
+	"name": "nicoos",
+	"main": "./redirect-worker.js",
+	"compatibility_date": "2025-06-05",
+	"workers_dev": false,
+	"routes": [
+		{
+			"pattern": "os.nicolod.org/*",
+			"zone_name": "nicolod.org"
+		}
+	]
+}
