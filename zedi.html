@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Zedi: a personal finance platform built end to end. Rust and Axum API, Next.js frontend, Postgres multi-tenancy, Claude Vision receipt OCR, Stripe billing.">
+  <meta name="description" content="Zedi: a personal finance SaaS I built end to end, live at zedi.dev. Rust and Axum API, Next.js, Postgres row-level security, SimpleFIN bank sync, Claude receipt OCR, Stripe billing.">
   <meta name="author" content="Nicolo DiFerdinando">
   <meta name="theme-color" content="#f5f2ec">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Nicolo DiFerdinando">
   <meta property="og:title" content="Zedi | Nicolo DiFerdinando">
-  <meta property="og:description" content="Zedi: a personal finance platform built end to end. Rust and Axum API, Next.js frontend, Postgres multi-tenancy, Claude Vision receipt OCR, Stripe billing.">
+  <meta property="og:description" content="Zedi: a personal finance SaaS I built end to end, live at zedi.dev. Rust and Axum API, Next.js, Postgres row-level security, SimpleFIN bank sync, Claude receipt OCR, Stripe billing.">
   <meta property="og:url" content="https://nicolod.org/zedi">
   <meta property="og:image" content="https://nicolod.org/images/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
   <meta property="og:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Zedi | Nicolo DiFerdinando">
-  <meta name="twitter:description" content="Zedi: a personal finance platform built end to end. Rust and Axum API, Next.js frontend, Postgres multi-tenancy, Claude Vision receipt OCR, Stripe billing.">
+  <meta name="twitter:description" content="Zedi: a personal finance SaaS I built end to end, live at zedi.dev. Rust and Axum API, Next.js, Postgres row-level security, SimpleFIN bank sync, Claude receipt OCR, Stripe billing.">
   <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
   <meta name="twitter:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <title>Zedi | Nicolo DiFerdinando</title>
@@ -88,14 +88,16 @@
       <p class="ds-section__num">PROJECT / ZEDI</p>
       <h1 class="detail__title">Zedi</h1>
       <p class="detail__lead">
-        A personal finance platform I built end to end, live at
+        A personal finance SaaS I built end to end, live at
         <a href="https://zedi.dev" target="_blank" rel="noopener noreferrer">zedi.dev</a>.
+        Checking, cards, Venmo and receipts in one list, with nothing counted twice.
       </p>
       <div class="chips">
         <span class="chip">Rust</span>
         <span class="chip">Axum</span>
         <span class="chip">Next.js</span>
-        <span class="chip">Postgres</span>
+        <span class="chip">Postgres RLS</span>
+        <span class="chip">SimpleFIN</span>
         <span class="chip">Claude Vision</span>
         <span class="chip">Stripe</span>
       </div>
@@ -107,19 +109,30 @@
       <div class="detail__body">
         <h2>Overview</h2>
         <p>
-          Zedi started in June 2025 as a tool for my own banking data and became a real product in
-          March 2026 through Cal Poly's Applied Human Factors course (IME 543), where I turned it into
-          a multi-tenant SaaS. It ingests statements, reads receipts, categorizes spending automatically,
-          and gives you an honest picture of where your money goes.
+          Zedi grew out of an earlier finance agent I built for my own banking data in 2025. I restarted
+          it as Zedi in January 2026, and in spring 2026 turned it into a multi-tenant SaaS through
+          Cal Poly's Applied Human Factors course (IME 543), where usability testing shaped the product.
+          It brings in statements or a read-only bank feed, reads receipts, sorts spending into categories,
+          and shows where the money went.
         </p>
 
         <h2>The build</h2>
         <ul>
-          <li>Rust + Axum API with PostgreSQL and row-level multi-tenancy, so every tenant's data is isolated at the database layer.</li>
-          <li>Next.js frontend with the dashboard, transactions, accounts, analytics, receipt, and X-ray views shown below.</li>
-          <li>Claude Vision receipt OCR: photograph a receipt and it becomes a categorized transaction.</li>
-          <li>CSV, QFX, and PDF statement imports with auto-categorization.</li>
+          <li>Rust + Axum API on PostgreSQL with row-level security and a two-pool tenancy model, so each user's data is isolated at the database layer.</li>
+          <li>Next.js frontend for the dashboard, transactions, accounts, analytics, receipts, and People views.</li>
+          <li>Statement import from CSV, QFX, and PDF. PDF statements are read by Claude and checked against their own printed balances; rows already seen are skipped and card payments pair with the other side, so nothing counts twice.</li>
+          <li>Read-only bank sync through SimpleFIN on Pro. Zedi never sees the bank login and stores one read-only key, encrypted with AES-256-GCM.</li>
+          <li>Claude Vision receipt OCR: a photo becomes line items, and a receipt linked to its charge can split that charge by item category.</li>
+          <li>People ledger: split receipts with friends and keep a running who-owes-who balance per person. Venmo statement files tag payments to people.</li>
+          <li>Categorization with 450+ built-in rules, the user's own fixes, and optional AI.</li>
           <li>Stripe billing for subscriptions, deployed on Railway.</li>
+        </ul>
+
+        <h2>Pricing</h2>
+        <ul>
+          <li>Free: unlimited CSV and QFX files, 10 receipt scans and 10 PDF scans a month, and opt-in AI categories for 50 rows a month.</li>
+          <li>Pro: $3.50 a month or $30 a year. Adds read-only bank sync (SimpleFIN bills its own $1.50 a month), unlimited scans, and unlimited AI categories.</li>
+          <li>A 30-day Pro trial needs no card. No ads, and data is never sold.</li>
         </ul>
         <p>
           <a class="btn btn--primary" href="https://zedi.dev" target="_blank" rel="noopener noreferrer">Visit the live site</a>
