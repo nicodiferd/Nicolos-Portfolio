@@ -99,6 +99,22 @@
       display: flex !important;
     }
 
+    /* Full-width project card (BBLMLP). Page-local so styles/ and the cache token stay untouched. */
+    .proj-card--wide {
+      grid-column: 1 / -1;
+    }
+
+    .proj-card--wide .proj-card__desc {
+      max-width: 78ch;
+    }
+
+    @media (min-width: 761px) {
+      .proj-card--wide .proj-card__spec {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: var(--space-10);
+      }
+    }
+
   </style>
 
   <script type="application/ld+json">
@@ -409,6 +425,23 @@
               <a class="proj-card__link" href="/zedi">Case study <i class="fas fa-arrow-right"></i></a>
               <a class="proj-card__link" href="https://zedi.dev" target="_blank" rel="noopener noreferrer">Live site <i class="fas fa-arrow-up-right-from-square"></i></a>
             </div>
+          </div>
+        </article>
+
+        <!-- BBLMLP (spans both columns, so the two-column grid stays even with nine cards; numbers from bblmlp docs/public-facts.yaml, 2026-10-15) -->
+        <article class="proj-card proj-card--tile proj-card--wide">
+          <div class="proj-card__body">
+            <p class="proj-card__cat">MACHINE LEARNING / DATA ENGINEERING</p>
+            <h3 class="proj-card__title">BBLMLP</h3>
+            <p class="proj-card__desc">MLB win-probability pipeline I built solo: point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, scored walk-forward with paired tests and calibration checks. The headline is an honest one: the stacked LightGBM ties the tuned Elo on Brier.</p>
+            <div class="chips"><span class="chip">Python</span><span class="chip">LightGBM</span><span class="chip">DuckDB</span><span class="chip">Statcast</span></div>
+            <dl class="hero__chip proj-card__spec">
+              <div><dt>HELD-OUT GAMES</dt><dd>6,751</dd></div>
+              <div><dt>BRIER, BOTH MODELS</dt><dd>0.24554</dd></div>
+              <div><dt>AT-BATS MODELED</dt><dd>1,066,558</dd></div>
+              <div><dt>TESTS COLLECTED</dt><dd>1,282</dd></div>
+            </dl>
+            <div class="proj-card__links"><a class="proj-card__link" href="/bblmlp">Case study <i class="fas fa-arrow-right"></i></a></div>
           </div>
         </article>
 
