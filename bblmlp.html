@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="BBLMLP: an MLB win-probability pipeline I built solo. Point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, walk-forward evaluation with paired tests and calibration checks. The honest result: a tie.">
+  <meta name="description" content="BBLMLP: an MLB win-probability pipeline I built. Point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, walk-forward evaluation with paired tests and calibration checks. The honest result: the LightGBM ties a tuned two-constant Elo.">
   <meta name="author" content="Nicolo DiFerdinando">
   <meta name="theme-color" content="#f5f2ec">
-  <meta property="og:type" content="article">
+  <meta property="og:type" content="website">
   <meta property="og:site_name" content="Nicolo DiFerdinando">
   <meta property="og:title" content="BBLMLP | Nicolo DiFerdinando">
-  <meta property="og:description" content="BBLMLP: an MLB win-probability pipeline I built solo. Point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, walk-forward evaluation with paired tests and calibration checks. The honest result: a tie.">
+  <meta property="og:description" content="BBLMLP: an MLB win-probability pipeline I built. Point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, walk-forward evaluation with paired tests and calibration checks. The honest result: the LightGBM ties a tuned two-constant Elo.">
   <meta property="og:url" content="https://nicolod.org/bblmlp">
   <meta property="og:image" content="https://nicolod.org/images/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
   <meta property="og:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="BBLMLP | Nicolo DiFerdinando">
-  <meta name="twitter:description" content="BBLMLP: an MLB win-probability pipeline I built solo. Point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, walk-forward evaluation with paired tests and calibration checks. The honest result: a tie.">
+  <meta name="twitter:description" content="BBLMLP: an MLB win-probability pipeline I built. Point-in-time features in DuckDB, a tuned Elo baseline and a stacked LightGBM, walk-forward evaluation with paired tests and calibration checks. The honest result: the LightGBM ties a tuned two-constant Elo.">
   <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
   <meta name="twitter:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <title>BBLMLP | Nicolo DiFerdinando</title>
@@ -60,7 +60,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "BBLMLP: an MLB win-probability pipeline, measured honestly",
-    "description": "A solo machine learning and data engineering project: point-in-time MLB features in DuckDB, a tuned Elo baseline and a stacked LightGBM, scored walk-forward with paired tests and calibration checks.",
+    "description": "A machine learning and data engineering project: point-in-time MLB features in DuckDB, a tuned Elo baseline and a stacked LightGBM, scored walk-forward with paired tests and calibration checks.",
     "url": "https://nicolod.org/bblmlp",
     "image": "https://nicolod.org/images/og-card.png",
     "dateModified": "2026-10-16",
@@ -481,15 +481,14 @@
     </div>
   </header>
 
-  <!-- Every number on this page comes from bblmlp docs/public-facts.yaml (2026-10-15) or a file it cites.
-       Framing rules: nico-hub rules/public-claims.md. Feature count left out until public-facts open_checks resolves 139 vs 152. -->
+  <!-- Numbers: bblmlp docs/public-facts.yaml (2026-10-15) -->
   <main id="content" tabindex="-1">
   <section class="detail">
     <div class="container">
       <p class="ds-section__num">PROJECT / BBLMLP</p>
       <h1 class="detail__title">BBLMLP</h1>
       <p class="detail__lead">
-        A baseball machine learning pipeline I built solo. It predicts each MLB game's home-win
+        A baseball machine learning pipeline I built. It predicts each MLB game's home-win
         probability from features that only know what was known before first pitch, then scores
         those probabilities the way a skeptic would: walk-forward, paired against a tuned baseline,
         and checked for calibration.
@@ -502,13 +501,13 @@
         <span class="chip">Statcast</span>
         <span class="chip">pytest</span>
       </div>
-      <p class="detail__status">Research artifact &middot; not promoted</p>
+      <p class="detail__status">Research artifact &middot; not promoted &middot; dormant since mid-September 2026</p>
 
       <dl class="glance">
-        <div><dt>RESULT</dt><dd>A tie<span>Stacked LightGBM and tuned Elo, Brier 0.24554 each</span></dd></div>
+        <div><dt>RESULT</dt><dd>A tie, on record<span>Stacked LightGBM vs a tuned two-constant Elo: Brier 0.24554 each</span></dd></div>
         <div><dt>HELD-OUT GAMES</dt><dd>6,751<span>2024 to 2026, paired t = &minus;0.00</span></dd></div>
         <div><dt>AT-BATS MODELED</dt><dd>1,066,558<span>Plate-appearance layer, 2021 to 2026</span></dd></div>
-        <div><dt>CALIBRATION GATE</dt><dd>Failed<span>Isotonic calibration failed its pre-registered gate and did not ship</span></dd></div>
+        <div><dt>ISOTONIC CALIBRATION</dt><dd>Rejected by its own gate<span>Pre-registered gate: 0 of 3 fittable folds improve, so it did not ship</span></dd></div>
         <div><dt>TESTS COLLECTED</dt><dd>1,282<span>Hermetic: no warehouse, no network</span></dd></div>
         <div><dt>CODE</dt><dd>17.2k lines<span>Python across 74 modules, plus 19.2k lines of tests</span></dd></div>
       </dl>
@@ -516,7 +515,7 @@
       <div class="detail__body">
         <h2>What it is</h2>
         <p>
-          BBLMLP is a machine learning and data engineering project I built on my own, using baseball
+          BBLMLP is a machine learning and data engineering project I built, using baseball
           as the domain for practicing the parts of ML that are easy to get wrong: feature pipelines,
           leakage-safe validation and probability calibration. It ingests MLB data from 2021 to 2026
           into a DuckDB warehouse, builds point-in-time features, trains a tuned Elo baseline and a
@@ -531,7 +530,7 @@
           <ol class="pipeline">
             <li><span class="pipeline__step">01 / INGEST</span><span class="pipeline__name">MLB data</span><span class="pipeline__detail">StatsAPI, Statcast, FanGraphs tables, weather. 2021 to 2026.</span></li>
             <li><span class="pipeline__step">02 / FEATURES</span><span class="pipeline__name">Point-in-time</span><span class="pipeline__detail">Rolling windows, each rate with a shrunk sibling. No lookahead.</span></li>
-            <li><span class="pipeline__step">03 / MODELS</span><span class="pipeline__name">Elo + LightGBM</span><span class="pipeline__detail">Tuned Elo, stacked into a gradient-boosted model.</span></li>
+            <li><span class="pipeline__step">03 / MODELS</span><span class="pipeline__name">Elo + LightGBM</span><span class="pipeline__detail">Elo, stacked into a gradient-boosted model.</span></li>
             <li><span class="pipeline__step">04 / EVALUATE</span><span class="pipeline__name">Walk-forward</span><span class="pipeline__detail">16-cell matrix, paired tests, pre-registered gates.</span></li>
             <li><span class="pipeline__step">05 / SERVE</span><span class="pipeline__name">Daily projections</span><span class="pipeline__detail">Same feature code as training, as-of the game date.</span></li>
           </ol>
@@ -562,12 +561,12 @@
           <li>The splitters have no shuffle or random-state option, and a test asserts the API cannot grow one. Every training date comes strictly before every test date.</li>
           <li>The probable-pitcher lookup returns the latest row strictly before the game date. A pitcher whose only row is that game gets nothing, never his own line.</li>
           <li>Elo probabilities use only earlier games, so stacking Elo into the model does not leak.</li>
-          <li><strong>Train/serve parity.</strong> One matrix-assembly function serves both paths: serving appends a placeholder row for the scheduled game and runs the same window code. Of 528 sampled single-game days, 524 games reproduce every non-lineup feature on the serving path to within 1.4e-14, and the residuals (opening-day rest days, doubleheader game 2, posted lineups) are named, not hidden.</li>
+          <li><strong>Train/serve parity.</strong> One matrix-assembly function serves both paths: serving appends a placeholder row for the scheduled game and runs the same window code. Of 528 sampled games on single-game days, 524 reproduce every non-lineup feature on the serving path to within 1.4e-14, and the residuals (opening-day rest days, doubleheader game 2, posted lineups) are named, not hidden.</li>
         </ul>
 
         <h2>Models</h2>
         <ul>
-          <li><strong>A tuned Elo baseline.</strong> Elo's usual k = 20 is a constant borrowed from chess and never measured on baseball. Tuned on 2021 to 2023 (k = 8, season regression 0.5) and scored once on 2024 to 2026, its Brier improves from 0.24808 to 0.24446 (paired t = +7.72).</li>
+          <li><strong>A tuned Elo baseline.</strong> Elo's usual k = 20 is a constant borrowed from chess and never measured on baseball. Tuned on 2021 to 2023 (k = 8, season regression 0.5) and scored once on 2024 to 2026, it is worth +0.00362 Brier over k = 20 (paired t = +7.72).</li>
           <li><strong>A stacked LightGBM.</strong> The Elo probability goes in as a feature beside the rolling team, starter, bullpen, batter and lineup features, and the booster is early-stopped on its own slice of the training window.</li>
           <li><strong>Tree size chosen by monotonicity, where Brier could not decide.</strong> Brier could not separate 7, 15 and 31 leaves. PDP monotonicity ran 1.000, 1.000, 0.923 and 0.808 at 7, 15, 31 and 63 leaves, and at 31 the model had learned that a bullpen walking more batters helps its own team. The configured model uses 7.</li>
           <li><strong>Features earn their place.</strong> Five candidate groups (umpire, starter and bullpen xwOBA, handedness, fatigue) are worth &minus;0.00008 Brier together (SE 0.00027, t = &minus;0.31). Only fatigue stays on.</li>
@@ -580,12 +579,12 @@
           <li><strong>Three disjoint, time-ordered slices</strong> inside each training window: fit (70%), early stopping (15%) and calibration (15%, the most recent).</li>
           <li><strong>A 16-cell matrix,</strong> every cell reported: raw or shrunk features, all seasons or 2023 onward (the rule-change era), Elo stacked or not, isotonic calibration or not. Four naive baselines (coin flip, always home, base rate, Elo) sit beside every run.</li>
           <li><strong>Metrics:</strong> Brier for selection, plus log loss, expected calibration error (ECE), the worst reliability bin and reliability diagrams. Accuracy is reported, never the objective. Comparisons are paired on identical games, with Bonferroni corrections when several tests run at once.</li>
-          <li><strong>A pre-registered calibration gate.</strong> Isotonic calibration ships only if pooled Brier and ECE both improve, the same holds in at least 4 of the 5 season folds, and no single fold degrades by more than 0.005 Brier or 0.010 ECE; a fold with fewer than 1,000 calibration rows does not fit it at all. Measured: pooled &Delta;Brier +0.00102, &Delta;ECE +0.00581, and 0 of 3 fittable folds improve. Isotonic does not ship, the model serves the uncalibrated booster, and the gate re-runs on every evaluation.</li>
+          <li><strong>A pre-registered calibration gate.</strong> Isotonic calibration ships only if pooled Brier and ECE both improve, the same holds in at least 4 of the 5 season folds, and no single fold degrades by more than 0.005 Brier or 0.010 ECE. A fold with fewer than 1,000 calibration rows does not fit it at all, and the fold requirement scales down with it: the 2022 and 2023 folds were too small, so all 3 fittable folds had to improve. Measured: pooled &Delta;Brier +0.00102, &Delta;ECE +0.00581, and 0 of 3 fittable folds improve. Isotonic does not ship, the configured model is the uncalibrated booster, and the gate re-runs on every evaluation.</li>
         </ul>
 
         <h2>The honest result</h2>
         <p>
-          The stacked LightGBM ties a tuned Elo on Brier. That tie is the finding, recorded as the
+          The stacked LightGBM ties a tuned two-constant Elo on Brier. That tie is the finding, recorded as the
           result of the model cycle (decision A1, 2026-10-15), instead of re-running the search until
           a model looks good. The model's earlier margin over Elo (+0.00376) was a margin over an
           untuned baseline: nothing about the model got worse, the yardstick got honest.
@@ -615,7 +614,7 @@
         <figure class="fig" aria-labelledby="fig2-title">
           <figcaption>
             <p class="fig__title" id="fig2-title">Figure 2 &middot; All 16 model cells against the tuned Elo</p>
-            <p class="fig__sub">Pooled out-of-sample Brier, lower is better. 6,856 games, walk-forward, measured 2026-08-23. Fifteen cells land to the right of the line.</p>
+            <p class="fig__sub">Pooled out-of-sample Brier, lower is better, on the 6,856 games every cell can score: the 2024 to 2026 folds, because the 2023-onward cells have no training data for the 2022 and 2023 folds. These are Table 1's games, re-measured 2026-08-23 with eleven more days of 2026. Fifteen cells land to the right of the line.</p>
           </figcaption>
           <div class="strip" role="img" aria-label="Strip chart of Brier scores from 0.2445 to 0.2480. The tuned Elo sits at 0.24545. One model cell scores 0.24537, 0.00008 better. The configured cell scores 0.24574. The other 14 cells run from 0.24575 to 0.24769.">
             <div class="strip__track">
@@ -637,7 +636,7 @@
             <li><span class="swatch swatch--dot" aria-hidden="true"></span><span>Configured cell (raw features, all seasons, stacked, uncalibrated): <b>0.24574</b></span></li>
             <li><span class="swatch swatch--range" aria-hidden="true"></span><span>The other 14 cells: <b>0.24575 to 0.24769</b></span></li>
           </ul>
-          <p class="fig__source">Source: docs/OPEN-ITEMS.md, decision A1.</p>
+          <p class="fig__source">Source: docs/OPEN-ITEMS.md, decision A1; docs/handoff-model.md, section 0; the game-winner model design spec, section 11.1; config/settings.yaml.</p>
         </figure>
 
         <h3>A leak caught in its own evaluation</h3>
@@ -655,7 +654,7 @@
         <h2>Engineering</h2>
         <ul>
           <li><strong>About 17.2k lines of Python</strong> across 74 modules in src/, and about 19.2k lines of tests.</li>
-          <li><strong>1,282 tests collected, all hermetic:</strong> no test reads the warehouse or the network. GitHub Actions runs pytest and ruff (errors only) on every pull request and every push to main, from a frozen uv lockfile.</li>
+          <li><strong>1,282 tests collected, all hermetic:</strong> no test reads the warehouse or the network. GitHub Actions runs pytest and ruff (errors only) on pull requests and pushes to main, from a frozen uv lockfile.</li>
           <li><strong>Gates on real data run before merge.</strong> Checks that need the full warehouse (train/serve parity, the runs reconciliation, the matrix row count) run locally, and their measured numbers are written into the design spec.</li>
           <li><strong>A Typer CLI and pydantic settings</strong> over one DuckDB file. Tuned settings carry the measurement that chose them as inline comments.</li>
           <li><strong>A scheduled daily chain</strong> keeps schedules, lineups, umpire crews, features, projections and weather current during the season. After a stalled Statcast fetch hung it for 5.5 hours, every step got a timeout: a failure is logged and the whole chain retries the next day, and the regression test drives the default runner rather than an injected one. A timezone guard stops the job before it writes anything if the host is not in the zone its stored timestamps assume.</li>
@@ -664,7 +663,7 @@
         <h2>What is next</h2>
         <ul>
           <li><strong>The game simulator.</strong> A Monte Carlo and Markov chain game simulator on top of the plate-appearance layer. It is designed and not built.</li>
-          <li><strong>A run-environment model.</strong> Umpire features tie on the winner model for a structural reason (one strike zone for both clubs). Their most promising use is a totals model, which does not exist yet.</li>
+          <li><strong>A run-environment model.</strong> Umpire features tie on the winner model for a structural reason (one strike zone for both clubs). Their most promising use is a total-runs model, which does not exist yet.</li>
           <li><strong>Better priors.</strong> A DerSimonian-Laird prior fit for the batter grain, and a Dirichlet successor for the plate-appearance rates that ships only if it wins held-out multinomial log loss.</li>
         </ul>
 
@@ -674,8 +673,8 @@
         </p>
         <p class="sources">
           Sources: every number on this page comes from the project's own records as of 2026-10-15:
-          docs/public-facts.yaml, docs/handoff-model.md (sections 0 and 1), docs/OPEN-ITEMS.md (A1, B4,
-          B5, B6, C2), the game-winner model design spec (sections 4, 5, 10 and 11), config/settings.yaml
+          docs/public-facts.yaml, docs/handoff-model.md (sections 0 and 1), docs/OPEN-ITEMS.md (A1, B1,
+          B4, B5, B6, C2), the game-winner model design spec (sections 4, 5, 10 and 11), config/settings.yaml
           and the CI workflow. Measurements date from 2026-07-28 to 2026-10-15.
         </p>
       </div>

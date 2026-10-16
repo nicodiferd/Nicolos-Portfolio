@@ -9,10 +9,10 @@ Spec and plan from June live in `docs/superpowers/`. Content rules live in the h
 
 ## 2026-10-16: /bblmlp page (branch `feat/bblmlp-page`, stacked on `redesign/datasheet`)
 
-- **New `bblmlp.html`**, ML and engineering depth first: what it is, the data, leakage controls, models, evaluation, the honest result (decision A1: the stacked LightGBM ties a tuned Elo on Brier, 0.24554 each on 6,751 games), the leak caught in its own evaluation, engineering, what is next. Every number comes from `bblmlp/docs/public-facts.yaml` (2026-10-15, branch `chore/ml-first-framing`) or a file it cites; the page ends with its sources.
+- **New `bblmlp.html`**, ML and engineering depth first: what it is, the data, leakage controls, models, evaluation, the honest result (decision A1: the stacked LightGBM ties a tuned two-constant Elo on Brier, 0.24554 each on 6,751 games), the leak caught in its own evaluation, engineering, what is next. Every number comes from `bblmlp/docs/public-facts.yaml` (2026-10-15, branch `chore/ml-first-framing`) or a file it cites; the page ends with its sources.
 - **Figures** are HTML and CSS, built only from sourced numbers: the pipeline (Figure 1), a head-to-head Brier table (Table 1) and a strip chart of all 16 cells against the tuned Elo (Figure 2, `docs/OPEN-ITEMS.md` A1). Page-local CSS sits in the page's own `<style>`, so the cache token stays `?v=redesign-2`.
 - **Index**: a full-width BBLMLP card after Zedi (so the two-column grid stays even with nine cards; its `.proj-card--wide` rule is in index.html's inline `<style>`). **Sitemap** lists `/bblmlp`. **/zedi** now links Next: BBLMLP. The stack row already had LightGBM, scikit-learn and DuckDB.
-- **Left out on purpose:** the feature count (public-facts `open_checks`: the model card lists 152 columns, the docs say 139), any repo link (private; the page says code is available on request), and everything public-facts lists under `not_public`. The external benchmark appears in one paragraph, unnamed.
+- **Left out on purpose:** the feature count (until public-facts `open_checks` clears), the word "solo" (no source says it), any repo link (private; the page says code is available on request), and everything public-facts lists under `not_public`. The external benchmark appears in one paragraph, unnamed.
 - **Owner:** review the copy, then merge into `redesign/datasheet` (the redesign itself is on hold until its own review).
 
 ## 2026-10-15 pass (what changed)
