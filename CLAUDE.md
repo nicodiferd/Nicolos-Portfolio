@@ -12,7 +12,7 @@ Positioning: AI/ML and data engineering lead; security and infrastructure are su
 
 The content rules live in the coordination hub, `~/Developer/personal/nico-hub` (GitHub `nicodiferd/nico-hub`, private):
 
-- `rules/public-claims.md`: the **truth rule**. Every fact on the site comes from a source file, never from memory: roles, dates, education and skills from the resume (`resume-tex/data/profile.yaml` once it exists, until then `pdftotext resume.pdf -`); Zedi facts from `zedi/docs/public-facts.yaml` (until it exists, `zedi/docs/product-state-*.md`); homelab facts from `homelab.html` itself. If no source supports a claim, it does not ship.
+- `rules/public-claims.md`: the **truth rule**. Every fact on the site comes from a source file, never from memory: roles, dates, education and skills from the resume (`resume-tex/data/profile.yaml` once it exists, until then `pdftotext resume.pdf -`); Zedi facts from `zedi/docs/public-facts.yaml` (until it exists, `zedi/docs/product-state-*.md`); BBLMLP facts from `bblmlp/docs/public-facts.yaml` and the files it cites (framing per the BBLMLP section of `rules/public-claims.md`; no feature count until its `open_checks` clears); homelab facts from `homelab.html` itself. If no source supports a claim, it does not ship.
 - `rules/banned-claims.txt`: one regex per line. Run every `all`-scope regex (`grep -iE`) over the deployable files (everything but `docs/`, `os/`, `node_modules/`, plus `pdftotext resume.pdf -`) before you push. Zero hits.
 - `CHARTER.md`: positioning and the coordinator's autonomy gates.
 
@@ -33,6 +33,7 @@ npm start
 - `index.html` - Main portfolio page (hero, profile, experience, projects, stack, leadership, education, contact)
 - `flora.html` - Flora detail page (senior capstone with Bloomfilter)
 - `zedi.html` - Zedi detail page (personal finance SaaS, live at https://zedi.dev)
+- `bblmlp.html` - BBLMLP detail page (MLB win-probability ML pipeline, private repo); page-local CSS in its own `<style>`
 - `bandit.html` - Bandit startup retrospective
 - `homelab.html` - HomeLab infrastructure writeup (sanitized snapshot)
 - `404.html` - Not-found page (Cloudflare Pages serves it for unknown paths)
