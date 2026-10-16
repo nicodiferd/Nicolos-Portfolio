@@ -455,7 +455,7 @@
   </header>
 
   <!-- Facts: zedi docs/public-facts.yaml (2026-10-15) and docs/product-state-2026-10-12.md
-       (sections 1, 3, 7, 8, 19, 22, 23). Production-only features. Counts measured on
+       (sections 1, 3, 7, 8, 9, 12, 19, 22, 23). Production-only features. Counts measured on
        zedi origin/main e17320e3, 2026-10-16. No user, signup or revenue numbers. -->
   <main id="content" tabindex="-1">
   <section class="detail">
@@ -487,7 +487,7 @@
         <div><dt>TENANT ISOLATION</dt><dd>In the database<span>Postgres row-level security, two connection pools</span></dd></div>
         <div><dt>ENVIRONMENTS</dt><dd>3<span>Production, staging, and a self-hosted personal instance</span></dd></div>
         <div><dt>SQL MIGRATIONS</dt><dd>85<span>Numbered files on the production branch, up to 092</span></dd></div>
-        <div><dt>RUST UNIT TESTS</dt><dd>941<span>Plus 87 frontend test files on the production branch</span></dd></div>
+        <div><dt>RUST UNIT TESTS</dt><dd>956<span>What cargo test --lib runs, plus 87 frontend test files, on the production branch</span></dd></div>
       </dl>
       <p class="glance__note">Counts taken from the production branch on 2026-10-16.</p>
 
@@ -520,7 +520,7 @@
           </div>
           <div class="tile">
             <span class="tile__tag">Dedup and pairing</span>
-            <h3>Counted once</h3>
+            <h3>Duplicates skipped, payments paired</h3>
             <p>A row with the same date, amount and description on an account is skipped, so uploading the same file twice adds nothing. Card payments and Venmo cash-outs pair with the other side, so they do not count as spending or income.</p>
           </div>
           <div class="tile">
@@ -618,7 +618,7 @@
 
             <rect class="box box--core" x="40" y="448" width="560" height="124" rx="4"/>
             <text class="t" x="60" y="476">PostgreSQL with row-level security</text>
-            <text x="60" y="498">admin pool: migrations and admin routes only</text>
+            <text x="60" y="498">admin pool: migrations, admin routes, Stripe webhook, sweepers</text>
             <text x="60" y="518">app_user pool: every tenant request; the role cannot bypass RLS</text>
             <text x="60" y="538">Policies read the request's user id; without it a query sees no rows</text>
             <text x="60" y="558">Tenancy triggers refuse references across users</text>
@@ -745,7 +745,8 @@
         <p>
           Isolation between users is enforced by the database, not only by application code. The
           backend keeps two pools. An admin pool, which can bypass row-level security, runs the
-          migrations at boot and serves the admin routes. Every tenant request goes through a second
+          migrations at boot and serves the admin routes, the Stripe webhook handler, the background
+          sweepers and a few internal lookups. Every tenant request goes through a second
           pool whose role cannot bypass it. Handlers take the user id from the verified token, never
           from a parameter, and open a transaction that sets it with SET LOCAL; the RLS policies read
           that setting, so a query without it sees no rows. Triggers refuse foreign keys that point at
@@ -756,7 +757,7 @@
         <ul>
           <li><strong>Claude</strong> (Anthropic's API) reads receipt photos and PDF statements and powers the opt-in batch categorization. A user's own Anthropic key, encrypted with AES-256-GCM, lifts the scan and AI limits on any plan.</li>
           <li><strong>SimpleFIN</strong> carries read-only bank sync on Pro. Zedi makes two kinds of call, claiming a setup token and reading accounts, and stores one access URL encrypted with AES-256-GCM, with the key kept outside the database. A backend scheduler syncs daily by default, and the bank sync card shows how many of SimpleFIN's 24 reads a day per connection are used.</li>
-          <li><strong>Stripe</strong> handles Checkout and the customer portal, and its webhooks set the plan: monthly, yearly or the trial.</li>
+          <li><strong>Stripe</strong> handles Checkout and the customer portal, and its webhooks record the paid plan, monthly or yearly. The one-click 30-day trial is started by Zedi's own API, not through Stripe.</li>
           <li><strong>Cloudflare</strong> runs DNS for zedi.dev and stores receipt images in R2 under each user's own prefix. Photos are deleted once their items are read (a receipt that could not be read keeps its photo for up to 30 days, for a retry), and the whole prefix is purged when an account closes.</li>
           <li><strong>Railway</strong> hosts the frontend and the API, each built from a Docker image, and the Postgres database. Resend sends the verification and reset email.</li>
         </ul>
@@ -784,14 +785,14 @@
           slices with my sign-off, after the same slice has run on staging.
         </p>
 
-        <h2>Quality gates</h2>
+        <h2>Checks on every push</h2>
         <p>
           The production branch holds about 101,000 lines of Rust in the backend and about 143,000
           lines of TypeScript in the frontend (counted 2026-10-16). GitHub Actions runs on every push
           and pull request to main and dev:
         </p>
         <ul>
-          <li><strong>Backend:</strong> a release build and the unit tests, 941 Rust <code>#[test]</code> functions on the production branch, plus cargo-audit against published advisories for the Rust dependencies.</li>
+          <li><strong>Backend:</strong> a release build and the unit tests, 956 on the production branch (939 <code>#[test]</code> and 17 <code>#[tokio::test]</code> functions in the backend library), plus cargo-audit against published advisories for the Rust dependencies.</li>
           <li><strong>Database suites:</strong> the backend boots once against a real Postgres 16 to run every migration, then the integration suites, the row-level security isolation tests among them, connect as the app role. A role that could bypass RLS would pass those tests against a leaky policy, so the suites never run as one.</li>
           <li><strong>Frontend:</strong> lint, 41 test suites and a production build. The production branch holds 87 frontend test files.</li>
           <li><strong>Public copy as a contract:</strong> a claims script checks the landing, pricing and comparison pages against the code they describe. The advertised rule count cannot exceed the seeded rules, scan allowances must equal the backend's limits, and prices must come from the pricing constants.</li>
@@ -801,8 +802,7 @@
           Migrations are numbered SQL files, sequential, with no down-migrations, and the backend runs
           them at boot. A migration number is an identity: it is never reused across branches. Because
           several lanes build at once, one coordinating session hands numbers out and a ledger records
-          which branch holds each one. Numbers reserved by lanes that never used them, or whose
-          work has not reached production, leave gaps, which is why the production branch has 85 files
+          which branch holds each one. Numbers reserved by lanes that never used them leave gaps, which is why the production branch has 85 files
           numbered up to 092. A migration file the runner does not
           register fails <code>cargo test --lib</code>.
         </p>
@@ -812,9 +812,9 @@
           I build Zedi with Claude Code, and the repository is set up for it. It carries 13 domain
           skills, one per area (backend and tenancy, auth, import, receipts and OCR, categorization,
           People, billing, the signed-in UI, the marketing site, deploys, and more) that a session
-          loads before it works in that area. It also carries 7 project subagents with fixed
-          roles: SEO research, page building, copywriting, legal review of claims, Cloudflare,
-          Railway, and CRM reporting.
+          loads before it works in that area. It also carries 6 project subagents with fixed
+          roles: SEO research, page building, legal review of claims, Cloudflare, Railway, and CRM
+          reporting.
         </p>
         <ul>
           <li><strong>Lanes and a commander.</strong> Parallel work runs in lanes, each a branch in its own git worktree with its own session. One commander session hands out migration numbers, integrates finished lanes on a merge branch, and checks the result before it moves to dev.</li>
@@ -842,7 +842,7 @@
             <span class="tile__tag">Pro</span>
             <p class="tile__price">$3.50 <small>a month, or $30 a year</small></p>
             <ul>
-              <li>Read-only bank sync through SimpleFIN</li>
+              <li>Read-only bank sync through SimpleFIN, which bills its own $1.50 a month</li>
               <li>Unlimited receipt and PDF scans</li>
               <li>Unlimited AI categories</li>
             </ul>
@@ -850,7 +850,7 @@
         </div>
         <ul>
           <li><strong>Bank sync fee:</strong> SimpleFIN bills its own $1.50 a month or $15 a year, plus tax, and Zedi adds no markup. Bank sync is $5 a month all in: $3.50 to Zedi for Pro plus $1.50 to SimpleFIN, before tax.</li>
-          <li><strong>Trial:</strong> a one-click 30-day Pro trial with no card, including 50 receipt and PDF scans. Bank sync in the trial still needs your own SimpleFIN subscription.</li>
+          <li><strong>Trial:</strong> try Pro free for 30 days, with 50 receipt and PDF scans. No card to start. Bank sync in the trial still needs your own SimpleFIN subscription.</li>
           <li><strong>Your own key:</strong> a user's own Anthropic key lifts the scan and AI limits on any plan, billed by Anthropic.</li>
         </ul>
 
@@ -905,9 +905,9 @@
       <div class="detail__body">
         <p class="sources">
           Sources: every fact on this page comes from Zedi's own records, read 2026-10-16:
-          docs/public-facts.yaml (2026-10-15), docs/product-state-2026-10-12.md (sections 1, 3, 7, 8,
-          19, 22 and 23), CLAUDE.md, docs/agents.md, the domain skills, the CI workflow, and file
-          and test counts on the production branch. The repository is private.
+          docs/public-facts.yaml (2026-10-15), docs/product-state-2026-10-12.md (sections 1, 3, 7, 8, 9,
+          12, 19, 22 and 23), CLAUDE.md, docs/agents.md, the domain skills, the CI workflow, and file,
+          test, skill and agent counts on the production branch. The repository is private.
         </p>
       </div>
 
