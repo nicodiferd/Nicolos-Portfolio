@@ -7,6 +7,14 @@
 
 Spec and plan from June live in `docs/superpowers/`. Content rules live in the hub (`~/Developer/personal/nico-hub`, `rules/public-claims.md` and `rules/banned-claims.txt`); see CLAUDE.md.
 
+## 2026-10-16: /zedi refresh (branch `feat/zedi-refresh`, stacked on `feat/bblmlp-page`)
+
+- **`zedi.html` rebuilt as an engineering case study** in the datasheet template: what it is (with the tagline), what production runs, architecture with an inline SVG diagram (a wide layout, and a stacked one under 700px), tenancy inside Postgres, the integrations, three environments and how promotion works, quality gates and migration discipline, the agentic workflow (lanes, a commander, frozen contracts, design then adversarial review, browser QA), pricing, and a gallery. Page-local CSS sits in the page's own `<style>`, so the cache token stays `?v=redesign-2`.
+- **Facts** come from `zedi/docs/public-facts.yaml` (branch `chore/context-diet-2026-10-15`), `docs/product-state-2026-10-12.md` (on `dev`; not on zedi `main`), CLAUDE.md, `docs/agents.md`, the skills and the CI workflow. Counts (85 migrations up to 092, 941 Rust `#[test]` functions, 87 frontend test files, 41 CI frontend suites, about 101k lines of Rust and 143k of TypeScript) were taken on zedi `main` e17320e3 on 2026-10-16.
+- **Left out on purpose:** Investments (public-facts says announcing it needs the owner's sign-off), every staging-only feature, user or revenue numbers, the staging and personal hostnames, the repo link, the old origin story (2025 precursor, IME 543: no Zedi source carries it) and "solo" (public-facts says not "run by one person").
+- **Screenshots** are new WebP files in `images/zedi-2026-10/` (production build of zedi `main`, fictional demo account): 1600x1000 display files with 3200x2000 click-through files, and two 780px phone shots. `images/zedi-deck-shots/` is removed; only the June spec and plan in `docs/` still name it. The index card uses the new dashboard shot and a refreshed blurb; the sitemap dates `/zedi` 2026-10-16.
+- **Owner:** review the copy. Every screenshot shows the app's nav, which includes an "Investments" tab marked Pro.
+
 ## 2026-10-16: /bblmlp page (branch `feat/bblmlp-page`, stacked on `redesign/datasheet`)
 
 - **New `bblmlp.html`**, ML and engineering depth first: what it is, the data, leakage controls, models, evaluation, the honest result (decision A1: the stacked LightGBM ties a tuned two-constant Elo on Brier, 0.24554 each on 6,751 games), the leak caught in its own evaluation, engineering, what is next. Every number comes from `bblmlp/docs/public-facts.yaml` (2026-10-15, branch `chore/ml-first-framing`) or a file it cites; the page ends with its sources.
@@ -54,7 +62,7 @@ After the takedown has held for a while: tag the last NicoOS commit, then remove
 8. **Beyond Wrapped repo link:** clear the repo for linking, then replace the "Team project, IME 565" label with a link (marked in `index.html`).
 9. **Cloudflare zone Browser Cache TTL** (4h) overrides `_headers` for cacheable files. Set Caching > Browser Cache TTL to "Respect Existing Headers".
 10. **Repo internals:** build output is `.`, so `CLAUDE.md`, `handoff.md`, `docs/`, `os/` and the package files are deployed. Stopgap in place: `_redirects` 301s them to `/` and `_headers` marks them noindex. Long-term: move the site into `public/`, set that as the Pages build output directory, then drop those redirect rules.
-11. **Zedi screenshots** date from July 2026 (old nav, dev badge). Recapture from a production build on demo data, as WebP under new filenames. Add gallery tiles in pairs so the two-column grid stays even.
+11. **Zedi screenshots:** done on `feat/zedi-refresh` (2026-10-16, WebP in `images/zedi-2026-10/`).
 12. **HomeLab copy questions:** keep or drop the patch and backup times and the game-server mention; Home Assistant, Immich and the game server's future.
 13. **Optional:** add a Content-Security-Policy after testing.
 
