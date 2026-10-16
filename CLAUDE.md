@@ -42,7 +42,7 @@ npm start
 - `js/app.js` - Main JS entry point (modules in `js/modules/`: theme, navigation, animations)
 - `styles/main.css` - Main stylesheet; imports `styles/base/*` (tokens in `variables.css`) and `styles/components/*` (navigation, hero, card, effects, notifications, sections, detail)
 - `images/` - Site images
-- `docs/` - Redesign spec and plan, and `docs/og-card/og-card.html` (source of `images/og-card.png`). Not part of the site, but deployed because the build output is the repo root
+- `docs/` - Redesign spec and plan, and `docs/og-card/og-card.html` (source of `images/og-card.png`). Not part of the site; `_redirects` 301s it to `/`
 
 #### Theme System
 Light/dark/system theme switching via `data-theme` attribute on `<html>`, persisted in localStorage as `preferredTheme`. Default is light.
@@ -75,12 +75,12 @@ An old React desktop-sim portfolio, still live at os.nicolod.org as the Cloudfla
 ## Style
 
 - **No em-dashes anywhere in this repo.** The em-dash (Unicode U+2014, the long horizontal dash typographers use to break clauses) is banned from body copy, code comments, and docs alike. Use commas, periods, parentheses, or hyphens instead. Applies to user-facing text and developer-facing comments equally.
-- `handoff.md`, `CLAUDE.md`, `docs/` and `os/` are publicly served. Never write secrets, security findings or private details in them.
+- `handoff.md`, `CLAUDE.md`, `docs/` and `os/` are deployed (build output is the repo root). `_redirects` 301s them to `/`, but the public GitHub repo still shows them: never write secrets, security findings or private details in them.
 
 ## Common Tasks
 
 ### Updating Resume
-1. Overwrite `resume.pdf` at the repo root with the new PDF (keep that exact filename; links, `_headers` and `_redirects` all point at it).
+1. The source is nicodiferd/resume-tex (`data/profile.yaml`); its CI publishes the public build, without a phone line, on the `latest` release. Overwrite `resume.pdf` at the repo root with that asset (`gh release download latest --repo nicodiferd/resume-tex -p resume.pdf -O resume.pdf --clobber`), never a hand-copied PDF. Keep that exact filename; links, `_headers` and `_redirects` all point at it.
 2. Check it locally with `npm start`, then open http://localhost:4321/resume.pdf.
-3. Make sure site copy (job titles, dates, skills) still matches the new resume, and run the banned-claims scan on `pdftotext resume.pdf -`.
+3. Make sure site copy (job titles, dates, skills) still matches the new resume, and run the banned-claims scan on `pdftotext resume.pdf -` and on the PDF's link URIs.
 4. Do not copy it into `os/` (NicoOS is archived).

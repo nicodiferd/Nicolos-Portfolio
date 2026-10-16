@@ -10,10 +10,13 @@ Spec and plan from June live in `docs/superpowers/`. Content rules live in the h
 ## 2026-10-15 pass (what changed)
 
 - **Zedi links** point at https://zedi.dev (card and case study). The old host only redirects there now.
-- **Repositioning, words only:** hero eyebrow "AI/ML · DATA ENGINEERING", focus chip "AI/ML · Data", focus tiles AI & ML, Data Engineering, Production Software, Infra & Security; bio, profile body and chips, and meta descriptions lead with AI/ML and data. Security stays as one tile and the profile background line. No certifications anywhere: the Snowflake row is labelled COURSES.
-- **Zedi card and /zedi** follow `zedi/docs/product-state-2026-10-12.md`: read-only SimpleFIN bank sync on Pro, Claude receipt OCR into line items, the People ledger, dedup and pairing, Postgres RLS with the two-pool tenancy model, Free and Pro pricing ($3.50 a month or $30 a year, 30-day trial with no card). No user counts. Origin dates now match git (precursor agent 2025, Zedi repo January 2026, multi-tenant SaaS in spring 2026 through IME 543); the old "June 2025" and "March 2026" claims are gone.
+- **Repositioning, words only:** hero eyebrow "AI/ML · DATA ENGINEERING", focus chip "AI/ML · Data", focus tiles AI & ML, Data Engineering, Production Software, Infra & Security; bio, profile body and chips, and meta descriptions lead with AI/ML and data. Security stays as one tile and the profile background line (the Security Automation chip is gone; the stack row says "SOC 2 audit automation"). No certifications anywhere; the COURSES row is held until the course name and its verify link arrive.
+- **Zedi card and /zedi** follow `zedi/docs/product-state-2026-10-12.md`: read-only SimpleFIN bank sync on Pro, Claude receipt OCR into line items, the People ledger, dedup and pairing, Postgres RLS with the two-pool tenancy model, Free and Pro pricing ($3.50 a month or $30 a year; the approved trial line: 30 days, 50 receipt and PDF scans, no card to start). Card payments pair so they don't count as spending or income (the product-state safe line, not a guarantee). No user counts. Origin dates now match git (precursor agent 2025, Zedi repo January 2026, multi-tenant SaaS in spring 2026 through IME 543); the old "June 2025" and "March 2026" claims are gone.
 - **Stack** adds LightGBM, scikit-learn and DuckDB (all imported by the BBLMLP pipeline).
 - **Beyond Wrapped** no longer says "Private repo" (the course repo is public); it reads "Team project, IME 565" and the repo link waits on Nicolo.
+- **/zedi gallery** drops the X-ray screen (no such view today) and the dashboard tile that repeated the hero, leaving a 2 by 2 grid.
+- **resume.pdf** is the CI build of nicodiferd/resume-tex PR #1 (`feat/profile-yaml-pipeline` at e37af3e, Actions run 38860485676), byte for byte: no phone line, apex nicolod.org and zedi.dev links, single-node HomeLab line. Banned-claims scan over its text and link URIs: 0 hits.
+- **Repo internals no longer served:** `_redirects` 301s `/os`, `/os/*`, `/docs`, `/docs/*`, `/CLAUDE.md`, `/handoff.md`, `/README.md` and the package files to `/` (Pages applies redirects before static files). The NicoOS Worker on os.nicolod.org is unaffected.
 - **No CSS or JS changed**, so the cache token stays `?v=redesign-2`.
 - **Checks run:** local link crawl of every href/src in the root HTML pages plus CSS `@import`s and JS imports (0 internal 404s), `_redirects` rules all 3 tokens with no spaces, `/resume.pdf` 200 `application/pdf`, banned-claims scan clean on site files, 0 em-dashes in tracked files.
 
@@ -34,16 +37,16 @@ After the takedown has held for a while: tag the last NicoOS commit, then remove
 ## Open items for Nicolo
 
 1. **Merge** `redesign/datasheet` into `main` (coordinator, after a look at the preview).
-2. **The www host of nicolod.org has no DNS record**, and the resume links to it. In Cloudflare: add the www host as a custom domain on the `nicolodwebsite` Pages project, then a Redirect Rule (www to apex, 301, keep path and query). Or change the resume link to `nicolod.org`.
-3. **Resume PDF** (resume-tex lane): its Zedi line still names the old host, its HomeLab line still uses the old cluster wording and service count, and the public PDF still carries a phone number. Rebuild from resume-tex and replace `resume.pdf`.
-4. **Snowflake course link:** wrap the title in `index.html` (marked `<!-- COURSE: ... -->`) with the Coursera verify URL, or drop the row.
+2. **The www host of nicolod.org has no DNS record.** The new resume links the apex, but old copies link www. In Cloudflare: add the www host as a custom domain on the `nicolodwebsite` Pages project, then a Redirect Rule (www to apex, 301, keep path and query).
+3. **Resume PDF:** merge resume-tex PR #1 before or with this branch. Once its `main` run publishes the `latest` release, replace `resume.pdf` with that asset (`gh release download latest --repo nicodiferd/resume-tex -p resume.pdf -O resume.pdf --clobber`) so nicolod.org/resume.pdf matches the release hash. If PR #1's content changes first, re-sync from its new build.
+4. **Snowflake course:** send the exact course name and its Coursera verify URL, then add the COURSES row back with the title linked (the spot is marked `<!-- COURSES row held ... -->` in `index.html`).
 5. **diferdinando.com** still has student and certification copy. Update that site, then restore the Visit link on its tile (marked in `index.html`).
 6. **OG card:** `images/og-card.png` still shows the old "Software · Data · Security" eyebrow. `docs/og-card/og-card.html` has the new one. Render it at 1200x630 (headless Brave from that folder: `--headless=new --window-size=1200,630 --force-device-scale-factor=1 --screenshot=...`), save it under a new name such as `images/og-card-2.png`, and point every page's `og:image` and `twitter:image` at it.
 7. **os.nicolod.org takedown:** run the commands above.
 8. **Beyond Wrapped repo link:** clear the repo for linking, then replace the "Team project, IME 565" label with a link (marked in `index.html`).
 9. **Cloudflare zone Browser Cache TTL** (4h) overrides `_headers` for cacheable files. Set Caching > Browser Cache TTL to "Respect Existing Headers".
-10. **Stop publishing repo internals:** build output is `.`, so `CLAUDE.md`, `handoff.md`, `docs/`, `os/` and package files are public (stopgap: `X-Robots-Tag: noindex` in `_headers`). Long-term: move the site into `public/` and set that as the Pages build output directory.
-11. **Zedi screenshots** date from July 2026 (old nav, dev badge). Recapture from a production build on demo data, as WebP under new filenames.
+10. **Repo internals:** build output is `.`, so `CLAUDE.md`, `handoff.md`, `docs/`, `os/` and the package files are deployed. Stopgap in place: `_redirects` 301s them to `/` and `_headers` marks them noindex. Long-term: move the site into `public/`, set that as the Pages build output directory, then drop those redirect rules.
+11. **Zedi screenshots** date from July 2026 (old nav, dev badge). Recapture from a production build on demo data, as WebP under new filenames. Add gallery tiles in pairs so the two-column grid stays even.
 12. **HomeLab copy questions:** keep or drop the patch and backup times and the game-server mention; Home Assistant, Immich and the game server's future.
 13. **Optional:** add a Content-Security-Policy after testing.
 
