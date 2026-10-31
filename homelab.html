@@ -465,11 +465,6 @@
       margin-bottom: var(--space-2);
     }
 
-    /* Hero: crop from the bottom so the terminal title bar stays visible */
-    .detail__hero img {
-      object-position: top;
-    }
-
     /* Terminal-style readout (a <pre> inside a <figure>) */
     .readout-figure {
       margin: var(--space-6) 0 0;
@@ -678,7 +673,6 @@
       </p>
       <div class="chips"><span class="chip">Proxmox</span><span class="chip">n8n</span><span class="chip">ClickHouse</span><span class="chip">Tailscale</span><span class="chip">Cloudflare</span><span class="chip">llama.cpp</span></div>
       <p class="detail__status"><i class="fas fa-plug-circle-check"></i> Online &middot; San Diego &middot; since Aug 31, 2026</p>
-      <figure class="detail__hero"><img src="images/homelab-status.png" alt="Terminal: ssh into the homelab succeeds. Proxmox VE, 15 guests with 8 running and 7 parked or retired, located in San Diego, status online since August 31, 2026" width="1336" height="835"></figure>
     </div>
   </section>
 
@@ -793,9 +787,9 @@
           <div class="lab-timeline__era">Aug 31, 2026 &middot; San Diego</div>
           <h3 class="lab-timeline__title">Back Online, Mostly</h3>
           <p class="lab-timeline__text">
-            Back online in San Diego, behind AT&amp;T Fiber and a <strong>UniFi</strong> gateway.
+            Back online in San Diego, on fiber internet behind a <strong>UniFi</strong> gateway.
             pfSense didn't survive the trip: its NICs had no carrier on the new network, and a week later I made
-            AT&amp;T plus UniFi the setup going forward. The pfSense VM was kept, stopped, and later retired.
+            fiber plus UniFi the setup going forward. The pfSense VM was kept, stopped, and later retired.
             The first week was mostly finding out what the move had quietly broken:
           </p>
           <ul class="lab-timeline__list">
@@ -872,7 +866,7 @@
         <div class="spec-item">
           <div class="spec-item__label">Gateway</div>
           <div class="spec-item__value">UniFi</div>
-          <div class="spec-item__sub">behind AT&amp;T Fiber</div>
+          <div class="spec-item__sub">on fiber internet</div>
         </div>
         <div class="spec-item">
           <div class="spec-item__label">Remote Access</div>
@@ -934,7 +928,7 @@
           </div>
           <h3>n8n</h3>
           <p class="lab-card__meta">LXC</p>
-          <p>Runs the scheduled ops: the 9 AM daily report and the Sunday patch run, from its own container with its own SSH key.</p>
+          <p>Runs the scheduled ops: the morning daily report and the weekly patch run, from its own container with its own SSH key.</p>
         </div>
 
         <div class="lab-card">
@@ -1129,7 +1123,7 @@
       <div class="auto-grid auto-grid--pairs" data-aos="fade-up">
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-clock"></i></div>
-          <h3>Daily Report &middot; 9:00 AM</h3>
+          <h3>Daily Report &middot; Every Morning</h3>
           <p>Pulls from the Proxmox API, ClickHouse, the UniFi gateway, the ISP modem and a LAN sweep, then posts one phone-sized Discord embed that leads with only what needs me. Every source fails open: a dead dependency becomes a named "couldn't reach" line instead of killing the report. Delivery fails closed, so an undelivered report shows up as an error, never as a green run.</p>
         </div>
         <div class="lab-card">
@@ -1139,13 +1133,13 @@
         </div>
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-sync-alt"></i></div>
-          <h3>Weekly Patch Run &middot; Sunday 4:00 AM</h3>
+          <h3>Weekly Patch Run</h3>
           <p>SSHes a 9-host roster, runs each host's own update script, logs the results to ClickHouse, posts them to Discord and reboots what needs it, except the hypervisor and the backup server, which it never reboots.</p>
         </div>
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-box-archive"></i></div>
-          <h3>Backups &middot; Sunday 2:00 AM</h3>
-          <p>PBS snapshots the VMs at 2:00 and the containers at 2:30, then garbage-collects and verifies. A restic repo of the Proxmox and PBS configs lands on the ZFS mirror at 5:00, restorable on a laptop with no PBS at all.</p>
+          <h3>Weekly Backups</h3>
+          <p>PBS snapshots the VMs, then the containers, then garbage-collects and verifies. A restic repo of the Proxmox and PBS configs lands on the ZFS mirror afterwards, restorable on a laptop with no PBS at all.</p>
         </div>
       </div>
 
@@ -1182,7 +1176,7 @@ WAN online
 Traffic 24h 42.4 GB <span aria-hidden="true">↓</span><span class="sr-only">down</span> · 2.7 GB <span aria-hidden="true">↑</span><span class="sr-only">up</span>
 
 Parked: 7, all expected
-daily-report · n8n · 9:00 AM</pre>
+daily-report · n8n · morning run</pre>
       <figcaption class="readout__caption">
         The report from October 10, 2026, trimmed for the page: the public IP, version strings, household
         details and guest names are taken out, and the parked list is condensed. The yellow is real: a

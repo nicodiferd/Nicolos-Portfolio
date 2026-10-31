@@ -16,7 +16,7 @@ The content rules live in the coordination hub, `~/Developer/personal/nico-hub` 
 - `rules/banned-claims.txt`: one regex per line. Run every `all`-scope regex (`grep -iE`) over the deployable files (everything but `docs/`, `os/`, `node_modules/`, plus `pdftotext resume.pdf -`) before you push. Zero hits.
 - `CHARTER.md`: positioning and the coordinator's autonomy gates.
 
-Never on the site: certification claims, Zedi user counts or revenue, homelab IPs, hostnames, schedules or household details.
+Never on the site: certification claims, Zedi user counts or revenue, homelab IPs, hostnames, the ISP name, exact times of scheduled jobs (cadence like "every morning" or "weekly" is fine, owner 2026-10-30) or household details.
 
 ## Development Commands
 
@@ -32,7 +32,7 @@ npm start
 #### Core Files
 - `index.html` - Main portfolio page (hero, profile, experience, projects, stack, leadership, education, contact)
 - `flora.html` - Flora detail page (senior capstone with Bloomfilter)
-- `zedi.html` - Zedi detail page (personal finance SaaS, live at https://zedi.dev)
+- `zedi.html` - Zedi hub: a short blurb, a link to https://zedi.dev and a filterable directory of every zedi.dev page. The directory is generated: re-run `python3 scripts/zedi_directory.py` when zedi.dev adds pages (`--check` reports drift)
 - `bblmlp.html` - BBLMLP detail page (MLB win-probability ML pipeline, private repo); page-local CSS in its own `<style>`
 - `bandit.html` - Bandit startup retrospective
 - `homelab.html` - HomeLab infrastructure writeup (sanitized snapshot)

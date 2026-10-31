@@ -29,3 +29,5 @@
 /README.md           /  301
 /package.json        /  301
 /package-lock.json   /  301
+/scripts             /  301
+/scripts/*           /  301

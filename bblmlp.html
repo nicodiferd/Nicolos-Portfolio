@@ -501,7 +501,7 @@
         <span class="chip">Statcast</span>
         <span class="chip">pytest</span>
       </div>
-      <p class="detail__status">Research artifact &middot; not promoted &middot; dormant since mid-September 2026</p>
+      <p class="detail__status">Research project &middot; model not shipped &middot; off-season since mid-September 2026</p>
 
       <dl class="glance">
         <div><dt>RESULT</dt><dd>A tie, on record<span>Stacked LightGBM vs a tuned two-constant Elo: Brier 0.24554 each</span></dd></div>
@@ -528,7 +528,7 @@
             <p class="fig__sub">One local DuckDB file, driven by one command-line tool.</p>
           </figcaption>
           <ol class="pipeline">
-            <li><span class="pipeline__step">01 / INGEST</span><span class="pipeline__name">MLB data</span><span class="pipeline__detail">StatsAPI, Statcast, FanGraphs tables, weather. 2021 to 2026.</span></li>
+            <li><span class="pipeline__step">01 / INGEST</span><span class="pipeline__name">MLB data</span><span class="pipeline__detail">StatsAPI, Statcast, season tables, weather. 2021 to 2026.</span></li>
             <li><span class="pipeline__step">02 / FEATURES</span><span class="pipeline__name">Point-in-time</span><span class="pipeline__detail">Rolling windows, each rate with a shrunk sibling. No lookahead.</span></li>
             <li><span class="pipeline__step">03 / MODELS</span><span class="pipeline__name">Elo + LightGBM</span><span class="pipeline__detail">Elo, stacked into a gradient-boosted model.</span></li>
             <li><span class="pipeline__step">04 / EVALUATE</span><span class="pipeline__name">Walk-forward</span><span class="pipeline__detail">16-cell matrix, paired tests, pre-registered gates.</span></li>
@@ -544,56 +544,48 @@
 
         <h2>The data</h2>
         <ul>
-          <li><strong>MLB StatsAPI</strong> for schedules, results, lineups and umpire crews.</li>
-          <li><strong>Statcast</strong> pitch-level data through pybaseball, plus FanGraphs season tables, standings and the Chadwick player-id crosswalk.</li>
-          <li><strong>Open-Meteo weather</strong>, with the wind resolved against each park's orientation.</li>
-          <li><strong>One DuckDB warehouse.</strong> Rolling features are DuckDB window functions over game-level rollups for teams, starters, bullpens, batters, lineups and umpires. Every rate has an empirical-Bayes shrunk sibling whose priors are fit by method of moments.</li>
-          <li><strong>A row-count gate on the training matrix:</strong> 13,952 rows, one per decided competitive game from 2021 to 2026, matched against a direct count of games season by season.</li>
+          <li><strong>Sources:</strong> MLB StatsAPI for schedules, results, lineups and umpire crews; Statcast pitch-level data through pybaseball; season tables, standings and the Chadwick player-id crosswalk; Open-Meteo weather, with the wind resolved against each park.</li>
+          <li><strong>One DuckDB warehouse.</strong> Rolling features are window functions over game-level rollups, and every rate has an empirical-Bayes shrunk sibling.</li>
+          <li><strong>A row-count gate:</strong> 13,952 training rows, one per decided game from 2021 to 2026, checked against a direct count of games.</li>
         </ul>
 
         <h2>Leakage controls</h2>
         <p>
-          Every feature is an as-of value, and the code and the tests enforce it rather than a convention.
+          Every feature is an as-of value, and the tests enforce it rather than a convention.
         </p>
         <ul>
-          <li>Each rolling window ends one row before the game it describes, so a game's own statistics never enter its own features.</li>
-          <li>Tests perturb a game's own statistics and assert that its feature row does not move.</li>
-          <li>The splitters have no shuffle or random-state option, and a test asserts the API cannot grow one. Every training date comes strictly before every test date.</li>
-          <li>The probable-pitcher lookup returns the latest row strictly before the game date. A pitcher whose only row is that game gets nothing, never his own line.</li>
-          <li>Elo probabilities use only earlier games, so stacking Elo into the model does not leak.</li>
-          <li><strong>Train/serve parity.</strong> One matrix-assembly function serves both paths: serving appends a placeholder row for the scheduled game and runs the same window code. Of 528 sampled games on single-game days, 524 reproduce every non-lineup feature on the serving path to within 1.4e-14, and the residuals (opening-day rest days, doubleheader game 2, posted lineups) are named, not hidden.</li>
+          <li>Each rolling window ends one row before the game it describes, and tests perturb a game's own statistics to prove its features do not move.</li>
+          <li>Splits are strictly time-ordered. The splitters have no shuffle option, and a test keeps it that way.</li>
+          <li>Probable pitchers and Elo ratings use only rows from before the game.</li>
+          <li><strong>Train/serve parity.</strong> One function builds features for training and for daily projections. 524 of 528 sampled games reproduce every non-lineup feature on the serving path, and the four exceptions are named.</li>
         </ul>
 
         <h2>Models</h2>
         <ul>
-          <li><strong>A tuned Elo baseline.</strong> Elo's usual k = 20 is a constant borrowed from chess and never measured on baseball. Tuned on 2021 to 2023 (k = 8, season regression 0.5) and scored once on 2024 to 2026, it is worth +0.00362 Brier over k = 20 (paired t = +7.72).</li>
-          <li><strong>A stacked LightGBM.</strong> The Elo probability goes in as a feature beside the rolling team, starter, bullpen, batter and lineup features, and the booster is early-stopped on its own slice of the training window.</li>
-          <li><strong>Tree size chosen by monotonicity, where Brier could not decide.</strong> Brier could not separate 7, 15 and 31 leaves. PDP monotonicity ran 1.000, 1.000, 0.923 and 0.808 at 7, 15, 31 and 63 leaves, and at 31 the model had learned that a bullpen walking more batters helps its own team. The configured model uses 7.</li>
-          <li><strong>Features earn their place.</strong> Five candidate groups (umpire, starter and bullpen xwOBA, handedness, fatigue) are worth &minus;0.00008 Brier together (SE 0.00027, t = &minus;0.31). Only fatigue stays on.</li>
-          <li><strong>A plate-appearance outcome layer for simulation.</strong> 1,066,558 at-bats, 1,065,987 terminal events and 1,057,926 qualifying plate appearances, kept as three distinct counts, feeding base-out transitions, park factors and shrunk multinomial outcome rates. Its runs reconciliation build gate holds at 0 absolute error over 14,142 games. One finding it pins: Coors Field is the league's top hit park, not its top home-run park (2024 factors: hits rank 1 of 31, singles 1, strikeouts 31, home runs 12).</li>
+          <li><strong>A tuned Elo baseline.</strong> Elo's usual k = 20 is borrowed from chess. Tuned on 2021 to 2023 (k = 8) and scored once on 2024 to 2026, it beats k = 20 by 0.00362 Brier.</li>
+          <li><strong>A stacked LightGBM.</strong> The Elo probability goes in beside rolling team, starter, bullpen, batter and lineup features. It uses 7 leaves, chosen by monotonicity because Brier could not separate 7, 15 and 31; at 31 the model had learned that a bullpen walking more batters helps its own team.</li>
+          <li><strong>A plate-appearance layer for simulation.</strong> 1,066,558 at-bats feeding base-out transitions and park factors. One finding: Coors Field is the league's top hit park, not its top home-run park.</li>
         </ul>
 
         <h2>Evaluation</h2>
         <ul>
-          <li><strong>Season-aligned walk-forward folds.</strong> Each test fold is one whole season, trained on every season before it, so a three-game series can never straddle a split. Test seasons run 2022 to 2026.</li>
-          <li><strong>Three disjoint, time-ordered slices</strong> inside each training window: fit (70%), early stopping (15%) and calibration (15%, the most recent).</li>
-          <li><strong>A 16-cell matrix,</strong> every cell reported: raw or shrunk features, all seasons or 2023 onward (the rule-change era), Elo stacked or not, isotonic calibration or not. Four naive baselines (coin flip, always home, base rate, Elo) sit beside every run.</li>
-          <li><strong>Metrics:</strong> Brier for selection, plus log loss, expected calibration error (ECE), the worst reliability bin and reliability diagrams. Accuracy is reported, never the objective. Comparisons are paired on identical games, with Bonferroni corrections when several tests run at once.</li>
-          <li><strong>A pre-registered calibration gate.</strong> Isotonic calibration ships only if pooled Brier and ECE both improve, the same holds in at least 4 of the 5 season folds, and no single fold degrades by more than 0.005 Brier or 0.010 ECE. A fold with fewer than 1,000 calibration rows does not fit it at all, and the fold requirement scales down with it: the 2022 and 2023 folds were too small, so all 3 fittable folds had to improve. Measured: pooled &Delta;Brier +0.00102, &Delta;ECE +0.00581, and 0 of 3 fittable folds improve. Isotonic does not ship, the configured model is the uncalibrated booster, and the gate re-runs on every evaluation.</li>
+          <li><strong>Walk-forward by season.</strong> Each test fold is one whole season, trained on every season before it. Test seasons run 2022 to 2026.</li>
+          <li><strong>Every variant reported.</strong> 16 model variants sit beside four naive baselines. Brier picks the model; log loss, calibration error and reliability diagrams are reported with it, and comparisons are paired on identical games.</li>
+          <li><strong>A pre-registered calibration gate.</strong> Isotonic calibration ships only if it improves Brier and calibration overall and in most season folds. It improved none of the 3 folds it could be fit on, so it does not ship.</li>
         </ul>
 
         <h2>The honest result</h2>
         <p>
-          The stacked LightGBM ties a tuned two-constant Elo on Brier. That tie is the finding, recorded as the
-          result of the model cycle (decision A1, 2026-10-15), instead of re-running the search until
-          a model looks good. The model's earlier margin over Elo (+0.00376) was a margin over an
-          untuned baseline: nothing about the model got worse, the yardstick got honest.
+          The stacked LightGBM ties a tuned two-constant Elo on Brier. That tie is the finding, recorded as
+          the result of the model cycle in October 2026, instead of re-running the search until a model looks
+          good. The model's earlier margin over Elo (+0.00376) was a margin over an untuned baseline: nothing
+          about the model got worse, the yardstick got honest.
         </p>
 
         <figure class="fig" aria-labelledby="tbl1-title">
           <figcaption>
             <p class="fig__title" id="tbl1-title">Table 1 &middot; Head to head</p>
-            <p class="fig__sub">The 6,751 games from 2024 to 2026 that the Elo tuning grid never saw, paired on identical games. Lower Brier is better.</p>
+            <p class="fig__sub">The 6,751 games from 2024 to 2026 that the Elo tuning never saw, paired on identical games. Lower Brier is better.</p>
           </figcaption>
           <div class="table-wrap">
             <table class="results">
@@ -611,60 +603,33 @@
           <p class="fig__source">Source: docs/handoff-model.md, section 0; config/settings.yaml. Measured 2026-08-12.</p>
         </figure>
 
-        <figure class="fig" aria-labelledby="fig2-title">
-          <figcaption>
-            <p class="fig__title" id="fig2-title">Figure 2 &middot; All 16 model cells against the tuned Elo</p>
-            <p class="fig__sub">Pooled out-of-sample Brier, lower is better, on the 6,856 games every cell can score: the 2024 to 2026 folds, because the 2023-onward cells have no training data for the 2022 and 2023 folds. These are Table 1's games, re-measured 2026-08-23 with eleven more days of 2026. Fifteen cells land to the right of the line.</p>
-          </figcaption>
-          <div class="strip" role="img" aria-label="Strip chart of Brier scores from 0.2445 to 0.2480. The tuned Elo sits at 0.24545. One model cell scores 0.24537, 0.00008 better. The configured cell scores 0.24574. The other 14 cells run from 0.24575 to 0.24769.">
-            <div class="strip__track">
-              <span class="strip__range" style="left: 35.71%; width: 55.43%;" title="Other 14 cells: 0.24575 to 0.24769"></span>
-              <span class="strip__ref" style="left: 27.14%;" title="Tuned Elo: 0.24545"></span>
-              <span class="strip__dot strip__dot--open" style="left: 24.86%;" title="Best cell: 0.24537"></span>
-              <span class="strip__dot" style="left: 35.43%;" title="Configured cell: 0.24574"></span>
-            </div>
-            <div class="strip__axis" aria-hidden="true">
-              <span style="left: 14.29%;">0.2450</span>
-              <span style="left: 42.86%;">0.2460</span>
-              <span style="left: 71.43%;">0.2470</span>
-              <span style="left: 100%;">0.2480</span>
-            </div>
-          </div>
-          <ul class="strip__legend">
-            <li><span class="swatch swatch--ref" aria-hidden="true"></span><span>Tuned Elo baseline: <b>0.24545</b></span></li>
-            <li><span class="swatch swatch--open" aria-hidden="true"></span><span>Best cell (shrunk features, all seasons, stacked, isotonic): <b>0.24537</b>. It wins by 0.00008, inside the 0.001 tie band, and its own isotonic gate says do not ship.</span></li>
-            <li><span class="swatch swatch--dot" aria-hidden="true"></span><span>Configured cell (raw features, all seasons, stacked, uncalibrated): <b>0.24574</b></span></li>
-            <li><span class="swatch swatch--range" aria-hidden="true"></span><span>The other 14 cells: <b>0.24575 to 0.24769</b></span></li>
-          </ul>
-          <p class="fig__source">Source: docs/OPEN-ITEMS.md, decision A1; docs/handoff-model.md, section 0; the game-winner model design spec, section 11.1; config/settings.yaml.</p>
-        </figure>
+        <p>
+          Across all 16 variants, the best one beats the tuned Elo by 0.00008 Brier, inside the tie band,
+          and its own calibration gate says not to ship it.
+        </p>
 
         <h3>A leak caught in its own evaluation</h3>
         <p>
-          The model is also scored against an external probability benchmark, and a first comparison
-          made it look far ahead of the model. It was a leak, not skill: 429 of 7,776
-          captured home-side rows (5.5%) were taken after first pitch, and game times stored in UTC
-          joined against local capture times made the obvious cutoff seven hours wrong, in the
-          direction that lets in-game rows through. On the same 180 games with pregame rows only, its
-          Brier went from 0.14861 to 0.24448, against the model's 0.24656. The evaluation now raises
-          an error on any post-first-pitch row, and the honest comparison is a statistical tie
-          (324 games, paired t = &minus;0.37).
+          The model is also scored against an external probability benchmark, and the first comparison made
+          the benchmark look far ahead. It was a leak, not skill: 5.5% of the captured rows were taken after
+          first pitch, because game times stored in UTC were joined against local capture times. With pregame
+          rows only, the benchmark's Brier on the same 180 games went from 0.14861 to 0.24448, against the
+          model's 0.24656. The evaluation now refuses any post-first-pitch row, and the honest comparison is a
+          statistical tie (324 games, paired t = &minus;0.37).
         </p>
 
         <h2>Engineering</h2>
         <ul>
-          <li><strong>About 17.2k lines of Python</strong> across 74 modules in src/, and about 19.2k lines of tests.</li>
-          <li><strong>1,282 tests collected, all hermetic:</strong> no test reads the warehouse or the network. GitHub Actions runs pytest and ruff (errors only) on pull requests and pushes to main, from a frozen uv lockfile.</li>
-          <li><strong>Gates on real data run before merge.</strong> Checks that need the full warehouse (train/serve parity, the runs reconciliation, the matrix row count) run locally, and their measured numbers are written into the design spec.</li>
-          <li><strong>A Typer CLI and pydantic settings</strong> over one DuckDB file. Tuned settings carry the measurement that chose them as inline comments.</li>
-          <li><strong>A scheduled daily chain</strong> keeps schedules, lineups, umpire crews, features, projections and weather current during the season. After a stalled Statcast fetch hung it for 5.5 hours, every step got a timeout: a failure is logged and the whole chain retries the next day, and the regression test drives the default runner rather than an injected one. A timezone guard stops the job before it writes anything if the host is not in the zone its stored timestamps assume.</li>
+          <li><strong>About 17.2k lines of Python</strong> across 74 modules, plus about 19.2k lines of tests: 1,282 tests, all hermetic (no warehouse, no network), run by GitHub Actions on every pull request.</li>
+          <li><strong>Real-data gates before merge.</strong> Checks that need the full warehouse (train/serve parity, run reconciliation, row counts) run locally, and their numbers go into the design spec.</li>
+          <li><strong>A scheduled daily chain</strong> keeps data, features and projections current in season, with a timeout on every step and a retry the next day.</li>
         </ul>
 
         <h2>What is next</h2>
         <ul>
-          <li><strong>The game simulator.</strong> A Monte Carlo and Markov chain game simulator on top of the plate-appearance layer. It is designed and not built.</li>
-          <li><strong>A run-environment model.</strong> Umpire features tie on the winner model for a structural reason (one strike zone for both clubs). Their most promising use is a total-runs model, which does not exist yet.</li>
-          <li><strong>Better priors.</strong> A DerSimonian-Laird prior fit for the batter grain, and a Dirichlet successor for the plate-appearance rates that ships only if it wins held-out multinomial log loss.</li>
+          <li><strong>A game simulator:</strong> Monte Carlo and Markov chain, on top of the plate-appearance layer. Designed, not built.</li>
+          <li><strong>A total-runs model,</strong> the most promising use of umpire features.</li>
+          <li><strong>Better priors</strong> for the batter grain and the plate-appearance rates.</li>
         </ul>
 
         <p>
@@ -672,10 +637,9 @@
           <a href="mailto:nicodiferd@gmail.com">nicodiferd@gmail.com</a>.
         </p>
         <p class="sources">
-          Sources: every number on this page comes from the project's own records as of 2026-10-15:
-          docs/public-facts.yaml, docs/handoff-model.md (sections 0 and 1), docs/OPEN-ITEMS.md (A1, B1,
-          B4, B5, B6, C2), the game-winner model design spec (sections 4, 5, 10 and 11), config/settings.yaml
-          and the CI workflow. Measurements date from 2026-07-28 to 2026-10-15.
+          Sources: every number on this page comes from the project's own records (docs/public-facts.yaml,
+          docs/handoff-model.md, docs/OPEN-ITEMS.md, the model design spec, config/settings.yaml and the CI
+          workflow), measured 2026-07-28 to 2026-10-15.
         </p>
       </div>
 
