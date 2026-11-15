@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Field notes on local LLM inference with llama.cpp and MLX on an M5 Pro and an RX 5700: quantization, KV cache, grammars, measured tok/s.">
+  <meta name="author" content="Nicolo DiFerdinando">
+  <meta name="theme-color" content="#f5f2ec">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nicolo DiFerdinando">
+  <meta property="og:title" content="Running and Tuning Local LLMs on Apple Silicon and an AMD GPU">
+  <meta property="og:description" content="Field notes on local LLM inference with llama.cpp and MLX on an M5 Pro and an RX 5700: quantization, KV cache, grammars, measured tok/s.">
+  <meta property="og:url" content="https://nicolod.org/local-llms">
+  <meta property="og:image" content="https://nicolod.org/images/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Nicolo DiFerdinando profile card. nicolod.org">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Running and Tuning Local LLMs on Apple Silicon and an AMD GPU">
+  <meta name="twitter:description" content="Field notes on local LLM inference with llama.cpp and MLX on an M5 Pro and an RX 5700: quantization, KV cache, grammars, measured tok/s.">
+  <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
+  <meta name="twitter:image:alt" content="Nicolo DiFerdinando profile card. nicolod.org">
+  <title>Running and Tuning Local LLMs | Nicolo DiFerdinando</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="canonical" href="https://nicolod.org/local-llms">
+
+  <!-- Early theme to prevent flash -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('preferredTheme') || 'light';
+        var isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        var system = isLight ? 'light' : 'dark';
+        var theme = saved === 'system' ? system : saved;
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+        } else {
+          document.documentElement.classList.remove('light');
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles/main.css?v=redesign-3">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Running and tuning local LLMs on Apple Silicon and an AMD GPU",
+    "description": "Field notes on local LLM inference: llama.cpp on Metal and on Vulkan, MLX, quantization choice, context length, KV cache type, GPU offload, batch sizes, grammar-constrained decoding, sampling penalties, memory limits and measured throughput.",
+    "url": "https://nicolod.org/local-llms",
+    "mainEntityOfPage": "https://nicolod.org/local-llms",
+    "image": "https://nicolod.org/images/og-card.png",
+    "inLanguage": "en",
+    "datePublished": "2026-11-07",
+    "dateModified": "2026-11-07",
+    "keywords": "local LLM, llama.cpp, llama-server, MLX, oMLX, MTPLX, Ollama, LM Studio, Apple Silicon, M5 Pro, AMD RX 5700, Vulkan, GGUF, quantization, Q4_K_M, KV cache, flash attention, JSON schema grammar, OCR",
+    "about": [
+      { "@type": "SoftwareApplication", "name": "llama.cpp" },
+      { "@type": "SoftwareApplication", "name": "MLX" },
+      { "@type": "Thing", "name": "Large language model inference" }
+    ],
+    "isPartOf": { "@type": "WebSite", "url": "https://nicolod.org/" }
+  }
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NWWM38WB');</script>
+  <!-- End Google Tag Manager -->
+
+  <style>
+    /* Local LLMs page specific styles (page-local, so no cache token bump) */
+
+    /* At a glance */
+    .glance {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--space-8);
+      border-top: 1px solid var(--color-border);
+      margin: var(--space-10) 0 0;
+    }
+
+    .glance > div {
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--color-border);
+      min-width: 0;
+    }
+
+    .glance dt {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+    }
+
+    .glance dd {
+      margin: var(--space-1) 0 0;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-2xl);
+      line-height: 1.25;
+      color: var(--color-text-primary);
+    }
+
+    .glance dd span {
+      display: block;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin-top: var(--space-1);
+    }
+
+    /* Figures and tables */
+    .fig {
+      margin: var(--space-8) 0 var(--space-6);
+      padding: var(--space-6);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      min-width: 0;
+    }
+
+    .detail__body .fig__title {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.5;
+      color: var(--color-primary);
+      margin: 0 0 var(--space-2);
+    }
+
+    .detail__body .fig__sub,
+    .detail__body .fig__source {
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    .detail__body .fig__source {
+      margin-top: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.02em;
+    }
+
+    .tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      margin-top: var(--space-4);
+    }
+
+    .tbl th,
+    .tbl td {
+      text-align: left;
+      padding: var(--space-3) var(--space-4) var(--space-3) 0;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .tbl th:last-child,
+    .tbl td:last-child {
+      padding-right: 0;
+    }
+
+    .tbl thead th {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    .tbl td {
+      color: var(--color-text-secondary);
+    }
+
+    .tbl td.tbl__name {
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .tbl .mono {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.01em;
+      color: var(--color-text-primary);
+    }
+
+    .tbl .nowrap {
+      white-space: nowrap;
+    }
+
+    .tbl tr.tbl__group td {
+      padding-top: var(--space-6);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--color-primary);
+      border-bottom-color: var(--color-primary);
+    }
+
+    /* Command and config blocks */
+    .detail__body pre.cmd {
+      margin: var(--space-4) 0 var(--space-5);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-primary);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .detail__body pre.cmd code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .detail__body pre.cmd .c {
+      color: var(--color-text-muted);
+    }
+
+    .detail__body p code,
+    .detail__body li code,
+    .detail__body td code {
+      font-size: 0.85em;
+      padding: 0.1em 0.35em;
+      border: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+
+    .detail__body .cmd-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      line-height: 1.5;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      margin: var(--space-6) 0 0;
+    }
+
+    .detail__body h3 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-xl);
+      margin: var(--space-10) 0 var(--space-3);
+    }
+
+    /* Receipt baseline bars */
+    .detail__body .bars {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-5) 0 0;
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .bars li {
+      display: grid;
+      grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) 4.5rem;
+      align-items: center;
+      gap: var(--space-4);
+      margin: 0;
+      font-size: var(--text-sm);
+      line-height: 1.4;
+      color: var(--color-text-secondary);
+    }
+
+    .bars__track {
+      position: relative;
+      height: 12px;
+      background: var(--color-background-alt);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .bars__fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: var(--color-primary);
+      border-radius: 2px;
+    }
+
+    .bars__val {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-primary);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .bars__foot {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-8);
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-border);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+    }
+
+    .bars__foot b {
+      font-weight: 500;
+      color: var(--color-text-primary);
+    }
+
+    /* What broke: numbered notes */
+    .notes {
+      list-style: none;
+      counter-reset: note;
+      padding: 0 !important;
+      margin: var(--space-6) 0 0;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .notes > li {
+      counter-increment: note;
+      position: relative;
+      margin: 0 !important;
+      padding: var(--space-5) 0 var(--space-5) var(--space-12);
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--text-base);
+      line-height: 1.8;
+      color: var(--color-text-secondary);
+    }
+
+    .notes > li::before {
+      content: counter(note, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: var(--space-5);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+      line-height: 1.8;
+    }
+
+    .notes__head {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--text-lg);
+      line-height: 1.5;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .notes__fix {
+      display: block;
+      margin-top: var(--space-2);
+    }
+
+    .notes__fix::before {
+      content: 'FIX';
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--color-primary);
+      margin-right: var(--space-2);
+    }
+
+    .detail__body .sources {
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: var(--color-text-muted);
+      margin-top: var(--space-12);
+    }
+
+    @media (max-width: 760px) {
+      .glance {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: var(--space-5);
+      }
+
+      .glance dd {
+        font-size: var(--text-xl);
+      }
+
+      .fig {
+        padding: var(--space-4);
+      }
+
+      /* Tables become stacked cards: each cell carries its own label */
+      .tbl thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      .tbl,
+      .tbl tbody,
+      .tbl tr,
+      .tbl td {
+        display: block;
+        width: 100%;
+      }
+
+      .tbl tr {
+        padding: var(--space-3) 0;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .tbl td {
+        position: relative;
+        padding: var(--space-1) 0 var(--space-1) 7.25rem;
+        border-bottom: 0;
+      }
+
+      .tbl td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        top: var(--space-1);
+        width: 6.5rem;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        letter-spacing: 0.08em;
+        line-height: 1.9;
+        color: var(--color-text-muted);
+      }
+
+      .tbl td.tbl__name {
+        display: block;
+        font-size: var(--text-base);
+        padding: var(--space-1) 0 var(--space-2);
+      }
+
+      .tbl td.tbl__name::before {
+        content: none;
+      }
+
+      .tbl tr.tbl__group {
+        padding: var(--space-6) 0 var(--space-2);
+        border-bottom: 1px solid var(--color-primary);
+      }
+
+      .tbl tr.tbl__group td {
+        display: block;
+        padding: 0;
+        border: 0;
+      }
+
+      .tbl tr.tbl__group td::before {
+        content: none;
+      }
+
+      .tbl .nowrap {
+        white-space: normal;
+      }
+
+      .bars li {
+        grid-template-columns: minmax(0, 1fr) 4.5rem;
+        gap: var(--space-2) var(--space-3);
+      }
+
+      .bars__label {
+        grid-column: 1 / -1;
+      }
+
+      .notes > li {
+        padding-left: var(--space-10);
+      }
+
+      .detail__body pre.cmd {
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--text-xs);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .glance {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWWM38WB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <!-- Top bar -->
+  <header class="detail-top">
+    <div class="container detail-top__bar">
+      <a class="detail-back" href="/#projects"><i class="fas fa-arrow-left"></i> Back to projects</a>
+      <select class="theme-selector" data-theme-selector aria-label="Theme selector">
+        <option value="system">System</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Facts: home lab repository, GPU service folder (README, handoff, models.ini, llama-server unit, OCR gateway,
+       report script, 2026-09-14 receipts baseline report; 2026-10-26 snapshot); the llama-server launch preset;
+       llama-server --help; oMLX settings (model, cache and memory keys only) and stats; Hugging Face cache configs
+       and file sizes; Ollama launch agent and log; LM Studio inventory note (2026-01-21); a speech-to-text script;
+       the README and LM Studio config of a 2025 natural-language-to-SQL project; MTPLX package page on PyPI;
+       system_profiler. MTPLX and Langfuse use: author, 2026-11-07. Checked 2026-11-07. -->
+  <main id="content" tabindex="-1">
+  <section class="detail">
+    <div class="container">
+      <p class="ds-section__num">FIELD NOTES / LOCAL LLMS</p>
+      <h1 class="detail__title">Local LLMs</h1>
+      <p class="detail__lead">
+        Running open-weight language models on local hardware, and tuning how they run. Two machines:
+        an Apple M5 Pro laptop with 48 GB of unified memory, and an 8 GB AMD RX 5700 in a home lab server.
+        The tuning is inference tuning: quantization, context length, KV cache type, GPU offload, batch
+        sizes, grammar-constrained decoding, sampling penalties and memory limits, then swapping models
+        after measuring them.
+      </p>
+      <div class="chips">
+        <span class="chip">llama.cpp</span>
+        <span class="chip">MLX</span>
+        <span class="chip">Vulkan</span>
+        <span class="chip">Metal</span>
+        <span class="chip">GGUF</span>
+        <span class="chip">Proxmox</span>
+      </div>
+      <p class="detail__status"><i class="fas fa-microchip"></i> Inference only &middot; no fine-tuning, LoRA or training</p>
+
+      <dl class="glance">
+        <div><dt>APPLE SILICON</dt><dd>M5 Pro, 48 GB<span>37.4 GiB of it usable by the GPU, per Metal</span></dd></div>
+        <div><dt>HOME LAB GPU</dt><dd>RX 5700, 8 GB<span>llama.cpp on Vulkan, in a container</span></dd></div>
+        <div><dt>FIT IN 8 GB OF VRAM</dt><dd>3 models<span>0.9B OCR, 4B extractor, 2B vision, all three at once</span></dd></div>
+        <div><dt>OCR GENERATION</dt><dd>~260 tok/s<span>GLM-OCR 0.9B Q8_0 on the RX 5700</span></dd></div>
+        <div><dt>JSON UNDER GRAMMAR</dt><dd>24 to 35 tok/s<span>Qwen3-4B Q4_K_M on the RX 5700</span></dd></div>
+        <div><dt>RECEIPT BASELINE</dt><dd>89 photos<span>0 failed extractions, mean extraction 20.2 s</span></dd></div>
+      </dl>
+
+      <div class="detail__body">
+        <h2>Hardware</h2>
+        <ul>
+          <li>
+            <strong>Apple M5 Pro</strong> (MacBook Pro, 18 cores: 6 Super and 12 Performance), 48 GB of unified
+            memory. Metal reports 37.4 GiB of it as usable by the GPU. Runs llama.cpp on Metal, MLX models, and Ollama.
+          </li>
+          <li>
+            <strong>AMD Radeon RX 5700</strong> (Navi 10, 8 GB GDDR6) in a single-node Proxmox server in the
+            <a href="/homelab">home lab</a>. The card can't be passed through to a VM: it shares an IOMMU group with
+            the SATA controller and the host's network port, and Navi 10's reset bug has no fix on current Proxmox
+            kernels. Its render node is shared into an unprivileged Debian 13 container (4 cores, 6 GB of RAM)
+            instead. The stack is Mesa 25.0 (RADV) and a llama.cpp b10948 Vulkan build. No host driver change, no
+            reboot, and removing one line from the container config undoes it.
+          </li>
+          <li>
+            <strong>Apple M3 Pro</strong> (the earlier laptop, 11 cores, 18 GB of unified memory). Metal reported
+            13.3 GiB usable. Its models ran in LM Studio, inventoried in January 2026.
+          </li>
+        </ul>
+
+        <h2>Runtimes and tools</h2>
+        <ul>
+          <li><strong>llama.cpp (llama-server).</strong> Metal on the Mac, Vulkan on the RX 5700. On the GPU server it runs in router mode: one OpenAI-compatible endpoint, a preset file with per-model settings, models loaded on demand and up to three resident.</li>
+          <li><strong>MLX through oMLX.</strong> An MLX inference server for Apple Silicon. It is set up to serve Qwen3.6-27B at 8 bits as the local backend for a coding agent, with the context window capped at 32,768 tokens.</li>
+          <li><strong>MTPLX.</strong> An MLX runtime for multi-token-prediction (MTP) speculative decoding on Apple Silicon. Used often; no MTPLX numbers are given here.</li>
+          <li><strong>Ollama.</strong> A launch agent with flash attention on and a q8_0 KV cache, used for embeddings.</li>
+          <li><strong>LM Studio.</strong> The runtime on the M3 Pro, for GGUF and MLX models behind a local OpenAI-compatible server. In 2025 an LM Studio server backed natural-language-to-SQL queries over a DuckDB file.</li>
+          <li><strong>Langfuse</strong> for reviewing LLM traces.</li>
+          <li><strong>faster-whisper</strong> for speech to text, on CPU with int8 compute.</li>
+        </ul>
+
+        <h2>Models</h2>
+        <p>
+          The RX 5700 and M5 Pro rows come from server configs, logs and the files on disk. The M3 Pro rows come
+          from a January 2026 inventory of what LM Studio had installed and what each model was meant for; for those
+          rows the last column is the intended use. Parameter counts come from the model names, and for GLM-OCR from
+          the GPU server's README.
+        </p>
+
+        <figure class="fig" aria-labelledby="tbl1-title">
+          <figcaption>
+            <p class="fig__title" id="tbl1-title">Table 1 &middot; Models, by machine</p>
+            <p class="fig__sub">MoE: mixture of experts. A3B: about 3B parameters active per token.</p>
+          </figcaption>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th scope="col">MODEL</th>
+                <th scope="col">PARAMS</th>
+                <th scope="col">QUANTIZATION</th>
+                <th scope="col">RUNTIME</th>
+                <th scope="col">USED FOR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tbl__group"><td colspan="5">AMD RX 5700, 8 GB &middot; HOME LAB</td></tr>
+              <tr>
+                <td class="tbl__name">GLM-OCR</td>
+                <td data-label="PARAMS" class="nowrap">0.9B</td>
+                <td data-label="QUANT"><span class="mono">Q8_0</span> GGUF</td>
+                <td data-label="RUNTIME">llama.cpp, Vulkan</td>
+                <td data-label="USED FOR">Reads the page: image to text</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3-4B-Instruct-2507</td>
+                <td data-label="PARAMS" class="nowrap">4B</td>
+                <td data-label="QUANT"><span class="mono">Q4_K_M</span> GGUF</td>
+                <td data-label="RUNTIME">llama.cpp, Vulkan</td>
+                <td data-label="USED FOR">OCR text to JSON under a schema grammar</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3-VL-2B-Instruct</td>
+                <td data-label="PARAMS" class="nowrap">2B</td>
+                <td data-label="QUANT"><span class="mono">Q8_0</span> GGUF</td>
+                <td data-label="RUNTIME">llama.cpp, Vulkan</td>
+                <td data-label="USED FOR">Questions about images. Replaced as the extractor</td>
+              </tr>
+              <tr class="tbl__group"><td colspan="5">APPLE M5 PRO, 48 GB</td></tr>
+              <tr>
+                <td class="tbl__name">Qwen3.6-35B-A3B</td>
+                <td data-label="PARAMS">35B MoE, 3B active</td>
+                <td data-label="QUANT"><span class="mono">UD-Q4_K_M</span> GGUF, 22.1 GB</td>
+                <td data-label="RUNTIME">llama.cpp, Metal</td>
+                <td data-label="USED FOR">Tool-calling agent loop at 40,960 tokens of context</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3.6-27B</td>
+                <td data-label="PARAMS" class="nowrap">27B</td>
+                <td data-label="QUANT">MLX 8-bit (affine, group size 64), one MTP layer, 28.85 GB</td>
+                <td data-label="RUNTIME">oMLX</td>
+                <td data-label="USED FOR">Set up as the local backend for a coding agent</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Community 9B with MTP layers</td>
+                <td data-label="PARAMS" class="nowrap">9B</td>
+                <td data-label="QUANT"><span class="mono">BF16</span> GGUF; <span class="mono">Q8_0</span> builds also pulled</td>
+                <td data-label="RUNTIME">llama.cpp, Metal</td>
+                <td data-label="USED FOR">Trying a checkpoint with an MTP head in the same agent loop</td>
+              </tr>
+              <tr class="tbl__group"><td colspan="5">APPLE M3 PRO, 18 GB &middot; EARLIER &middot; INTENDED USE</td></tr>
+              <tr>
+                <td class="tbl__name">gpt-oss 20B</td>
+                <td data-label="PARAMS" class="nowrap">20B</td>
+                <td data-label="QUANT"><span class="mono">MXFP4</span> GGUF, 11.28 GB</td>
+                <td data-label="RUNTIME">LM Studio</td>
+                <td data-label="MEANT FOR">Reasoning and code</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">olmOCR 2 7B</td>
+                <td data-label="PARAMS" class="nowrap">7B</td>
+                <td data-label="QUANT"><span class="mono">Q4_K_M</span> GGUF, 5.62 GB</td>
+                <td data-label="RUNTIME">LM Studio</td>
+                <td data-label="MEANT FOR">Text from documents and images</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Ministral 3 3B</td>
+                <td data-label="PARAMS" class="nowrap">3B</td>
+                <td data-label="QUANT"><span class="mono">Q4_K_M</span> GGUF, 2.78 GB</td>
+                <td data-label="RUNTIME">LM Studio</td>
+                <td data-label="MEANT FOR">Fast answers to simple tasks</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3 4B Thinking 2507</td>
+                <td data-label="PARAMS" class="nowrap">4B</td>
+                <td data-label="QUANT">MLX 4-bit, 2.12 GB</td>
+                <td data-label="RUNTIME">LM Studio</td>
+                <td data-label="MEANT FOR">Step-by-step reasoning and tool calls</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="fig__source">Also on the M3 Pro: Rnj 1 (Q4_K_M) and Nomic Embed Text v1.5 for embeddings. On the M5 Pro, speech to text uses faster-whisper small on CPU with int8 compute; large-v3 is also cached.</p>
+        </figure>
+
+        <h2>Settings that mattered</h2>
+
+        <h3>M5 Pro: a 35B MoE with a long context</h3>
+        <p class="cmd-label">LLAMA-SERVER LAUNCH (HOST AND PORT OMITTED)</p>
+        <pre class="cmd"><code>llama-server \
+  --model Qwen3.6-35B-A3B-UD-Q4_K_M.gguf \
+  -ngl 99 -c 40960 --flash-attn on \
+  --cache-type-k q8_0 \
+  --cache-type-v q8_0 \
+  --batch-size 2048 --ubatch-size 1024</code></pre>
+        <ul>
+          <li><code>-ngl 99</code> puts every layer on the GPU. Unified memory has no separate VRAM pool, so the ceiling is the 37.4 GiB Metal will hand out.</li>
+          <li><code>-c 40960</code> sets a 40,960-token context. The server's own <code>/slots</code> report confirmed it.</li>
+          <li><code>--cache-type-k q8_0</code> and <code>--cache-type-v q8_0</code> store the KV cache at 8 bits instead of the 16-bit default, about half the memory at the same context length.</li>
+          <li><code>--flash-attn on</code> forces flash attention (the default is auto). The physical batch, <code>--ubatch-size</code>, is raised from the default 512 to 1024.</li>
+        </ul>
+
+        <h3>RX 5700: three models in 8 GB</h3>
+        <p class="cmd-label">ROUTER PRESET, MODELS.INI (EXCERPT)</p>
+        <pre class="cmd"><code>[*]
+c = 8192
+cache-ram = 0
+n-gpu-layers = 99
+jinja = true
+
+[GLM-OCR-Q8_0]
+load-on-startup = true
+c = 8192
+
+[Qwen3-VL-2B-Instruct-Q8_0]
+c = 8192
+
+[Qwen3-4B-Instruct-2507-Q4_K_M]
+c = 16384</code></pre>
+        <p class="cmd-label">ROUTER LAUNCH, SYSTEMD SERVICE (HOST, PORT, API KEY AND ALIAS OMITTED)</p>
+        <pre class="cmd"><code>llama-server \
+  --models-dir /opt/models \
+  --models-preset /etc/llama/models.ini \
+  --models-max 3
+<span class="c"># MemoryMax=5G, in a 6 GB container</span></code></pre>
+        <ul>
+          <li><code>--models-max 3</code>: all three models fit in the 8 GB of VRAM together. The OCR model loads at startup and the other two load on demand.</li>
+          <li>The extractor gets 16,384 tokens of context; the OCR and vision models get 8,192.</li>
+          <li><code>MemoryMax=5G</code>: model files are memory-mapped and count against the service's memory limit. With all three loaded, resident memory reads about 1.6 GB; the weights live in VRAM.</li>
+          <li><code>cache-ram = 0</code> is load-bearing. The reason is under <a href="#what-broke">what broke</a>.</li>
+        </ul>
+
+        <h3>Extraction request: grammar and penalties</h3>
+        <p class="cmd-label">PER-REQUEST SETTINGS FOR THE 4B EXTRACTOR</p>
+        <pre class="cmd"><code>temperature      0
+max_tokens       2000
+repeat_penalty   1.15
+repeat_last_n    128
+response_format  json_schema
+<span class="c"># every key required but nullable</span>
+<span class="c"># strings capped with maxLength</span></code></pre>
+        <ul>
+          <li>The JSON schema is enforced as a grammar, so the model can only emit JSON that fits it.</li>
+          <li>Every key is required but nullable, so the model has to consider each field. That costs decode time (see the measurements).</li>
+          <li>Fields the consumer never reads are left out of the schema: fewer forced tokens.</li>
+          <li><code>repeat_penalty 1.15</code> and the <code>maxLength</code> caps went in after the 2B model looped on the payment-method field.</li>
+        </ul>
+
+        <h3>MLX server and Ollama</h3>
+        <ul>
+          <li><strong>oMLX:</strong> context window capped at 32,768 tokens; prefill memory guard on, with a soft limit at 85% and a hard limit at 95% of memory.</li>
+          <li><strong>Ollama:</strong> <code>OLLAMA_FLASH_ATTENTION=1</code> and <code>OLLAMA_KV_CACHE_TYPE=q8_0</code> in the launch agent.</li>
+        </ul>
+
+        <h2>Measured</h2>
+
+        <figure class="fig" aria-labelledby="tbl2-title">
+          <figcaption>
+            <p class="fig__title" id="tbl2-title">Table 2 &middot; Throughput and latency</p>
+            <p class="fig__sub">Numbers recorded during the runs. Image tokens are what a vision encoder turns one image into before the model reads it.</p>
+          </figcaption>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th scope="col">WHAT</th>
+                <th scope="col">HARDWARE</th>
+                <th scope="col">RESULT</th>
+                <th scope="col">DATE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tbl__name">GLM-OCR 0.9B Q8_0, image encoding</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT" class="nowrap">~500 image tokens/s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">GLM-OCR 0.9B Q8_0, generation</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT" class="nowrap">~260 tok/s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">GLM-OCR on an 864 &times; 1296 receipt photo (1,437 image tokens)</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT" class="nowrap">3.2 to 3.4 s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">GLM-OCR on a 3024 &times; 4032 phone photo, downscaled to 1200 &times; 1600 (2,462 image tokens)</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT">8.3 s prefill at ~296 tok/s, decode ~240 tok/s, 10 to 15 s in all</td>
+                <td data-label="DATE" class="nowrap">2026-09-14</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">OCR again on the same image (prompt cache hit)</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT" class="nowrap">0.5 to 0.9 s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Vision encoding of one photo: Qwen3-VL-2B vs GLM-OCR</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT" class="nowrap">11.9 s vs 2.8 s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3-4B Q4_K_M, grammar-constrained decoding</td>
+                <td data-label="HARDWARE">RX 5700</td>
+                <td data-label="RESULT" class="nowrap">~24 to 35 tok/s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">PDF with a text layer, pdftotext, no model</td>
+                <td data-label="HARDWARE">CPU</td>
+                <td data-label="RESULT" class="nowrap">~0.1 s</td>
+                <td data-label="DATE" class="nowrap">2026-09-13</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3.6-27B MLX 8-bit, prefill (8,479 tokens in 34.9 s)</td>
+                <td data-label="HARDWARE">M5 Pro</td>
+                <td data-label="RESULT" class="nowrap">~243 tok/s</td>
+                <td data-label="DATE">2026-07-09 to 2026-09-06</td>
+              </tr>
+              <tr>
+                <td class="tbl__name">Qwen3.6-27B MLX 8-bit, decode (504 tokens in 54.4 s)</td>
+                <td data-label="HARDWARE">M5 Pro</td>
+                <td data-label="RESULT" class="nowrap">~9.3 tok/s</td>
+                <td data-label="DATE">2026-07-09 to 2026-09-06</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="fig__source">Sources: the GPU server's README and handoff in the home lab repository; the MLX server's stats file. The M5 Pro rows are totals over three requests, so read them as a rough figure.</p>
+        </figure>
+
+        <figure class="fig" aria-labelledby="fig1-title">
+          <figcaption>
+            <p class="fig__title" id="fig1-title">Figure 1 &middot; Receipt baseline, 89 real photos</p>
+            <p class="fig__sub">GLM-OCR, then Qwen3-4B Q4_K_M under the schema grammar. Eight of the 89 photos were not receipts, and nearly every miss on store, date and total was one of those or a photo with the date cut off.</p>
+          </figcaption>
+          <ul class="bars">
+            <li><span class="bars__label">Store name filled in</span><span class="bars__track" aria-hidden="true"><span class="bars__fill" style="width: 87.6%"></span></span><span class="bars__val">78 / 89</span></li>
+            <li><span class="bars__label">Total filled in</span><span class="bars__track" aria-hidden="true"><span class="bars__fill" style="width: 87.6%"></span></span><span class="bars__val">78 / 89</span></li>
+            <li><span class="bars__label">Date filled in</span><span class="bars__track" aria-hidden="true"><span class="bars__fill" style="width: 82.0%"></span></span><span class="bars__val">73 / 89</span></li>
+            <li><span class="bars__label">Subtotal + tax + tip = total</span><span class="bars__track" aria-hidden="true"><span class="bars__fill" style="width: 67.1%"></span></span><span class="bars__val">47 / 70</span></li>
+            <li><span class="bars__label">Line items sum to the subtotal (or total less tax and tip)</span><span class="bars__track" aria-hidden="true"><span class="bars__fill" style="width: 45.9%"></span></span><span class="bars__val">34 / 74</span></li>
+          </ul>
+          <div class="bars__foot">
+            <span>FAILED EXTRACTIONS <b>0</b></span>
+            <span>MEAN EXTRACTION <b>20.2 s</b></span>
+            <span>MEASURED <b>2026-09-14</b></span>
+          </div>
+          <p class="fig__source">Source: the 2026-09-14 receipts baseline report in the home lab repository. The arithmetic checks count only receipts where the fields they need were filled in.</p>
+        </figure>
+
+        <p>
+          Store, date and total came back on nearly every real receipt. The arithmetic checks passed far less
+          often, which is why the output needs a check downstream before anything trusts it.
+        </p>
+
+        <h2 id="what-broke">What broke, and what fixed it</h2>
+        <ol class="notes">
+          <li>
+            <span class="notes__head">The 2B extractor dropped line items and invented quantities.</span>
+            Qwen3-VL-2B was the first extractor. It also looped on the payment-method field.
+            <span class="notes__fix">Qwen3-4B-Instruct-2507 at Q4_K_M took over and fixed both problems on the same inputs, at about 24 to 35 tok/s under the grammar. <code>repeat_penalty 1.15</code> and <code>maxLength</code> caps stop the loop.</span>
+          </li>
+          <li>
+            <span class="notes__head">The prompt cache ran past the memory limit.</span>
+            The router's host-RAM prompt cache defaults to 8,192 MiB, above the service's 5 GB limit. It grew about
+            160 MB per receipt, and after about 30 images the OOM killer took the OCR model.
+            <span class="notes__fix"><code>cache-ram = 0</code>. One-shot OCR of unique images gains nothing from that cache. Resident memory stays flat now.</span>
+          </li>
+          <li>
+            <span class="notes__head">The GPU drops its Vulkan device under load.</span>
+            Four amdgpu ring resets in one night: one with two models in flight, the rest during long single
+            extractions on the 4B model. After each one, llama-server kept running and its health check stayed
+            green while every request failed in under a second.
+            <span class="notes__fix">A small gateway in front of llama-server serializes every GPU call behind one lock. On a device-lost error it signals a root-side systemd path unit, which restarts llama-server; the gateway then retries the request once when the OCR model is back (about 20 to 30 s). The rest of the batch ran unattended. The root cause is still open. Suspects: the card's PCIe link running at x2, VRAM pressure from the 4B model's 16k context, and Navi 10 power management.</span>
+          </li>
+          <li>
+            <span class="notes__head">Vision encoders differ a lot on Vulkan.</span>
+            Qwen3-VL-2B took 11.9 s to encode a photo that GLM-OCR encoded in 2.8 s.
+            <span class="notes__fix">Two stages: a 0.9B OCR model reads the page, then a text-only 4B model writes the JSON. The VLM stays installed for image questions, outside the default path.</span>
+          </li>
+          <li>
+            <span class="notes__head">Forcing every field costs decode time.</span>
+            With every key required, grammar-constrained decoding dominates the run: a long receipt costs about 20 s.
+            <span class="notes__fix">For batch work that is fine. For interactive use, run OCR only (2 to 4 s) and extract asynchronously, or trim the schema.</span>
+          </li>
+          <li>
+            <span class="notes__head">Re-encoding an image changes the OCR output.</span>
+            GLM-OCR's output varies slightly with JPEG re-encoding.
+            <span class="notes__fix">JPEG and PNG images up to 1,600 px on the long side pass through untouched; larger or other-format images are re-encoded once. PDFs with a text layer skip the GPU entirely.</span>
+          </li>
+          <li>
+            <span class="notes__head">A 4B extractor guesses.</span>
+            It labeled an unmarked receipt in Indonesian rupiah as US dollars, despite the prompt's instruction.
+            <span class="notes__fix">Treat the currency field as a hint, and check that items plus tax equal the total downstream instead of trusting the model.</span>
+          </li>
+          <li>
+            <span class="notes__head">On Apple Silicon, the GPU's share of memory sets the ceiling.</span>
+            Metal reported 13.3 GiB usable on the 18 GB M3 Pro and 37.4 GiB on the 48 GB M5 Pro.
+            <span class="notes__fix">Pick the quantization to fit that number, with room for the KV cache. The largest model on the M3 Pro was the 11.28 GB gpt-oss 20B at MXFP4. The M5 Pro holds a 22.1 GB MoE checkpoint with a 40,960-token q8_0 cache, or the 28.85 GB 8-bit 27B through MLX.</span>
+          </li>
+        </ol>
+
+        <h2>Scope</h2>
+        <p>
+          Everything on this page is inference: choosing quantizations, context lengths, cache types, offload,
+          batch sizes, grammars, penalties and memory limits, then swapping models after measuring them. Nothing on
+          this page involves fine-tuning, LoRA adapters or training; no weights were changed.
+        </p>
+
+        <p class="sources">
+          Sources: the GPU server's README, session handoff, router preset, systemd unit, gateway code and
+          2026-09-14 receipts report in the home lab repository; the llama-server launch preset; the MLX server's
+          settings and stats files; model configs and file names in the local Hugging Face cache; the Ollama launch
+          agent and log; a January 2026 model inventory for the M3 Pro; system_profiler; llama-server --help for
+          defaults; the MTPLX package page on PyPI; the README of a 2025 natural-language-to-SQL project; a
+          speech-to-text script. MTPLX and Langfuse use: author, 2026-11-07. Checked 2026-11-07.
+        </p>
+      </div>
+
+      <nav class="detail__nav">
+        <a href="/bblmlp"><i class="fas fa-arrow-left"></i> Prev: BBLMLP</a>
+        <a href="/homelab">Related: HomeLab <i class="fas fa-arrow-right"></i></a>
+      </nav>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__container">
+      <p class="footer__text">NICOLO DIFERDINANDO / CAL POLY SLO '26 &middot; SAN DIEGO, CA</p>
+      <div class="footer__socials">
+        <a href="https://github.com/nicodiferd" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/nicolo-diferdinando/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:nicodiferd@gmail.com" class="footer__social" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js?v=redesign-3"></script>
+</body>
+</html>

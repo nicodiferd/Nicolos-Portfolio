@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a personal portfolio website for Nicolo DiFerdinando (AI-Driven Solutions Analyst at PeopleConnect, Cal Poly SLO Industrial Engineering '26). It is a static site with a "datasheet" design (cream + red tokens, mono labels) and light/dark themes. The site is deployed on **Cloudflare Pages** at `nicolod.org`.
 
-Positioning: AI/ML and data engineering lead; security and infrastructure are supporting depth, never certifications.
+Positioning (owner 2026-10-30): cybersecurity first, then data and ML, then AI engineering; never certifications.
 
 ## Content rules (read before editing copy)
 

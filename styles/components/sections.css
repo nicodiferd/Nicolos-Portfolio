@@ -196,22 +196,86 @@
 /* Contact layout (inside .section--ink) */
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 1fr;
   gap: var(--space-16);
   align-items: start;
 }
 
-.contact-actions {
-  display: flex;
-  flex-wrap: wrap;
+.contact-links {
+  list-style: none;
+  margin: var(--space-10) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.contact-link {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+  align-items: baseline;
   gap: var(--space-4);
-  margin-top: var(--space-8);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.contact-link__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.contact-link__value {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  overflow-wrap: break-word;
+  transition: color var(--transition-fast);
+}
+
+.contact-link--lead .contact-link__value {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+}
+
+.contact-link__arrow {
+  color: var(--color-text-muted);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.contact-link:hover .contact-link__value,
+.contact-link:focus-visible .contact-link__value,
+.contact-link:hover .contact-link__arrow,
+.contact-link:focus-visible .contact-link__arrow {
+  color: var(--color-primary);
+}
+
+.contact-link:hover .contact-link__arrow,
+.contact-link:focus-visible .contact-link__arrow {
+  transform: translate(2px, -2px);
 }
 
 .section--ink .contact__form {
   margin: 0;
   max-width: none;
   width: 100%;
+  padding-top: var(--space-2);
+}
+
+@media (max-width: 560px) {
+  .contact-link {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: var(--space-1);
+  }
+
+  .contact-link__label {
+    grid-column: 1 / -1;
+  }
+
+  .contact-link--lead .contact-link__value {
+    font-size: var(--text-xl);
+  }
 }
 
 @media (max-width: 860px) {

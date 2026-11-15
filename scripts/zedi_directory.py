@@ -23,6 +23,7 @@ END = "<!-- zedi-directory:end -->"
 
 # (key, label, blurb, first path segments). Unknown segments land in "product".
 GROUPS = [
+    ("features", "Features", "Receipt scanning, who owes who and AI categories, one page each.", {"receipt-scanner", "who-owes-who", "ai-categorization"}),
     ("guides", "Guides", "What Zedi does for one specific job.", {"for"}),
     ("compare", "Compare", "Zedi next to other money apps, line by line.", {"compare"}),
     ("switch", "Switch", "Bring your history over from another app.", {"switch"}),
@@ -64,7 +65,7 @@ def render(pages, today):
     out = [START]
     out.append(f'{i}<div class="zdir__head">')
     out.append(f'{i}  <h2 id="zdir-title">Every page on zedi.dev</h2>')
-    out.append(f"{i}  <p>{total} guides, comparisons and help pages, read from zedi.dev on {today}.</p>")
+    out.append(f"{i}  <p>{total} feature, guide, comparison and help pages, read from zedi.dev on {today}.</p>")
     out.append(f"{i}</div>")
     out.append(f'{i}<div class="zdir__tools">')
     out.append(f'{i}  <label class="sr-only" for="zdir-q">Filter pages</label>')

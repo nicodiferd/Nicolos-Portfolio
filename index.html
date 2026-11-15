@@ -62,7 +62,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=redesign-2">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-3">
   <link rel="canonical" href="https://nicolod.org/">
   
   <!-- Critical inline styles for immediate visibility -->
@@ -375,7 +375,7 @@
             <h3 class="proj-card__title">Flora</h3>
             <p class="proj-card__desc">Year-long senior capstone with Bloomfilter, improving HCI for AI-agent integration inside project-management tools. Capped the year by winning Best in Lab.</p>
             <div class="chips"><span class="chip chip--accent">Best in Lab</span><span class="chip">HCI</span><span class="chip">AI Agents</span><span class="chip">Research</span></div>
-            <!-- Spec readout (reuses the hero spec-list style) fills the text tile beside the HomeLab image card -->
+            <!-- Spec readout (reuses the hero spec-list style) sits at the bottom of the tile, level with the HomeLab tile's readout -->
             <dl class="hero__chip proj-card__spec">
               <div><dt>PARTNER</dt><dd>Bloomfilter.ai</dd></div>
               <div><dt>ADVISOR</dt><dd>Dr. Awwad</dd></div>
@@ -386,16 +386,19 @@
           </div>
         </article>
 
-        <!-- HomeLab (terminal-style render of the live lab status as of 2026-10-10; a real rack photo can replace images/homelab-status.png later) -->
-        <article class="proj-card">
-          <a class="proj-card__media" href="/homelab">
-            <img src="images/homelab-status.png" alt="HomeLab terminal: ssh into the homelab succeeds, 8 of 15 guests running, online in San Diego since August 2026" loading="lazy" decoding="async">
-          </a>
+        <!-- HomeLab (text tile; numbers from homelab-infra master c735825, 2026-10-26, the same snapshot as /homelab) -->
+        <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
             <p class="proj-card__cat">INFRASTRUCTURE</p>
             <h3 class="proj-card__title">HomeLab</h3>
-            <p class="proj-card__desc">Single-node Proxmox lab, running since 2024 and back online in San Diego since August 2026: 15 VMs and containers, n8n automation, ClickHouse telemetry, weekly PBS backups, and a GPU container for local receipt OCR.</p>
+            <p class="proj-card__desc">Single-node Proxmox lab, running since 2024 and back online in San Diego since August 2026: n8n automation, ClickHouse telemetry, weekly backups, a GPU container for local receipt OCR, and a network map.</p>
             <div class="chips"><span class="chip">Proxmox</span><span class="chip">n8n</span><span class="chip">ClickHouse</span><span class="chip">Cloudflare</span></div>
+            <dl class="hero__chip proj-card__spec">
+              <div><dt>GUESTS</dt><dd>9 of 16 running</dd></div>
+              <div><dt>HOST</dt><dd>Ryzen 9 5900X, 32 GB</dd></div>
+              <div><dt>BACKUPS</dt><dd>Weekly, PBS + restic</dd></div>
+              <div><dt>AS OF</dt><dd>October 26, 2026</dd></div>
+            </dl>
             <div class="proj-card__links"><a class="proj-card__link" href="/homelab">Explore setup <i class="fas fa-arrow-right"></i></a></div>
           </div>
         </article>
@@ -417,13 +420,13 @@
         <!-- Zedi -->
         <article class="proj-card">
           <a class="proj-card__media" href="/zedi">
-            <img src="images/zedi-2026-10/dashboard.webp" alt="Zedi dashboard on a demo account: net position, savings rate, and income, expenses and net cards" width="1600" height="1000" loading="lazy" decoding="async">
+            <img src="images/zedi-2026-11/home.webp" alt="Zedi Home screen with sample data: net position, spending this month, top spending categories, and income, expenses and net trends" width="1280" height="800" loading="lazy" decoding="async">
           </a>
           <div class="proj-card__body">
-            <p class="proj-card__cat">PERSONAL FINANCE SAAS</p>
+            <p class="proj-card__cat">PERSONAL FINANCE SAAS / ZEDI.DEV</p>
             <h3 class="proj-card__title">Zedi</h3>
-            <p class="proj-card__desc">Personal finance web app I design and build, live at zedi.dev in open beta. Statements and read-only SimpleFIN bank sync (Pro) land in one list with nothing counted twice, plus receipts read by Claude and a who-owes-who People ledger. Rust and Axum on Postgres row-level security, Next.js 16, built with a Claude Code multi-agent workflow.</p>
-            <div class="chips"><span class="chip">Rust</span><span class="chip">Next.js</span><span class="chip">Postgres RLS</span><span class="chip">SimpleFIN</span><span class="chip">Claude Code</span></div>
+            <p class="proj-card__desc">Personal finance web app I build, live at zedi.dev. Checking, cards, Venmo and receipts in one place, free with the files your bank already gives you. Pro ($3.50 a month) adds read-only bank sync, which also needs SimpleFIN's own $1.50 a month. Built with Rust and Axum on Postgres row-level security, Claude for receipts, and an agentic Claude Code workflow.</p>
+            <div class="chips"><span class="chip">Rust</span><span class="chip">Next.js</span><span class="chip">Postgres RLS</span><span class="chip">Claude</span><span class="chip">Claude Code</span></div>
             <div class="proj-card__links">
               <a class="proj-card__link" href="/zedi">Overview &amp; pages <i class="fas fa-arrow-right"></i></a>
               <a class="proj-card__link" href="https://zedi.dev" target="_blank" rel="noopener noreferrer">Live site <i class="fas fa-arrow-up-right-from-square"></i></a>
@@ -448,6 +451,22 @@
           </div>
         </article>
 
+        <!-- Local LLMs (spans both columns right after BBLMLP, so the two-column grid stays even; facts from local-llms.html and its sources, 2026-11-07) -->
+        <article class="proj-card proj-card--tile proj-card--wide">
+          <div class="proj-card__body">
+            <p class="proj-card__cat">AI / LOCAL INFERENCE</p>
+            <h3 class="proj-card__title">Local LLMs</h3>
+            <p class="proj-card__desc">Field notes on running and tuning open-weight models locally: llama.cpp and MLX on an Apple M5 Pro, and llama.cpp over Vulkan on an 8 GB AMD RX 5700 in the home lab. Quantization, context length, KV cache, grammar-constrained JSON and memory limits, with measured throughput and what broke.</p>
+            <div class="chips"><span class="chip">llama.cpp</span><span class="chip">MLX</span><span class="chip">Vulkan</span><span class="chip">GGUF</span></div>
+            <dl class="hero__chip proj-card__spec">
+              <div><dt>HARDWARE</dt><dd>M5 Pro 48 GB, RX 5700 8 GB</dd></div>
+              <div><dt>MODELS IN 8 GB OF VRAM</dt><dd>3 fit at once</dd></div>
+              <div><dt>OCR GENERATION</dt><dd>~260 tok/s</dd></div>
+              <div><dt>RECEIPT BASELINE</dt><dd>89 photos, 20.2 s mean</dd></div>
+            </dl>
+            <div class="proj-card__links"><a class="proj-card__link" href="/local-llms">Field notes <i class="fas fa-arrow-right"></i></a></div>
+          </div>
+        </article>
         <!-- Wedge -->
         <article class="proj-card proj-card--tile">
           <div class="proj-card__body">
@@ -505,11 +524,13 @@
     <div class="container">
       <h2 class="ds-section__num">04 / STACK</h2>
       <div class="stack">
-        <div class="stack-row"><p class="stack-row__label">LANGUAGES</p><p class="stack-row__val">Python, SQL, Rust, TypeScript, JavaScript, Swift / SwiftUI, Bash, YAML, HTML / CSS</p></div>
-        <div class="stack-row"><p class="stack-row__label">AI &amp; DATA</p><p class="stack-row__val">LangChain, PyTorch, LightGBM, scikit-learn, OpenAI, Claude, MCP, Zapier, Airflow, Snowflake, dbt, DuckDB, Tableau, Sigma Computing, ClickHouse, Grafana</p></div>
+        <div class="stack-row"><p class="stack-row__label">LANGUAGES</p><p class="stack-row__val">Python, SQL, Rust, TypeScript, JavaScript, Swift / SwiftUI, YAML, HTML / CSS</p></div>
+        <div class="stack-row"><p class="stack-row__label">SECURITY</p><p class="stack-row__val">SIEM (CrowdStrike), Splunk, Splunk SOAR, SOC 2 audit automation, Vulnerability Scanning, Phishing Simulation</p></div>
+        <div class="stack-row"><p class="stack-row__label">DATA</p><p class="stack-row__val">Snowflake, dbt, DuckDB, Tableau, Sigma Computing, ClickHouse, Grafana</p></div>
+        <div class="stack-row"><p class="stack-row__label">ML &amp; FORECASTING</p><p class="stack-row__val">scikit-learn, LightGBM, XGBoost, PyTorch, decision trees and ensembles (random forest, gradient boosting, AdaBoost), regularized regression, time-series forecasting, Monte Carlo simulation</p></div>
+        <div class="stack-row"><p class="stack-row__label">AI</p><p class="stack-row__val">Claude, OpenAI, MCP, Langfuse, local LLMs (llama.cpp, MLX, oMLX, MTPLX, Ollama, LM Studio)</p></div>
         <div class="stack-row"><p class="stack-row__label">WEB &amp; APP</p><p class="stack-row__val">Node.js, React, Next.js, Streamlit, PostgreSQL, MongoDB, Firebase, Supabase, Stripe</p></div>
         <div class="stack-row"><p class="stack-row__label">INFRASTRUCTURE</p><p class="stack-row__val">Docker, Proxmox, Terraform, Linux, Cloudflare, GCP, Railway, CI/CD, Git</p></div>
-        <div class="stack-row"><p class="stack-row__label">SECURITY</p><p class="stack-row__val">Splunk, Splunk SOAR, SOC 2 audit automation, Vulnerability Scanning, Phishing Simulation</p></div>
         <!-- COURSES row held: a completed course may be named only as a course and only with its verify link (nico-hub rules/public-claims.md). Add it back once Nicolo sends the exact course name and the verify URL -->
       </div>
     </div>
@@ -532,12 +553,15 @@
           </div>
         </article>
         <article class="ds-row">
-          <div class="ds-row__meta"><span class="ds-row__date">SEP 2021 &ndash; JUN 2025</span></div>
+          <div class="ds-row__meta"><span class="ds-row__date">SEP 2021 &ndash; DEC 2023</span></div>
           <div class="ds-row__body">
             <h3 class="ds-row__title">Kappa Sigma Fraternity</h3>
-            <p class="ds-row__org">President (Dec 2022 to Mar 2023) &middot; Risk Manager (Sep 2021 to Jun 2025)</p>
+            <p class="ds-row__org">President (Dec 2022 to Dec 2023) &middot; Risk Manager (Jan 2022 to Dec 2022) &middot; Industrial Design Team (Jan 2022 to Dec 2022) &middot; Pledge Class President (Sep 2021 to Dec 2021)</p>
             <ul class="ds-row__points">
-              <li>Led the chapter as President and ran risk management for nearly four years.</li>
+              <li>Led the chapter as President for a full year, running chapter and executive meetings and working with the treasurer on the chapter budget.</li>
+              <li>Served as the chapter&rsquo;s Risk Manager from January to December 2022.</li>
+              <li>On the industrial design team, helped design and build hardware, furniture and other woodworking projects for the house.</li>
+              <li>Started as president of my pledge class.</li>
             </ul>
           </div>
         </article>
@@ -573,18 +597,20 @@
         <div class="contact-grid__intro">
           <p class="ds-statement">Have an idea, a project, or just want to talk shop?</p>
           <p class="ds-body">I'm always down to connect. Reach out and I'll get back to you.</p>
-          <div class="contact-actions">
-            <a class="btn btn--primary" href="mailto:nicodiferd@gmail.com">nicodiferd@gmail.com</a>
-            <a class="btn btn--secondary" href="https://www.linkedin.com/in/nicolo-diferdinando/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a class="btn btn--secondary" href="https://github.com/nicodiferd" target="_blank" rel="noopener noreferrer">GitHub</a>
-          </div>
+          <ul class="contact-links">
+            <li><a class="contact-link contact-link--lead" href="mailto:nicodiferd@gmail.com"><span class="contact-link__label">Email</span><span class="contact-link__value">nicodiferd@gmail.com</span><span class="contact-link__arrow" aria-hidden="true">&#8599;</span></a></li>
+            <li><a class="contact-link" href="https://www.linkedin.com/in/nicolo-diferdinando/" target="_blank" rel="noopener noreferrer"><span class="contact-link__label">LinkedIn</span><span class="contact-link__value">in/nicolo-diferdinando</span><span class="contact-link__arrow" aria-hidden="true">&#8599;</span></a></li>
+            <li><a class="contact-link" href="https://github.com/nicodiferd" target="_blank" rel="noopener noreferrer"><span class="contact-link__label">GitHub</span><span class="contact-link__value">nicodiferd</span><span class="contact-link__arrow" aria-hidden="true">&#8599;</span></a></li>
+            <li><a class="contact-link" href="/resume.pdf" target="_blank" rel="noopener"><span class="contact-link__label">Resume</span><span class="contact-link__value">resume.pdf</span><span class="contact-link__arrow" aria-hidden="true">&#8599;</span></a></li>
+          </ul>
         </div>
         <form action="https://formspree.io/f/xovjlpne" method="POST" class="contact__form" data-ajax>
-          <div class="form__group"><input type="text" name="name" id="contact-name" class="form__input" placeholder=" " autocomplete="name" required><label class="form__label" for="contact-name">Your Name</label></div>
-          <div class="form__group"><input type="email" name="email" id="contact-email" class="form__input" placeholder=" " autocomplete="email" required><label class="form__label" for="contact-email">Your Email</label></div>
-          <div class="form__group"><textarea name="message" id="contact-message" rows="5" class="form__textarea" placeholder=" " required></textarea><label class="form__label" for="contact-message">Your Message</label></div>
+          <p class="contact__form-title">Or leave a message</p>
+          <div class="form__group"><label class="form__label" for="contact-name">Name</label><input type="text" name="name" id="contact-name" class="form__input" autocomplete="name" required></div>
+          <div class="form__group"><label class="form__label" for="contact-email">Email</label><input type="email" name="email" id="contact-email" class="form__input" autocomplete="email" required></div>
+          <div class="form__group"><label class="form__label" for="contact-message">Message</label><textarea name="message" id="contact-message" rows="4" class="form__textarea" required></textarea></div>
           <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="btn btn--primary form__submit">Send Message</button>
+          <button type="submit" class="btn btn--primary form__submit">Send message</button>
         </form>
       </div>
     </div>
@@ -609,6 +635,6 @@
   
   
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=redesign-2"></script>
+  <script type="module" src="js/app.js?v=redesign-3"></script>
 </body>
 </html>

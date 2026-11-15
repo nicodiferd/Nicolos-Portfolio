@@ -7,9 +7,9 @@
 // zone's Browser Cache TTL caches them for 4h in production anyway, and this
 // keeps a fresh app.js from pairing with stale cached modules. See CLAUDE.md
 // (Important Notes 7) for bumping the token across every page, CSS and JS.
-import { Navigation } from './modules/navigation.js?v=redesign-2';
-import { ThemeManager } from './modules/theme.js?v=redesign-2';
-import { Animations } from './modules/animations.js?v=redesign-2';
+import { Navigation } from './modules/navigation.js?v=redesign-3';
+import { ThemeManager } from './modules/theme.js?v=redesign-3';
+import { Animations } from './modules/animations.js?v=redesign-3';
 
 class App {
   constructor() {

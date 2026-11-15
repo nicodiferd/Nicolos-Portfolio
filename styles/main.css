@@ -7,77 +7,93 @@
    CSS or JS edit (see CLAUDE.md, Important Notes 7). */
 
 /* Base Styles */
-@import 'base/variables.css?v=redesign-2';
-@import 'base/base.css?v=redesign-2';
+@import 'base/variables.css?v=redesign-3';
+@import 'base/base.css?v=redesign-3';
 
 /* Components */
-@import 'components/navigation.css?v=redesign-2';
-@import 'components/hero.css?v=redesign-2';
-@import 'components/card.css?v=redesign-2';
-@import 'components/effects.css?v=redesign-2';
-@import 'components/notifications.css?v=redesign-2';
-@import 'components/sections.css?v=redesign-2';
-@import 'components/detail.css?v=redesign-2';
+@import 'components/navigation.css?v=redesign-3';
+@import 'components/hero.css?v=redesign-3';
+@import 'components/card.css?v=redesign-3';
+@import 'components/effects.css?v=redesign-3';
+@import 'components/notifications.css?v=redesign-3';
+@import 'components/sections.css?v=redesign-3';
+@import 'components/detail.css?v=redesign-3';
 
-/* Contact form (index.html, inside .section--ink) */
+/* Contact form (index.html, inside .section--ink): labels above,
+   underline fields, no boxes. */
 .contact__form {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-8);
+}
+
+.contact__form-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
 }
 
 .form__group {
-  position: relative;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.form__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.form__group:focus-within .form__label {
+  color: var(--color-primary);
 }
 
 .form__input,
 .form__textarea {
   width: 100%;
-  padding: var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding: var(--space-2) 0 var(--space-3);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
   color: var(--color-text-primary);
-  font-size: var(--text-base);
-  transition: all var(--transition-fast);
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  transition: border-color var(--transition-fast);
 }
 
 .form__input:focus,
 .form__textarea:focus {
   outline: none;
-  border-color: var(--color-primary);
-  background: var(--color-surface-alt);
-}
-
-.form__label {
-  position: absolute;
-  top: 50%;
-  left: var(--space-4);
-  transform: translateY(-50%);
-  color: var(--color-text-muted);
-  font-size: var(--text-base);
-  transition: all var(--transition-fast);
-  pointer-events: none;
-}
-
-.form__input:focus + .form__label,
-.form__input:not(:placeholder-shown) + .form__label,
-.form__textarea:focus + .form__label,
-.form__textarea:not(:placeholder-shown) + .form__label {
-  top: -10px;
-  left: var(--space-3);
-  font-size: var(--text-sm);
-  color: var(--color-primary);
-  background: var(--color-background-alt);
-  padding: 0 var(--space-2);
+  border-bottom-color: var(--color-primary);
+  box-shadow: 0 1px 0 0 var(--color-primary);
 }
 
 .form__textarea {
-  min-height: 150px;
+  min-height: 6rem;
   resize: vertical;
+  line-height: 1.6;
 }
 
 .form__submit {
-  justify-self: center;
+  justify-self: start;
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-8);
+}
+
+.form__submit::after {
+  content: "\2192";
+  font-family: var(--font-body);
+  transition: transform var(--transition-fast);
+}
+
+.form__submit:hover::after {
+  transform: translateX(3px);
 }
 
 /* Footer */
@@ -205,9 +221,3 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* Focused form fields stay on the plain surface, with a faint red ring. */
-[data-theme="light"] .form__input:focus,
-[data-theme="light"] .form__textarea:focus {
-  background: var(--color-surface);
-  box-shadow: 0 0 0 3px rgba(181, 39, 29, 0.12);
-}

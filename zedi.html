@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Zedi, a personal finance web app I design and build, live at zedi.dev in open beta, plus a directory of every Zedi guide, comparison and help page.">
+  <meta name="description" content="Zedi, the personal finance web app I build, live at zedi.dev: checking, cards, Venmo and receipts in one place, plus a directory of every page on the site.">
   <meta name="author" content="Nicolo DiFerdinando">
   <meta name="theme-color" content="#f5f2ec">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Nicolo DiFerdinando">
   <meta property="og:title" content="Zedi | Nicolo DiFerdinando">
-  <meta property="og:description" content="Zedi, a personal finance web app I design and build, live at zedi.dev in open beta, plus a directory of every Zedi guide, comparison and help page.">
+  <meta property="og:description" content="Zedi, the personal finance web app I build, live at zedi.dev: checking, cards, Venmo and receipts in one place, plus a directory of every page on the site.">
   <meta property="og:url" content="https://nicolod.org/zedi">
   <meta property="og:image" content="https://nicolod.org/images/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
   <meta property="og:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Zedi | Nicolo DiFerdinando">
-  <meta name="twitter:description" content="Zedi, a personal finance web app I design and build, live at zedi.dev in open beta, plus a directory of every Zedi guide, comparison and help page.">
+  <meta name="twitter:description" content="Zedi, the personal finance web app I build, live at zedi.dev: checking, cards, Venmo and receipts in one place, plus a directory of every page on the site.">
   <meta name="twitter:image" content="https://nicolod.org/images/og-card.png">
   <meta name="twitter:image:alt" content="Nicolo DiFerdinando, AI-Driven Solutions Analyst at PeopleConnect. nicolod.org">
   <title>Zedi | Nicolo DiFerdinando</title>
@@ -53,7 +53,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=redesign-2">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-3">
 
   <!-- Structured data -->
   <script type="application/ld+json">
@@ -61,9 +61,9 @@
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "Zedi: every page on zedi.dev",
-    "description": "Zedi, a personal finance web app live at zedi.dev, and a directory of its guides, comparisons and help pages.",
+    "description": "Zedi, a personal finance web app live at zedi.dev, and a directory of its feature, guide, comparison and help pages.",
     "url": "https://nicolod.org/zedi",
-    "dateModified": "2026-10-30",
+    "dateModified": "2026-11-07",
     "author": {
       "@type": "Person",
       "name": "Nicolo DiFerdinando",
@@ -272,48 +272,83 @@
       <p class="ds-section__num">PROJECT / ZEDI</p>
       <h1 class="detail__title">Zedi</h1>
       <p class="detail__lead">
-        A personal finance web app I design and build, live at
-        <a href="https://zedi.dev" target="_blank" rel="noopener noreferrer">zedi.dev</a> in open beta.
-        Checking, cards, Venmo and receipts land in one list, counted once: upload the statements your
-        bank already gives you, or turn on read-only bank sync on Pro.
+        A personal finance web app I build, live at
+        <a href="https://zedi.dev" target="_blank" rel="noopener noreferrer">zedi.dev</a>.
+        Checking, cards, Venmo and receipts go in one place: upload the CSV, PDF or QFX statements your
+        bank already gives you, or turn on read-only bank sync on Pro. Card payments and Venmo transfers
+        pair up when the match is clear, so they do not count as spending or income. Claude reads receipts
+        line by line, and a People tab keeps one running balance with each friend.
       </p>
       <div class="zedi-actions">
         <a class="btn btn--primary" href="https://zedi.dev" target="_blank" rel="noopener noreferrer"><span>Open zedi.dev</span><i class="fas fa-arrow-up-right-from-square"></i></a>
         <a class="btn btn--secondary" href="https://zedi.dev/pricing" target="_blank" rel="noopener noreferrer"><span>Pricing</span></a>
       </div>
       <p class="zedi-built">
+        Free with your files. Pro is $3.50 a month or $30 a year and adds read-only bank sync and unlimited
+        scans. Bank sync also needs a SimpleFIN account, which SimpleFIN bills directly: $1.50 a month or
+        $15 a year, plus tax.
+      </p>
+      <p class="zedi-built">
         Built with Rust and Axum on Postgres row-level security, a Next.js front end, Claude for receipts
-        and PDF statements, and a Claude Code multi-agent workflow.
+        and PDF statements, and an agentic Claude Code workflow.
       </p>
 
       <section class="zdir" aria-labelledby="zdir-title">
         <!-- zedi-directory:start -->
         <div class="zdir__head">
           <h2 id="zdir-title">Every page on zedi.dev</h2>
-          <p>26 guides, comparisons and help pages, read from zedi.dev on 2026-10-30.</p>
+          <p>31 feature, guide, comparison and help pages, read from zedi.dev on 2026-11-07.</p>
         </div>
         <div class="zdir__tools">
           <label class="sr-only" for="zdir-q">Filter pages</label>
-          <input id="zdir-q" class="zdir__search" type="search" placeholder="Filter 26 pages: try venmo, ynab or pdf" autocomplete="off">
+          <input id="zdir-q" class="zdir__search" type="search" placeholder="Filter 31 pages: try venmo, ynab or pdf" autocomplete="off">
           <div class="zdir__tabs" role="group" aria-label="Sections">
-            <button type="button" class="zdir__tab" data-group="all" aria-pressed="true">All<span>26</span></button>
-            <button type="button" class="zdir__tab" data-group="guides" aria-pressed="false">Guides<span>9</span></button>
+            <button type="button" class="zdir__tab" data-group="all" aria-pressed="true">All<span>31</span></button>
+            <button type="button" class="zdir__tab" data-group="features" aria-pressed="false">Features<span>3</span></button>
+            <button type="button" class="zdir__tab" data-group="guides" aria-pressed="false">Guides<span>11</span></button>
             <button type="button" class="zdir__tab" data-group="compare" aria-pressed="false">Compare<span>7</span></button>
             <button type="button" class="zdir__tab" data-group="switch" aria-pressed="false">Switch<span>2</span></button>
             <button type="button" class="zdir__tab" data-group="product" aria-pressed="false">Product<span>5</span></button>
             <button type="button" class="zdir__tab" data-group="company" aria-pressed="false">Company<span>3</span></button>
           </div>
         </div>
+        <div class="zdir__group" data-group="features">
+          <h3>Features</h3>
+          <p>Receipt scanning, who owes who and AI categories, one page each.</p>
+          <ul class="zdir__list">
+            <li class="zdir__item" data-text="receipt scanner app for personal spending, by item snap a receipt, screenshot or order page. claude reads every line, the tax and the tip. 10 receipt scans a month are free, and each photo is deleted once read. /receipt-scanner">
+              <a class="zdir__link" href="https://zedi.dev/receipt-scanner" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">Receipt scanner app for personal spending, by item</span>
+                <span class="zdir__path">zedi.dev/receipt-scanner</span>
+              </a>
+              <p class="zdir__desc">Snap a receipt, screenshot or order page. Claude reads every line, the tax and the tip. 10 receipt scans a month are free, and each photo is deleted once read.</p>
+            </li>
+            <li class="zdir__item" data-text="app to track who owes you money, both ways one running balance with each friend, both ways. receipt shares, rent you covered and venmo paybacks land in one place, oldest share paid first. free. /who-owes-who">
+              <a class="zdir__link" href="https://zedi.dev/who-owes-who" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">App to track who owes you money, both ways</span>
+                <span class="zdir__path">zedi.dev/who-owes-who</span>
+              </a>
+              <p class="zdir__desc">One running balance with each friend, both ways. Receipt shares, rent you covered and Venmo paybacks land in one place, oldest share paid first. Free.</p>
+            </li>
+            <li class="zdir__item" data-text="ai expense categorization, off until you say so rules sort your transactions first. turn on ai and claude suggests categories for the rest. see the exact fields it gets, and the ones it never gets. /ai-categorization">
+              <a class="zdir__link" href="https://zedi.dev/ai-categorization" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">AI expense categorization, off until you say so</span>
+                <span class="zdir__path">zedi.dev/ai-categorization</span>
+              </a>
+              <p class="zdir__desc">Rules sort your transactions first. Turn on AI and Claude suggests categories for the rest. See the exact fields it gets, and the ones it never gets.</p>
+            </li>
+          </ul>
+        </div>
         <div class="zdir__group" data-group="guides">
           <h3>Guides</h3>
           <p>What Zedi does for one specific job.</p>
           <ul class="zdir__list">
-            <li class="zdir__item" data-text="split a receipt by item split any receipt by item, and zedi keeps a running balance of who owes you. venmo and zelle paybacks clear the oldest open share first. free, from files you upload. /for/split-receipts-with-friends">
+            <li class="zdir__item" data-text="split a bill or receipt by item with friends split any receipt by item, evenly or by percent. tax is shared for you, the cents add up, and zedi keeps a running tab with each friend. free to start. /for/split-receipts-with-friends">
               <a class="zdir__link" href="https://zedi.dev/for/split-receipts-with-friends" target="_blank" rel="noopener noreferrer">
-                <span class="zdir__title">Split a receipt by item</span>
+                <span class="zdir__title">Split a bill or receipt by item with friends</span>
                 <span class="zdir__path">zedi.dev/for/split-receipts-with-friends</span>
               </a>
-              <p class="zdir__desc">Split any receipt by item, and Zedi keeps a running balance of who owes you. Venmo and Zelle paybacks clear the oldest open share first. Free, from files you upload.</p>
+              <p class="zdir__desc">Split any receipt by item, evenly or by percent. Tax is shared for you, the cents add up, and Zedi keeps a running tab with each friend. Free to start.</p>
             </li>
             <li class="zdir__item" data-text="track venmo expenses: import your venmo csv import your venmo csv next to your bank statements. cash-outs and top-ups pair with the matching bank row and file as transfers, and friends’ payments tag to the people who sent them. /for/venmo-zelle-reconciliation">
               <a class="zdir__link" href="https://zedi.dev/for/venmo-zelle-reconciliation" target="_blank" rel="noopener noreferrer">
@@ -350,19 +385,19 @@
               </a>
               <p class="zdir__desc">PDF statements checked against their printed balances, duplicates flagged, card payoffs and Venmo transfers paired, and the leftovers filed fast. No spreadsheet.</p>
             </li>
-            <li class="zdir__item" data-text="split bills with roommates and track who owes what one running balance with each roommate: rent you covered, groceries split by item, venmo paybacks matched to the right person. free, from files you upload. /for/roommates">
+            <li class="zdir__item" data-text="split rent and bills with roommates, no spreadsheet record each roommate’s share of rent and bills, split grocery receipts by item, and match venmo and zelle paybacks. one running balance per roommate. /for/roommates">
               <a class="zdir__link" href="https://zedi.dev/for/roommates" target="_blank" rel="noopener noreferrer">
-                <span class="zdir__title">Split bills with roommates and track who owes what</span>
+                <span class="zdir__title">Split rent and bills with roommates, no spreadsheet</span>
                 <span class="zdir__path">zedi.dev/for/roommates</span>
               </a>
-              <p class="zdir__desc">One running balance with each roommate: rent you covered, groceries split by item, Venmo paybacks matched to the right person. Free, from files you upload.</p>
+              <p class="zdir__desc">Record each roommate’s share of rent and bills, split grocery receipts by item, and match Venmo and Zelle paybacks. One running balance per roommate.</p>
             </li>
-            <li class="zdir__item" data-text="track shared spending as a couple see what you both really spend across bank, card and venmo files, split receipts into yours and mine, and keep a running tab with your partner. free, no ads. /for/couples">
+            <li class="zdir__item" data-text="a couple expense tracker for yours, mine and ours split costs your way: 50/50, by percent or item by item. zedi keeps a running balance with your partner from receipts, venmo and amounts you write down. /for/couples">
               <a class="zdir__link" href="https://zedi.dev/for/couples" target="_blank" rel="noopener noreferrer">
-                <span class="zdir__title">Track shared spending as a couple</span>
+                <span class="zdir__title">A couple expense tracker for yours, mine and ours</span>
                 <span class="zdir__path">zedi.dev/for/couples</span>
               </a>
-              <p class="zdir__desc">See what you both really spend across bank, card and Venmo files, split receipts into yours and mine, and keep a running tab with your partner. Free, no ads.</p>
+              <p class="zdir__desc">Split costs your way: 50/50, by percent or item by item. Zedi keeps a running balance with your partner from receipts, Venmo and amounts you write down.</p>
             </li>
             <li class="zdir__item" data-text="a private bank statement analyzer for your spending thinking of pasting a bank statement into a chatbot? zedi reads pdf, csv and qfx statements into your own private records, sorted, with copies left out. /for/analyze-bank-statements">
               <a class="zdir__link" href="https://zedi.dev/for/analyze-bank-statements" target="_blank" rel="noopener noreferrer">
@@ -370,6 +405,20 @@
                 <span class="zdir__path">zedi.dev/for/analyze-bank-statements</span>
               </a>
               <p class="zdir__desc">Thinking of pasting a bank statement into a chatbot? Zedi reads PDF, CSV and QFX statements into your own private records, sorted, with copies left out.</p>
+            </li>
+            <li class="zdir__item" data-text="split a restaurant bill by item, tip included snap the check: claude reads each dish, the tax and the tip, handwritten tips too. split by item or evenly, and zedi keeps the tab until friends pay up. /for/split-restaurant-bill">
+              <a class="zdir__link" href="https://zedi.dev/for/split-restaurant-bill" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">Split a restaurant bill by item, tip included</span>
+                <span class="zdir__path">zedi.dev/for/split-restaurant-bill</span>
+              </a>
+              <p class="zdir__desc">Snap the check: Claude reads each dish, the tax and the tip, handwritten tips too. Split by item or evenly, and Zedi keeps the tab until friends pay up.</p>
+            </li>
+            <li class="zdir__item" data-text="how to split groceries with roommates, by item four ways roommates split groceries, and the one that ends the arguments: split the receipt by item, tax included, with a running balance per roommate. /for/split-groceries-with-roommates">
+              <a class="zdir__link" href="https://zedi.dev/for/split-groceries-with-roommates" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">How to split groceries with roommates, by item</span>
+                <span class="zdir__path">zedi.dev/for/split-groceries-with-roommates</span>
+              </a>
+              <p class="zdir__desc">Four ways roommates split groceries, and the one that ends the arguments: split the receipt by item, tax included, with a running balance per roommate.</p>
             </li>
           </ul>
         </div>
@@ -576,6 +625,6 @@
       });
     })();
   </script>
-  <script type="module" src="js/app.js?v=redesign-2"></script>
+  <script type="module" src="js/app.js?v=redesign-3"></script>
 </body>
 </html>

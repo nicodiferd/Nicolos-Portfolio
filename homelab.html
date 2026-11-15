@@ -53,7 +53,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles/main.css?v=redesign-2">
+  <link rel="stylesheet" href="styles/main.css?v=redesign-3">
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -668,8 +668,8 @@
       <h1 class="detail__title">HomeLab: Proxmox Since 2024</h1>
       <p class="detail__lead">
         What started as one Tailscale container is now a single-node Proxmox lab in San Diego:
-        15 VMs and containers, eight of them running, covering automation, metrics, backups,
-        local AI, and a self-hosted copy of my own software.
+        16 VMs and containers, nine of them running, covering automation, metrics, backups,
+        local AI, a network map, and a self-hosted copy of my own software.
       </p>
       <div class="chips"><span class="chip">Proxmox</span><span class="chip">n8n</span><span class="chip">ClickHouse</span><span class="chip">Tailscale</span><span class="chip">Cloudflare</span><span class="chip">llama.cpp</span></div>
       <p class="detail__status"><i class="fas fa-plug-circle-check"></i> Online &middot; San Diego &middot; since Aug 31, 2026</p>
@@ -686,11 +686,12 @@
         problem I wanted to solve, or a piece of infrastructure I wanted to stop misunderstanding.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
-        Today it's one Ryzen box hosting 15 VMs and containers. Eight are live: remote access, scheduled
+        Today it's one Ryzen box hosting 16 VMs and containers. Nine are live: remote access, scheduled
         automation, a metrics database, weekly backups, a GPU container that reads receipts, a personal
-        instance of my finance app, an ops VM that runs Claude Code, and (for now) a Minecraft server for
-        friends. The other seven are parked or retired on purpose, because 32 GB of RAM is a budget and
-        I'd rather spend it on things I actually use.
+        instance of my finance app, an ops VM that runs Claude Code, a network map, and (for now) a
+        Minecraft server for friends. The other seven are parked or retired on purpose, because 32 GB of
+        RAM is a budget and I'd rather spend it on things I actually use. A Home Assistant Green runs on the
+        same network as a separate appliance.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
         The SLO rack came down on June 17, 2026, and the lab was rebuilt in San Diego.
@@ -779,7 +780,7 @@
           <h3 class="lab-timeline__title">Racked Down</h3>
           <p class="lab-timeline__text">
             Graduated, and the rack came down for the move to San Diego and the new job.
-            The newest backups were from June 14. Then about ten weeks in boxes.
+            The newest backups were a few days old. Then about ten weeks in boxes.
           </p>
         </div>
 
@@ -815,12 +816,14 @@
 
         <div class="lab-timeline__item">
           <div class="lab-timeline__era">October 2026</div>
-          <h3 class="lab-timeline__title">Travel-Ready</h3>
-          <p class="lab-timeline__text">
-            Approved the Tailscale container as an exit node and phone-tested it, so my traffic can leave
-            through home when I'm on the road. Redesigned the daily report to be read on a phone in ten seconds.
-            Reconciled the inventory and the issue tracker against what's actually running.
-          </p>
+          <h3 class="lab-timeline__title">Travel-Ready + a Network Map</h3>
+          <ul class="lab-timeline__list">
+            <li>Approved the Tailscale container as an exit node and phone-tested it, so my traffic can leave through home when I'm on the road.</li>
+            <li>Redesigned the daily report to be read on a phone in ten seconds.</li>
+            <li>Plugged the <strong>Home Assistant Green</strong> back in on the 13th for a home automation project. It got daily encrypted backups, and the daily report now warns when it drops off the network.</li>
+            <li>Added <strong>Homelable</strong> on the 26th, an open-source network map. It runs in Docker inside a container, scans the LAN and pulls in the Proxmox guests through a read-only API token.</li>
+            <li>Finished folding an older network repo and the last stray notes into one git repo, now the only source of truth for the lab. Reconciled the inventory and the issue tracker against what's actually running.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -830,7 +833,7 @@
   <section class="lab-section lab-section--alt">
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">The Lab Today</h2>
-      <p class="lab-section__asof" data-aos="fade-up">As of October 10, 2026</p>
+      <p class="lab-section__asof" data-aos="fade-up">As of October 26, 2026</p>
 
       <div class="hardware-specs" data-aos="fade-up">
         <div class="spec-item">
@@ -846,12 +849,12 @@
         <div class="spec-item">
           <div class="spec-item__label">Memory</div>
           <div class="spec-item__value">32 GB DDR4</div>
-          <div class="spec-item__sub">~80% in use</div>
+          <div class="spec-item__sub">limits how many guests run</div>
         </div>
         <div class="spec-item">
           <div class="spec-item__label">Guests</div>
-          <div class="spec-item__value">8 of 15 running</div>
-          <div class="spec-item__sub">7 VMs, 8 containers</div>
+          <div class="spec-item__value">9 of 16 running</div>
+          <div class="spec-item__sub">7 VMs, 9 containers</div>
         </div>
         <div class="spec-item">
           <div class="spec-item__label">Storage</div>
@@ -887,7 +890,7 @@
 
       <p class="lab-section__text" style="margin-top: var(--space-10);" data-aos="fade-up">
         <strong>Ops from one place.</strong> Hosts are administered from a dedicated ops VM running Claude Code,
-        which keeps the inventory, runbooks, a decisions log and a 35-issue tracker in git, next to the configs
+        which keeps the inventory, runbooks, a decisions log and a 38-issue tracker in git, next to the configs
         they describe. The scheduled jobs in n8n use their own separate key, so one compromised identity doesn't
         open everything. Risky hypervisor changes get a cold review from a second Claude Code session before
         they go in.
@@ -904,12 +907,12 @@
     <div class="container">
       <h2 class="lab-section__title" data-aos="fade-up">Services</h2>
       <p class="lab-section__text" data-aos="fade-up">
-        15 guests on one host. Eight are running. The other seven are stopped on purpose: six parked, mostly
+        16 guests on one host. Nine are running. The other seven are stopped on purpose: six parked, mostly
         to free RAM, and pfSense retired. "Parked" means stopped, autostart off, and listed as expected-down in the daily report, so a
         stopped guest that isn't on that list shows up as critical the next morning.
       </p>
 
-      <p class="services-group services-group--first" data-aos="fade-up">Running &middot; 8</p>
+      <p class="services-group services-group--first" data-aos="fade-up">Running &middot; 9 guests + 1 appliance</p>
       <div class="services-grid" data-aos="fade-up">
         <div class="lab-card">
           <div class="lab-card__header">
@@ -976,7 +979,7 @@
             <div class="lab-card__icon"><i class="fas fa-microchip"></i></div>
             <span class="status-badge status-badge--active">Running</span>
           </div>
-          <h3>gpu-ai</h3>
+          <h3>GPU inference container</h3>
           <p class="lab-card__meta">LXC &middot; RX 5700</p>
           <p>The RX 5700's render node, shared into an unprivileged container. llama.cpp on Vulkan runs GLM-OCR, Qwen3-4B and Qwen3-VL-2B to turn receipt photos into JSON. LAN-only.</p>
         </div>
@@ -990,9 +993,29 @@
           <p class="lab-card__meta">LXC &middot; for now</p>
           <p>A vanilla server for friends, planned for two weeks and still up. An analytics collector streams events and stats into ClickHouse (no IPs stored, chat never analyzed).</p>
         </div>
+
+        <div class="lab-card">
+          <div class="lab-card__header">
+            <div class="lab-card__icon"><i class="fas fa-sitemap"></i></div>
+            <span class="status-badge status-badge--active">Running</span>
+          </div>
+          <h3>Homelable</h3>
+          <p class="lab-card__meta">LXC &middot; Docker</p>
+          <p>An open-source network map with live status checks, added in October. It scans the LAN, imports the Proxmox guests through a read-only API token and merges the two by MAC address. It has its own weekly backup job and a place on the patch roster.</p>
+        </div>
+
+        <div class="lab-card">
+          <div class="lab-card__header">
+            <div class="lab-card__icon"><i class="fas fa-home"></i></div>
+            <span class="status-badge status-badge--active">Online</span>
+          </div>
+          <h3>Home Assistant Green</h3>
+          <p class="lab-card__meta">Physical appliance</p>
+          <p>Unplugged after the move, back since October 13 for a home automation project. It keeps a week of daily encrypted backups on the box itself (an off-box copy is still to do), and the daily report warns if it drops off the network.</p>
+        </div>
       </div>
 
-      <p class="services-group" data-aos="fade-up">Parked&nbsp;&middot;&nbsp;6 &nbsp;/&nbsp; Retired&nbsp;&middot;&nbsp;1 &nbsp;/&nbsp; Appliance&nbsp;&middot;&nbsp;1</p>
+      <p class="services-group" data-aos="fade-up">Parked&nbsp;&middot;&nbsp;6 &nbsp;/&nbsp; Retired&nbsp;&middot;&nbsp;1</p>
       <div class="services-grid" data-aos="fade-up">
         <div class="lab-card lab-card--parked">
           <div class="lab-card__header">
@@ -1051,7 +1074,7 @@
           </div>
           <h3>Baseball ML</h3>
           <p class="lab-card__meta">VM</p>
-          <p>My baseball analytics pipeline. Its catch-up timer fired two seconds after the host came back from a nearly five-day freeze and finished the day's data run with nobody touching it. Parked for the game server.</p>
+          <p>My <a href="/bblmlp">baseball ML pipeline</a>. Its catch-up timer fired two seconds after the host came back from a nearly five-day freeze and finished the day's data run with nobody touching it. Parked for the game server.</p>
         </div>
 
         <div class="lab-card lab-card--parked">
@@ -1062,16 +1085,6 @@
           <h3>pfSense</h3>
           <p class="lab-card__meta">VM</p>
           <p>Ran the SLO network from April to June 2026. Didn't survive the move, and its network card came out in September to make room for two GPUs. The VM is kept, stopped.</p>
-        </div>
-
-        <div class="lab-card lab-card--parked">
-          <div class="lab-card__header">
-            <div class="lab-card__icon"><i class="fas fa-home"></i></div>
-            <span class="status-badge status-badge--inactive">Shelved</span>
-          </div>
-          <h3>Home Assistant Green</h3>
-          <p class="lab-card__meta">Physical appliance</p>
-          <p>A dedicated box, not a VM. Shelved until a project actually needs home automation.</p>
         </div>
       </div>
     </div>
@@ -1100,7 +1113,7 @@
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-heartbeat"></i></div>
           <h3>Heartbeat (Cloudflare Worker)</h3>
-          <p>Writes a row every minute from Cloudflare's edge, so every outage since April shows up as a gap in its table, no matter what died inside. The lesson from September: those gaps have to page someone, not sit in a table.</p>
+          <p>Writes a row every minute from Cloudflare's edge, so every outage since April shows up as a gap in its table, no matter what died inside. The lesson from September: those gaps have to page someone, not sit in a table. That alert is still on the open-issues list.</p>
         </div>
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-clock-rotate-left"></i></div>
@@ -1124,7 +1137,7 @@
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-clock"></i></div>
           <h3>Daily Report &middot; Every Morning</h3>
-          <p>Pulls from the Proxmox API, ClickHouse, the UniFi gateway, the ISP modem and a LAN sweep, then posts one phone-sized Discord embed that leads with only what needs me. Every source fails open: a dead dependency becomes a named "couldn't reach" line instead of killing the report. Delivery fails closed, so an undelivered report shows up as an error, never as a green run.</p>
+          <p>Pulls from the Proxmox API, ClickHouse, the UniFi gateway, the ISP modem and a LAN sweep, then posts one phone-sized Discord embed that leads with only what needs me. Every source fails open: a dead dependency becomes a named "couldn't reach" line instead of killing the report. Delivery fails closed, so an undelivered report shows up as an error, never as a green run. Since October it also warns when the Home Assistant box drops off the network.</p>
         </div>
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-code-branch"></i></div>
@@ -1134,12 +1147,12 @@
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-sync-alt"></i></div>
           <h3>Weekly Patch Run</h3>
-          <p>SSHes a 9-host roster, runs each host's own update script, logs the results to ClickHouse, posts them to Discord and reboots what needs it, except the hypervisor and the backup server, which it never reboots.</p>
+          <p>SSHes a 10-host roster, runs each host's own update script, logs the results to ClickHouse, posts them to Discord and reboots what needs it, except the hypervisor and the backup server, which it never reboots.</p>
         </div>
         <div class="lab-card">
           <div class="lab-card__icon"><i class="fas fa-box-archive"></i></div>
           <h3>Weekly Backups</h3>
-          <p>PBS snapshots the VMs, then the containers, then garbage-collects and verifies. A restic repo of the Proxmox and PBS configs lands on the ZFS mirror afterwards, restorable on a laptop with no PBS at all.</p>
+          <p>PBS snapshots the VMs, then the containers, then garbage-collects and verifies. The game server and Homelable get their own snapshot-mode jobs, so neither is paused for a backup. A restic repo of the Proxmox and PBS configs lands on the ZFS mirror afterwards, restorable on a laptop with no PBS at all.</p>
         </div>
       </div>
 
@@ -1147,19 +1160,19 @@
       <pre class="readout"><span class="readout__header">
   <span class="readout__dots" aria-hidden="true"><span></span><span></span><span></span></span>
   <span>daily-report &middot; n8n &middot; 2026-10-10</span>
-</span><span aria-hidden="true">🟡</span><span class="sr-only">Warning:</span> Homelab · Sat Oct 10
+</span><span aria-hidden="true">🟡</span><span class="sr-only">Warning:</span> Homelab · Oct 10
 <span aria-hidden="true">🟡</span><span class="sr-only">Warning:</span> PVE needs a reboot into the
-  newer kernel, flagged 6 days ago <span aria-hidden="true">→</span><span class="sr-only">next step:</span>
-  reboot when guests can restart
+  newer kernel <span aria-hidden="true">→</span><span class="sr-only">next step:</span> reboot when
+  guests can restart
 
-<span aria-hidden="true">▸</span> Guests          <span aria-hidden="true">▸</span> Last backup
-8/8 up            6 days ago
-
-<span aria-hidden="true">▸</span> Telegraf        <span aria-hidden="true">▸</span> WAN 24h
-4/4 hosts         100% · 5 ms
+<span aria-hidden="true">▸</span> Guests          <span aria-hidden="true">▸</span> Telegraf
+8/8 up            4/4 hosts
 
 <span aria-hidden="true">▸</span> Proxmox         <span aria-hidden="true">▸</span> Gateway
 up 14d · mem 80%  up 29d · 48°C
+
+<span aria-hidden="true">▸</span> WAN 24h
+100% · 5 ms
 
 <span aria-hidden="true">▸ 💾</span> Storage
   <span aria-hidden="true">┄┄┄</span>
@@ -1178,9 +1191,9 @@ Traffic 24h 42.4 GB <span aria-hidden="true">↓</span><span class="sr-only">dow
 Parked: 7, all expected
 daily-report · n8n · morning run</pre>
       <figcaption class="readout__caption">
-        The report from October 10, 2026, trimmed for the page: the public IP, version strings, household
-        details and guest names are taken out, and the parked list is condensed. The yellow is real: a
-        newer kernel is installed and the host hasn't rebooted into it yet. The parked list is deliberate.
+        The report from October 10, 2026, trimmed for the page: the public IP, version strings, the weekday,
+        the days-ago counts, household details and guest names are taken out, and the parked list is condensed. The yellow is real: a
+        newer kernel was installed and the host hadn't rebooted into it yet. The parked list is deliberate.
         After pfSense was retired, the dead VM raised a critical every single morning, which is how a report
         trains you to stop reading it. Parked guests, retired pfSense included, now sit on an expected-down list
         (hence 7 in the report), and a listed guest found
@@ -1227,6 +1240,7 @@ daily-report · n8n · morning run</pre>
           <div class="ai-feature"><i class="fas fa-memory"></i><span>3 models in 8 GB of VRAM</span></div>
           <div class="ai-feature"><i class="fas fa-receipt"></i><span>89 photos &middot; 20 s mean</span></div>
         </div>
+        <p>Model settings, throughput numbers and what broke: <a href="/local-llms">Local LLMs field notes</a>.</p>
       </div>
     </div>
   </section>
@@ -1291,7 +1305,7 @@ daily-report · n8n · morning run</pre>
         <div class="lab-card">
           <p class="lab-card__kicker">Sep 15 &amp; Sep 25</p>
           <h3>A freeze that looked like a power cut</h3>
-          <p>The host vanished for four days and 20 hours. The logs stopped mid-stream with no shutdown, and the router and modem had stayed up, so I read it as a power cut local to the box. Ten days later it froze again with me standing next to it: powered on, and the power button did nothing. That's a kernel hang. Both freezes came after the September 13 hardware change (two GPUs in, NIC out, new kernel). Root cause is still open, but the next hang panics, reboots in 10 seconds and leaves a crash dump. No repeat since.</p>
+          <p>The host vanished for four days and 20 hours. The logs stopped mid-stream with no shutdown, and the router and modem had stayed up, so I read it as a power cut local to the box. Ten days later it froze again with me standing next to it: powered on, and the power button did nothing. That's a kernel hang. Both freezes came after the September 13 hardware change (two GPUs in, NIC out, new kernel). Root cause is still open, but the next hang panics, reboots in 10 seconds and leaves a crash dump. None recorded since.</p>
         </div>
       </div>
     </div>
@@ -1303,7 +1317,7 @@ daily-report · n8n · morning run</pre>
       <h2 class="lab-section__title" data-aos="fade-up">Why I Built It</h2>
       <p class="lab-section__text" data-aos="fade-up">
         Infrastructure as a learning tool. Reading about pfSense or ClickHouse is not the same as cutting your
-        home network over to a new router at 11 PM and needing it back up before anyone notices. You remember
+        home network over to a new router late at night and needing it back up before anyone notices. You remember
         the thing you built under pressure for real people.
       </p>
       <p class="lab-section__text" data-aos="fade-up">
@@ -1345,6 +1359,8 @@ daily-report · n8n · morning run</pre>
         <span class="tech-cloud__tag">GLM-OCR</span>
         <span class="tech-cloud__tag">Qwen3</span>
         <span class="tech-cloud__tag">Docker</span>
+        <span class="tech-cloud__tag">Homelable</span>
+        <span class="tech-cloud__tag">Home Assistant</span>
         <span class="tech-cloud__tag">Claude Code</span>
         <span class="tech-cloud__tag">Linux (Debian / Ubuntu)</span>
         <span class="tech-cloud__tag">Python</span>
@@ -1401,7 +1417,7 @@ daily-report · n8n · morning run</pre>
   </footer>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=redesign-2"></script>
+  <script type="module" src="js/app.js?v=redesign-3"></script>
 
 </body>
 </html>
