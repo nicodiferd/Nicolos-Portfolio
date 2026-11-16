@@ -275,7 +275,7 @@
         A personal finance web app I build, live at
         <a href="https://zedi.dev" target="_blank" rel="noopener noreferrer">zedi.dev</a>.
         Checking, cards, Venmo and receipts go in one place: upload the CSV, PDF or QFX statements your
-        bank already gives you, or turn on read-only bank sync on Pro. Card payments and Venmo transfers
+        bank already gives you, or turn on read-only bank sync through Plaid on Pro. Card payments and Venmo transfers
         pair up when the match is clear, so they do not count as spending or income. Claude reads receipts
         line by line, and a People tab keeps one running balance with each friend.
       </p>
@@ -284,9 +284,9 @@
         <a class="btn btn--secondary" href="https://zedi.dev/pricing" target="_blank" rel="noopener noreferrer"><span>Pricing</span></a>
       </div>
       <p class="zedi-built">
-        Free with your files. Pro is $3.50 a month or $30 a year and adds read-only bank sync and unlimited
-        scans. Bank sync also needs a SimpleFIN account, which SimpleFIN bills directly: $1.50 a month or
-        $15 a year, plus tax.
+        Free with your files: unlimited CSV and QFX imports, plus 10 receipt and 10 PDF scans a month. Pro is
+        $5 a month or $48 a year and adds read-only bank sync through Plaid (up to 3 banks) and unlimited scans,
+        with a 30-day free trial that asks for no card.
       </p>
       <p class="zedi-built">
         Built with Rust and Axum on Postgres row-level security, a Next.js front end, Claude for receipts
@@ -297,18 +297,18 @@
         <!-- zedi-directory:start -->
         <div class="zdir__head">
           <h2 id="zdir-title">Every page on zedi.dev</h2>
-          <p>31 feature, guide, comparison and help pages, read from zedi.dev on 2026-11-07.</p>
+          <p>33 feature, guide, comparison and help pages, read from zedi.dev on 2026-11-15.</p>
         </div>
         <div class="zdir__tools">
           <label class="sr-only" for="zdir-q">Filter pages</label>
-          <input id="zdir-q" class="zdir__search" type="search" placeholder="Filter 31 pages: try venmo, ynab or pdf" autocomplete="off">
+          <input id="zdir-q" class="zdir__search" type="search" placeholder="Filter 33 pages: try venmo, ynab or pdf" autocomplete="off">
           <div class="zdir__tabs" role="group" aria-label="Sections">
-            <button type="button" class="zdir__tab" data-group="all" aria-pressed="true">All<span>31</span></button>
+            <button type="button" class="zdir__tab" data-group="all" aria-pressed="true">All<span>33</span></button>
             <button type="button" class="zdir__tab" data-group="features" aria-pressed="false">Features<span>3</span></button>
             <button type="button" class="zdir__tab" data-group="guides" aria-pressed="false">Guides<span>11</span></button>
             <button type="button" class="zdir__tab" data-group="compare" aria-pressed="false">Compare<span>7</span></button>
             <button type="button" class="zdir__tab" data-group="switch" aria-pressed="false">Switch<span>2</span></button>
-            <button type="button" class="zdir__tab" data-group="product" aria-pressed="false">Product<span>5</span></button>
+            <button type="button" class="zdir__tab" data-group="product" aria-pressed="false">Product<span>7</span></button>
             <button type="button" class="zdir__tab" data-group="company" aria-pressed="false">Company<span>3</span></button>
           </div>
         </div>
@@ -501,26 +501,33 @@
           <h3>Product</h3>
           <p>Pricing, bank sync and what changed.</p>
           <ul class="zdir__list">
-            <li class="zdir__item" data-text="pricing zedi is free for csv and qfx uploads, every chart and 10 receipt scans and 10 pdf scans a month. pro is $3.50 a month or $30 a year for read-only bank sync and unlimited scans; simplefin bills its own $1.50 a month for the bank connection. /pricing">
+            <li class="zdir__item" data-text="pricing zedi is free for csv and qfx uploads, every chart and 10 receipt scans and 10 pdf scans a month. pro is $5 a month or $48 a year for read-only bank sync through plaid and unlimited scans, with no second bill for the bank connection. /pricing">
               <a class="zdir__link" href="https://zedi.dev/pricing" target="_blank" rel="noopener noreferrer">
                 <span class="zdir__title">Pricing</span>
                 <span class="zdir__path">zedi.dev/pricing</span>
               </a>
-              <p class="zdir__desc">Zedi is free for CSV and QFX uploads, every chart and 10 receipt scans and 10 PDF scans a month. Pro is $3.50 a month or $30 a year for read-only bank sync and unlimited scans; SimpleFIN bills its own $1.50 a month for the bank connection.</p>
+              <p class="zdir__desc">Zedi is free for CSV and QFX uploads, every chart and 10 receipt scans and 10 PDF scans a month. Pro is $5 a month or $48 a year for read-only bank sync through Plaid and unlimited scans, with no second bill for the bank connection.</p>
             </li>
-            <li class="zdir__item" data-text="read-only bank sync: simplefin vs plaid read-only bank sync on zedi pro: it can see your money, never move it. who you pay, what zedi can and cannot do, how simplefin differs from plaid. /bank-sync">
+            <li class="zdir__item" data-text="read-only bank sync through plaid read-only bank sync on zedi pro, through plaid: it can see your money, never move it. how you connect, who sees your login, the cost and how to stop. /bank-sync">
               <a class="zdir__link" href="https://zedi.dev/bank-sync" target="_blank" rel="noopener noreferrer">
-                <span class="zdir__title">Read-only bank sync: SimpleFIN vs Plaid</span>
+                <span class="zdir__title">Read-only bank sync through Plaid</span>
                 <span class="zdir__path">zedi.dev/bank-sync</span>
               </a>
-              <p class="zdir__desc">Read-only bank sync on Zedi Pro: it can see your money, never move it. Who you pay, what Zedi can and cannot do, how SimpleFIN differs from Plaid.</p>
+              <p class="zdir__desc">Read-only bank sync on Zedi Pro, through Plaid: it can see your money, never move it. How you connect, who sees your login, the cost and how to stop.</p>
             </li>
-            <li class="zdir__item" data-text="what is simplefin? is it safe? who runs simplefin bridge, how it reaches your bank through mx, what simplefin and mx say about security, the risks, and what it costs. /simplefin">
+            <li class="zdir__item" data-text="how zedi connects banks through plaid how zedi’s read-only bank sync works with plaid, step by step: who sees your bank login, what zedi stores, what it costs and how to disconnect. /plaid">
+              <a class="zdir__link" href="https://zedi.dev/plaid" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">How Zedi connects banks through Plaid</span>
+                <span class="zdir__path">zedi.dev/plaid</span>
+              </a>
+              <p class="zdir__desc">How Zedi’s read-only bank sync works with Plaid, step by step: who sees your bank login, what Zedi stores, what it costs and how to disconnect.</p>
+            </li>
+            <li class="zdir__item" data-text="zedi and simplefin: bank sync before plaid zedi connected banks through simplefin bridge from october 12 to november 2026. bank sync now runs through plaid, as part of pro. what changed and what stays. /simplefin">
               <a class="zdir__link" href="https://zedi.dev/simplefin" target="_blank" rel="noopener noreferrer">
-                <span class="zdir__title">What is SimpleFIN? Is it safe?</span>
+                <span class="zdir__title">Zedi and SimpleFIN: bank sync before Plaid</span>
                 <span class="zdir__path">zedi.dev/simplefin</span>
               </a>
-              <p class="zdir__desc">Who runs SimpleFIN Bridge, how it reaches your bank through MX, what SimpleFIN and MX say about security, the risks, and what it costs.</p>
+              <p class="zdir__desc">Zedi connected banks through SimpleFIN Bridge from October 12 to November 2026. Bank sync now runs through Plaid, as part of Pro. What changed and what stays.</p>
             </li>
             <li class="zdir__item" data-text="changelog what changed in zedi and when: statement import, categorization, people and venmo, analytics, receipts, and the fixes in between. written from the commit log. /changelog">
               <a class="zdir__link" href="https://zedi.dev/changelog" target="_blank" rel="noopener noreferrer">
@@ -535,6 +542,13 @@
                 <span class="zdir__path">zedi.dev/status</span>
               </a>
               <p class="zdir__desc">Live checks of the Zedi website, server and database, at most a minute old, and a log of past incidents with what caused them and what fixed them.</p>
+            </li>
+            <li class="zdir__item" data-text="support get help with zedi: email support, export your records or delete your account, check the service status and report a security problem. /support">
+              <a class="zdir__link" href="https://zedi.dev/support" target="_blank" rel="noopener noreferrer">
+                <span class="zdir__title">Support</span>
+                <span class="zdir__path">zedi.dev/support</span>
+              </a>
+              <p class="zdir__desc">Get help with Zedi: email support, export your records or delete your account, check the service status and report a security problem.</p>
             </li>
           </ul>
         </div>
