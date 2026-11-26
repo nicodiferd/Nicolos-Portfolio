@@ -41,7 +41,7 @@ npm start
 - `robots.txt`, `sitemap.xml` - Crawl config; add new pages to the sitemap
 - `_redirects`, `_headers` - Cloudflare Pages redirect and header rules
 - `js/app.js` - Main JS entry point (modules in `js/modules/`: theme, navigation, animations)
-- `styles/main.css` - Main stylesheet; imports `styles/base/*` (tokens in `variables.css`) and `styles/components/*` (navigation, hero, card, effects, notifications, sections, detail)
+- `styles/main.css` - Main stylesheet, linked last; each page first links `styles/base/*` (tokens in `variables.css`) and `styles/components/*` directly (no `@import`)
 - `images/` - Site images
 - `docs/` - Redesign spec and plan, and `docs/og-card/og-card.html` (source of `images/og-card.png`). Not part of the site; `_redirects` 301s it to `/`
 
@@ -71,7 +71,7 @@ An old React desktop-sim portfolio, still live at os.nicolod.org as the Cloudfla
 1. **No build process for the main site** - Static site with no compilation/bundling
 2. **No test framework** - Verify with a link crawl (curl every internal href/src), the banned-claims scan and a check for em-dashes in tracked files
 3. **PDF handling** - The resume is the static file `resume.pdf` at the repo root, served at `/resume.pdf`. `_headers` serves it inline (opens in the browser) and asks for a 1 hour cache, but the zone's Browser Cache TTL overrides shorter values, so a replaced resume can stay cached for up to 4 hours. `_redirects` sends `/resume` and the old `/Nicolo%20DiFerdinando%20Resume.pdf` URL to it. Write spaces in `_redirects` paths as `%20`: Pages drops any rule that is not exactly 2 or 3 whitespace-separated tokens.
-4. **Cache busting** - Every CSS/JS URL carries a `?v=redesign-N` token: each page's `main.css` `<link>` and `app.js` `<script>`, the 9 `@import`s in `styles/main.css`, and the 3 module imports in `js/app.js`. `_headers` caches `/styles/*` and `/images/*` for 7 days, and in production the zone's Browser Cache TTL (4h) overrides shorter values, so `/js/*` (no-cache in `_headers`) and `/resume.pdf` are also cached for up to 4 hours. After any CSS or JS edit, bump the token everywhere, e.g. `grep -rl "v=redesign-2" *.html styles js | xargs sed -i '' 's/v=redesign-2/v=redesign-3/g'`, then check `grep -rn "v=redesign" *.html styles js` shows only the new token. HTML-only edits need no bump. Images are not versioned: give a changed image a new filename.
+4. **Cache busting** - Every CSS/JS URL carries a `?v=redesign-N` token: each page's 10 stylesheet `<link>`s and `app.js` `<script>`, and the 3 module imports in `js/app.js`. `_headers` caches `/styles/*` and `/images/*` for 7 days, and in production the zone's Browser Cache TTL (4h) overrides shorter values, so `/js/*` (no-cache in `_headers`) and `/resume.pdf` are also cached for up to 4 hours. After any CSS or JS edit, bump the token everywhere, e.g. `grep -rl "v=redesign-2" *.html styles js | xargs sed -i '' 's/v=redesign-2/v=redesign-3/g'`, then check `grep -rn "v=redesign" *.html styles js` shows only the new token. HTML-only edits need no bump. Images are not versioned: give a changed image a new filename.
 
 ## Style
 

@@ -8,8 +8,8 @@
 # HTML: no rule needed. Pages serves pages at extensionless paths (/bandit.html
 # 308s to /bandit) with "public, max-age=0, must-revalidate" by default.
 
-# 7-day cache: bump the ?v= token on main.css, its @imports and the JS
-# when CSS or JS changes (see CLAUDE.md, Important Notes 7).
+# 7-day cache: bump the ?v= token on every stylesheet <link> and the JS
+# when CSS or JS changes (see CLAUDE.md, Important Notes 4).
 /styles/*
   Cache-Control: public, max-age=604800
 
