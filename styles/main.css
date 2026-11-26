@@ -1,23 +1,13 @@
 /* ===================================
-   Main Stylesheet - Import Order
+   Main Stylesheet (loaded last)
    =================================== */
 
-/* Every @import below and each page's main.css <link> carry ?v=redesign-N.
-   /styles/* is cached for 7 days, so bump the token everywhere after any
-   CSS or JS edit (see CLAUDE.md, Important Notes 7). */
-
-/* Base Styles */
-@import 'base/variables.css?v=redesign-3';
-@import 'base/base.css?v=redesign-3';
-
-/* Components */
-@import 'components/navigation.css?v=redesign-3';
-@import 'components/hero.css?v=redesign-3';
-@import 'components/card.css?v=redesign-3';
-@import 'components/effects.css?v=redesign-3';
-@import 'components/notifications.css?v=redesign-3';
-@import 'components/sections.css?v=redesign-3';
-@import 'components/detail.css?v=redesign-3';
+/* Each page links the 9 base and component stylesheets directly, in this
+   order, before this file (no @import waterfall): base/variables, base/base,
+   then components navigation, hero, card, effects, notifications, sections,
+   detail. Every one of those <link>s carries ?v=redesign-N; /styles/* is
+   cached for 7 days, so bump the token everywhere after any CSS or JS edit
+   (see CLAUDE.md, Important Notes 4). */
 
 /* Contact form (index.html, inside .section--ink): labels above,
    underline fields, no boxes. */
